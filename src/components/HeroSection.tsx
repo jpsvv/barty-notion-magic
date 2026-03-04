@@ -1,37 +1,51 @@
 import { motion } from "framer-motion";
+import { ArrowRight, Sparkles } from "lucide-react";
 import heroImage from "@/assets/hero-barty.jpg";
 
 const HeroSection = () => {
   return (
-    <section className="pt-32 pb-20 md:pt-40 md:pb-32">
-      <div className="container">
-        <div className="max-w-3xl mx-auto text-center mb-16">
-          <motion.p
+    <section className="relative pt-28 pb-20 md:pt-36 md:pb-32 overflow-hidden">
+      {/* Mesh gradient background */}
+      <div className="absolute inset-0 mesh-gradient-bg" />
+
+      {/* Floating glass bubbles */}
+      <div className="absolute top-20 left-[10%] w-64 h-64 rounded-full bg-primary/5 blur-3xl bubble-float" />
+      <div className="absolute top-40 right-[15%] w-80 h-80 rounded-full bg-primary/8 blur-3xl bubble-float-delayed" />
+      <div className="absolute bottom-20 left-[30%] w-48 h-48 rounded-full bg-accent/30 blur-3xl bubble-float-slow" />
+
+      <div className="container relative z-10">
+        <div className="max-w-4xl mx-auto text-center mb-16">
+          {/* Badge */}
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-sm font-medium text-primary tracking-widest uppercase mb-6"
+            className="inline-flex items-center gap-2 glass-card rounded-full px-5 py-2 mb-8"
           >
-            Cardápio digital inteligente
-          </motion.p>
+            <Sparkles className="w-4 h-4 text-primary" />
+            <span className="text-sm font-medium text-foreground">Novo: Pedidos + Pagamento integrado</span>
+          </motion.div>
+
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-[1.1] mb-6"
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-foreground leading-[1.05] mb-6 tracking-tight"
           >
-            Dê adeus às filas.{" "}
-            <span className="text-primary">Deixe seus clientes pedirem direto do celular.</span>
+            Seu cliente pede.{" "}
+            <span className="text-gradient">Você vende mais.</span>
           </motion.h1>
+
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
+            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed font-light"
           >
-            Ideal para eventos, casas noturnas, foodtrucks, lanchonetes e praças de alimentação. 
-            Tudo direto pelo celular, sem atendente, ficha ou fila.
+            Cardápio digital que transforma celulares em pontos de venda. 
+            Sem fila, sem app, sem fricção — só resultado.
           </motion.p>
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -42,30 +56,44 @@ const HeroSection = () => {
               href="https://wa.me/553484428888"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-8 py-4 rounded-lg bg-primary text-primary-foreground text-base font-medium hover:opacity-90 transition-opacity"
+              className="btn-glow inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl text-primary-foreground text-base font-semibold"
             >
-              Solicite uma demonstração
+              Começar agora — é grátis
+              <ArrowRight className="w-4 h-4" />
             </a>
             <a
               href="#como-funciona"
-              className="inline-flex items-center justify-center px-8 py-4 rounded-lg border border-border text-foreground text-base font-medium hover:bg-secondary transition-colors"
+              className="glass-card inline-flex items-center justify-center px-8 py-4 rounded-2xl text-foreground text-base font-medium hover:bg-card/80 transition-colors"
             >
-              Saiba mais
+              Ver como funciona
             </a>
           </motion.div>
+
+          {/* Social proof micro */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="mt-8 text-sm text-muted-foreground"
+          >
+            Já usado por <span className="font-semibold text-foreground">+200 estabelecimentos</span> em todo o Brasil
+          </motion.p>
         </div>
 
+        {/* Hero image with glass frame */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.4 }}
-          className="max-w-5xl mx-auto rounded-2xl overflow-hidden border border-border shadow-2xl shadow-primary/5"
+          initial={{ opacity: 0, y: 50, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="max-w-5xl mx-auto"
         >
-          <img
-            src={heroImage}
-            alt="Cliente usando o Barty para fazer pedido pelo celular"
-            className="w-full h-auto"
-          />
+          <div className="glass-card-strong rounded-3xl p-2 md:p-3">
+            <img
+              src={heroImage}
+              alt="Cliente usando o Barty para fazer pedido pelo celular"
+              className="w-full h-auto rounded-2xl"
+            />
+          </div>
         </motion.div>
       </div>
     </section>

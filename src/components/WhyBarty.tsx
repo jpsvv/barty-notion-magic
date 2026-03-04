@@ -4,53 +4,73 @@ import { TrendingUp, Zap, Globe, LayoutDashboard, Palette, Smartphone } from "lu
 const benefits = [
   {
     icon: TrendingUp,
-    title: "Reduza filas e aumente vendas",
-    description: "Aumente o giro de mesas e impulsione as vendas sem precisar ampliar sua estrutura.",
+    title: "Venda mais sem contratar ninguém",
+    description: "Aumente o ticket médio com upsells inteligentes e atendimento automatizado.",
   },
   {
     icon: Zap,
-    title: "Mais agilidade para sua equipe",
-    description: "Processos automatizados — a equipe trabalha com mais foco e eficiência.",
+    title: "Operação no piloto automático",
+    description: "Pedidos caem direto na cozinha. Menos erro, mais velocidade, mais lucro.",
   },
   {
     icon: Globe,
-    title: "Sem instalar software",
-    description: "Integração direta pelo navegador elimina complicações técnicas e custos com instalação.",
+    title: "Zero instalação, zero dor de cabeça",
+    description: "Funciona no navegador. Seu cliente não baixa nada. Plug and play.",
   },
   {
     icon: LayoutDashboard,
-    title: "Painel administrativo simples",
-    description: "Gerencie pedidos, cardápio e operação de forma intuitiva e rápida.",
+    title: "Painel que você realmente entende",
+    description: "Dashboard limpo e objetivo. Veja o que importa em tempo real.",
   },
   {
     icon: Palette,
-    title: "Customização do cardápio",
-    description: "Personalize cores, fotos e categorias para combinar com a identidade do seu negócio.",
+    title: "A cara do seu negócio",
+    description: "Personalize tudo: cores, fotos, categorias. Seu cardápio, sua identidade.",
   },
   {
     icon: Smartphone,
-    title: "Acesso por qualquer celular",
-    description: "Funciona em qualquer smartphone, sem necessidade de download.",
+    title: "Funciona em qualquer celular",
+    description: "Android, iPhone, tablet — se tem navegador, funciona.",
   },
 ];
 
 const WhyBarty = () => {
   return (
-    <section id="vantagens" className="py-24 md:py-32">
-      <div className="container">
+    <section id="vantagens" className="py-24 md:py-32 relative overflow-hidden">
+      {/* Background accent */}
+      <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-primary/5 blur-3xl bubble-float-delayed" />
+
+      <div className="container relative z-10">
         <div className="max-w-3xl mx-auto text-center mb-16">
-          <p className="text-sm font-medium text-primary tracking-widest uppercase mb-4">
-            Vantagens pro seu negócio
-          </p>
-          <h2 className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4">
-            Por que o Barty?
-          </h2>
-          <p className="text-lg text-muted-foreground">
-            Se é simples para o cliente, é genial para o negócio.
-          </p>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-sm font-semibold text-primary tracking-widest uppercase mb-4"
+          >
+            Por que escolher o Barty
+          </motion.p>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4"
+          >
+            Resultados que você{" "}
+            <span className="text-gradient">sente no caixa</span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-lg text-muted-foreground font-light"
+          >
+            Tecnologia invisível para o cliente, transformadora para o seu negócio.
+          </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {benefits.map((item, i) => (
             <motion.div
               key={item.title}
@@ -58,15 +78,13 @@ const WhyBarty = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="flex gap-4"
+              className="glass-card rounded-2xl p-7 hover:scale-[1.02] transition-all duration-300 group"
             >
-              <div className="w-10 h-10 rounded-lg bg-accent flex items-center justify-center shrink-0 mt-1">
-                <item.icon className="w-5 h-5 text-accent-foreground" />
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary/15 to-accent/20 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
+                <item.icon className="w-5 h-5 text-primary" />
               </div>
-              <div>
-                <h3 className="font-semibold text-foreground mb-1">{item.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
-              </div>
+              <h3 className="font-display font-bold text-foreground mb-2">{item.title}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
             </motion.div>
           ))}
         </div>
