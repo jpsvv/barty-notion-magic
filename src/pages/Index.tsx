@@ -4,17 +4,21 @@ import HowItWorks from "@/components/HowItWorks";
 import WhyBarty from "@/components/WhyBarty";
 import PricingSection from "@/components/PricingSection";
 import Testimonials from "@/components/Testimonials";
+import FaqSection from "@/components/FaqSection";
 import CtaFooter from "@/components/CtaFooter";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <HeroSection />
-      <HowItWorks />
-      <WhyBarty />
-      <PricingSection />
-      <Testimonials />
+      <main>
+        <HeroSection />
+        <HowItWorks />
+        <WhyBarty />
+        <PricingSection />
+        <Testimonials />
+        <FaqSection />
+      </main>
       <CtaFooter />
     </div>
   );
