@@ -1,22 +1,135 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- TODO: Set the document title to the name of your application -->
-    <title>Lovable App</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
+    <title>Barty — Cardápio Digital com QR Code, Pedidos e Pagamento Online</title>
+    <meta name="description" content="Barty é o cardápio digital com QR Code que transforma celulares em pontos de venda. Pedidos, pagamento Pix/cartão e acompanhamento em tempo real. Teste grátis." />
+    <meta name="author" content="Barty" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://barty.fun/" />
 
-    <!-- TODO: Update og:title to match your application name -->
-    <meta property="og:title" content="Lovable App" />
-    <meta property="og:description" content="Lovable Generated Project" />
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="Barty" />
+    <meta property="og:title" content="Barty — Cardápio Digital com QR Code, Pedidos e Pagamento" />
+    <meta property="og:description" content="Transforme celulares em pontos de venda. Cardápio digital com QR Code, pedidos online e pagamento integrado. Sem app, sem fila. Teste grátis." />
+    <meta property="og:url" content="https://barty.fun/" />
+    <meta property="og:image" content="https://barty.fun/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Barty - Cardápio digital com QR Code para restaurantes e eventos" />
 
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@Lovable" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <meta name="twitter:title" content="Barty — Cardápio Digital com QR Code" />
+    <meta name="twitter:description" content="Cardápio digital que transforma celulares em pontos de venda. Pedidos e pagamento online sem app." />
+    <meta name="twitter:image" content="https://barty.fun/og-image.jpg" />
+    <meta name="twitter:image:alt" content="Barty - Cardápio digital com QR Code" />
+
+    <!-- Extras para Quality Score e GEO -->
+    <meta name="theme-color" content="#e8600a" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- JSON-LD: Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Barty",
+      "url": "https://barty.fun",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "Cardápio digital com QR Code para restaurantes, bares e eventos. Pedidos online, pagamento Pix e cartão, acompanhamento em tempo real.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "Plano Eventos",
+          "description": "Taxa por transação, sem mensalidade. Ideal para eventos.",
+          "price": "0",
+          "priceCurrency": "BRL",
+          "availability": "https://schema.org/InStock"
+        },
+        {
+          "@type": "Offer",
+          "name": "Plano Estabelecimentos",
+          "description": "Mensalidade fixa com pedidos ilimitados para restaurantes e bares.",
+          "priceCurrency": "BRL",
+          "availability": "https://schema.org/InStock"
+        }
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "200",
+        "bestRating": "5"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "Barty",
+        "url": "https://barty.fun"
+      }
+    }
+    </script>
+
+    <!-- JSON-LD: FAQ (GEO + Featured Snippets) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "O que é o Barty?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Barty é um cardápio digital com QR Code que permite aos clientes fazerem pedidos e pagamentos diretamente pelo celular, sem precisar baixar nenhum aplicativo. Funciona para restaurantes, bares, cafeterias e eventos."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Como funciona o cardápio digital do Barty?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O cliente escaneia um QR Code na mesa, acessa o cardápio digital no navegador do celular, monta o pedido, paga com Pix ou cartão e acompanha o preparo em tempo real. Tudo sem instalar app e sem precisar de atendente."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quanto custa o Barty?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O Barty oferece dois modelos: para Eventos, sem custo fixo (paga apenas uma taxa por transação); e para Estabelecimentos, com mensalidade fixa e pedidos ilimitados. O teste é grátis, sem cartão de crédito."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "O cliente precisa baixar algum aplicativo?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Não. O Barty funciona 100% no navegador do celular. Basta escanear o QR Code e o cardápio abre automaticamente, sem download, sem cadastro."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quais formas de pagamento o Barty aceita?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O Barty aceita pagamento via Pix, cartão de crédito e cartão de débito, tudo integrado diretamente no pedido digital."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "O Barty funciona para eventos?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim. O Barty tem um plano específico para eventos com setup em minutos, sem custo fixo e suporte dedicado durante o evento."
+          }
+        }
+      ]
+    }
+    </script>
   </head>
 
   <body>
