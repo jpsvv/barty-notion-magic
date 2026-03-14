@@ -1,42 +1,36 @@
 import { motion } from "framer-motion";
-import { QrCode, ShoppingBag, CreditCard, Clock, CheckCircle2, Sparkles } from "lucide-react";
+import { Users, QrCode, CreditCard, Bell, BarChart3, ArrowRight } from "lucide-react";
 
 const steps = [
   {
-    icon: QrCode,
-    title: "Escaneia o QR Code",
-    description: "Sem download de app, sem cadastro. O cliente aponta a câmera do celular e acessa o cardápio digital instantaneamente.",
+    icon: Users,
+    title: "Crie seu evento e vincule parceiros",
+    description: "Integre food trucks, bares e cozinhas em minutos. Defina cardápios personalizados e venda fichas pré-pagas por item (ex: '2 cervejas do Bar X + 1 lanche do Truck Y').",
     accent: "from-primary/20 to-primary/5",
   },
   {
-    icon: ShoppingBag,
-    title: "Monta o pedido online",
-    description: "Interface intuitiva e responsiva. Seu cardápio fica irresistível no celular, com fotos e descrições.",
+    icon: QrCode,
+    title: "Gere QR Code e divulgue",
+    description: "Compartilhe via redes ou ingressos. Clientes compram antecipado, garantindo estoque exato e previsibilidade de produção — evite desperdícios e subprodução.",
     accent: "from-primary/15 to-accent/10",
   },
   {
     icon: CreditCard,
-    title: "Paga com Pix ou cartão",
-    description: "Pagamento integrado via Pix, crédito ou débito — instantâneo, sem precisar chamar atendente.",
+    title: "Cliente pede e paga no celular",
+    description: "Sem app, via web. Pagamento via Pix ou cartão, com taxa mínima só sobre vendas reais. Sem pulseiras caras, sem hardware extra.",
     accent: "from-accent/20 to-primary/5",
   },
   {
-    icon: Clock,
-    title: "Acompanha em tempo real",
-    description: "O cliente vê cada etapa do preparo do pedido. Zero ansiedade, zero reclamação no atendimento.",
+    icon: Bell,
+    title: "Acompanhe e produza na hora",
+    description: "Notificações em tempo real para sua equipe. Retirada sem fila: cliente mostra QR e pega pronto. Zero espera, zero confusão.",
     accent: "from-primary/10 to-accent/15",
   },
   {
-    icon: CheckCircle2,
-    title: "Retira no balcão",
-    description: "Notificação automática quando o pedido ficar pronto. Sem senha, sem confusão.",
+    icon: BarChart3,
+    title: "Analise e lucre mais",
+    description: "Relatórios de vendas por parceiro e item. Aumente receita em até 30% com upsell automático e zero estresse operacional.",
     accent: "from-accent/15 to-primary/10",
-  },
-  {
-    icon: Sparkles,
-    title: "Cliente satisfeito volta sempre",
-    description: "Experiência premium que fideliza. Seu restaurante ou bar nunca mais será o mesmo.",
-    accent: "from-primary/20 to-primary/10",
   },
 ];
 
@@ -45,7 +39,7 @@ const HowItWorks = () => {
     <section
       id="como-funciona"
       className="py-24 md:py-32 relative overflow-hidden"
-      aria-label="Como funciona o cardápio digital Barty"
+      aria-label="Como funciona o sistema cashless Barty para eventos"
     >
       <div className="absolute inset-0 mesh-gradient-bg opacity-50" aria-hidden="true" />
 
@@ -57,7 +51,7 @@ const HowItWorks = () => {
             viewport={{ once: true }}
             className="text-sm font-semibold text-primary tracking-widest uppercase mb-4"
           >
-            Como funciona o cardápio digital
+            Como funciona o Barty
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -65,7 +59,7 @@ const HowItWorks = () => {
             viewport={{ once: true }}
             className="font-display text-3xl md:text-5xl font-bold text-foreground"
           >
-            Do QR Code ao pedido pronto em 6 passos
+            Do setup à venda em <span className="text-gradient">5 passos simples</span>
           </motion.h2>
         </header>
 
@@ -89,6 +83,27 @@ const HowItWorks = () => {
             </motion.li>
           ))}
         </ol>
+
+        {/* CTA inline */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="text-center mt-12"
+        >
+          <p className="text-muted-foreground mb-4">Migre de soluções genéricas para Barty em 24h.</p>
+          <a
+            href="https://wa.me/553484428888"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-glow inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl text-primary-foreground text-base font-semibold"
+            aria-label="Solicitar demo grátis do Barty via WhatsApp"
+          >
+            Solicitar demo grátis e ver o impacto
+            <ArrowRight className="w-4 h-4" aria-hidden="true" />
+          </a>
+        </motion.div>
       </div>
     </section>
   );

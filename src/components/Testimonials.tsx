@@ -27,7 +27,7 @@ const Testimonials = () => {
     <section
       id="depoimentos"
       className="py-24 md:py-32 relative overflow-hidden"
-      aria-label="Depoimentos de clientes que usam o Barty"
+      aria-label="Depoimentos de organizadores e donos de estabelecimentos que usam o Barty"
     >
       <div className="absolute top-10 right-[10%] w-64 h-64 rounded-full bg-primary/5 blur-3xl bubble-float" aria-hidden="true" />
 
@@ -39,7 +39,7 @@ const Testimonials = () => {
             viewport={{ once: true }}
             className="text-sm font-semibold text-primary tracking-widest uppercase mb-4"
           >
-            Depoimentos reais de clientes
+            Resultados reais de quem migrou
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -61,7 +61,7 @@ const Testimonials = () => {
               transition={{ duration: 0.5, delay: i * 0.1 }}
               className="glass-card rounded-2xl p-8 hover:scale-[1.02] transition-all duration-300"
             >
-              <div className="flex gap-1 mb-5" aria-label={`Avaliação 5 de 5 estrelas`}>
+              <div className="flex gap-1 mb-5" aria-label="Avaliação 5 de 5 estrelas">
                 {[...Array(5)].map((_, j) => (
                   <Star key={j} className="w-4 h-4 fill-primary text-primary" aria-hidden="true" />
                 ))}
