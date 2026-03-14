@@ -4,28 +4,32 @@ import { useState } from "react";
 
 const faqs = [
   {
-    question: "O que é o Barty?",
-    answer: "Barty é um cardápio digital com QR Code que permite aos clientes fazerem pedidos e pagamentos diretamente pelo celular, sem precisar baixar nenhum aplicativo. Funciona para restaurantes, bares, cafeterias e eventos.",
-  },
-  {
-    question: "Como funciona o cardápio digital do Barty?",
-    answer: "O cliente escaneia um QR Code na mesa, acessa o cardápio digital no navegador do celular, monta o pedido, paga com Pix ou cartão e acompanha o preparo em tempo real. Tudo sem instalar app e sem precisar de atendente.",
-  },
-  {
-    question: "Quanto custa o Barty?",
-    answer: "O Barty oferece dois modelos: para Eventos, sem custo fixo (paga apenas uma taxa por transação); e para Estabelecimentos, com mensalidade fixa e pedidos ilimitados. O teste é grátis, sem cartão de crédito.",
-  },
-  {
     question: "O cliente precisa baixar algum aplicativo?",
-    answer: "Não. O Barty funciona 100% no navegador do celular. Basta escanear o QR Code e o cardápio abre automaticamente, sem download, sem cadastro.",
+    answer: "Não. O Barty funciona 100% pelo navegador do celular. O cliente aponta a câmera para o QR Code, o cardápio abre instantaneamente — sem cadastro, sem download, sem atrito.",
   },
   {
-    question: "Quais formas de pagamento o Barty aceita?",
-    answer: "O Barty aceita pagamento via Pix, cartão de crédito e cartão de débito, tudo integrado diretamente no pedido digital.",
+    question: "Como o pedido chega para a cozinha?",
+    answer: "Após o pagamento confirmado, o pedido aparece automaticamente no painel da cozinha (funciona em qualquer tablet, computador ou celular). Você pode imprimir o pedido ou exibir na tela — como preferir.",
   },
   {
-    question: "O Barty funciona para eventos?",
-    answer: "Sim. O Barty tem um plano específico para eventos com setup em minutos, sem custo fixo e suporte dedicado durante o evento. Ideal para festas, feiras, festivais e confraternizações.",
+    question: "O Barty funciona para eventos com grande público?",
+    answer: "Sim. Nossa infraestrutura foi desenhada para lidar com picos de acesso. Festivais, formaturas, eventos corporativos — já processamos centenas de pedidos simultâneos sem instabilidade.",
+  },
+  {
+    question: "Qual a diferença entre o Barty e sistemas como Zig, Meep ou Imply?",
+    answer: "Simplicidade e custo real. Soluções como Zig e Imply são voltadas para grandes produtoras com equipe de TI e orçamento alto. O Barty foi feito para quem precisa vender mais amanhã de manhã, sem depender de técnico, contrato de 12 meses ou hardware caro. Você imprime o QR Code e começa.",
+  },
+  {
+    question: "Posso personalizar o cardápio com fotos e promoções?",
+    answer: "Sim. Você adiciona fotos, descrições, variações (ex.: tamanho, ponto da carne), preços e promoções diretamente no painel. Mudanças aparecem em tempo real para o cliente.",
+  },
+  {
+    question: "Como funciona o repasse dos pagamentos?",
+    answer: "O dinheiro cai diretamente na sua conta. Não somos intermediários financeiros — integramos com seu gateway de pagamento preferido. Pix é confirmado em segundos.",
+  },
+  {
+    question: "Tem fidelidade ou contrato mínimo?",
+    answer: "Para o plano de eventos, é uso por demanda — sem contrato. Para estabelecimentos fixos, mensalidade sem fidelidade obrigatória. Cancele quando quiser, sem multa.",
   },
 ];
 
@@ -59,7 +63,7 @@ const FaqSection = () => {
     <section
       id="perguntas-frequentes"
       className="py-24 md:py-32 relative overflow-hidden"
-      aria-label="Perguntas frequentes sobre o Barty"
+      aria-label="Perguntas frequentes sobre o sistema cashless Barty"
     >
       <div className="absolute inset-0 mesh-gradient-bg opacity-30" aria-hidden="true" />
 

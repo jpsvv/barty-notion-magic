@@ -1,36 +1,37 @@
 import { motion } from "framer-motion";
-import { TrendingUp, Zap, Globe, LayoutDashboard, Palette, Smartphone } from "lucide-react";
+import { Target, Timer, DollarSign, Scaling, TrendingUp, ShieldCheck } from "lucide-react";
 
 const benefits = [
   {
+    icon: Target,
+    title: "Previsibilidade máxima",
+    badge: "Diferencial chave",
+    description: "Ao contrário de carteiras digitais genéricas, Barty permite vendas antecipadas por item e estabelecimento específico. Saiba exatamente o que produzir — reduza custos em 20-40% e evite sobras.",
+  },
+  {
+    icon: Timer,
+    title: "Redução de filas em 80%+",
+    description: "Clientes retiram pronto via QR, liberando sua equipe para focar em upsell e atendimento premium. Eventos grandes usam cashless básico; Barty eleva para 'zero espera'.",
+  },
+  {
+    icon: DollarSign,
+    title: "Sem custos fixos para eventos",
+    description: "Pague só taxa sobre vendas (ex: 3%, sem mensalidade). Migração gratuita de dados da sua solução atual — comece a lucrar imediatamente.",
+  },
+  {
+    icon: Scaling,
+    title: "Escalável para qualquer tamanho",
+    description: "De blocos de rua a festivais gigantes. Integra com ferramentas existentes (ex: ingressos via Sympla) e oferece suporte 24/7 durante o evento.",
+  },
+  {
     icon: TrendingUp,
-    title: "Aumente o faturamento sem contratar",
-    description: "Upsells inteligentes e atendimento automatizado elevam o ticket médio do seu restaurante ou bar.",
+    title: "Aumento de receita comprovado",
+    description: "Clientes compram mais antecipado (impulso de 15-25%). Relatórios mostram ROI em semanas, não meses. Upsell automático integrado.",
   },
   {
-    icon: Zap,
-    title: "Operação no piloto automático",
-    description: "Pedidos caem direto na cozinha. Menos erro humano, mais velocidade, mais lucro no fim do mês.",
-  },
-  {
-    icon: Globe,
-    title: "Funciona no navegador, sem app",
-    description: "Seu cliente não baixa nada. Acessa o cardápio digital pelo QR Code no navegador. Plug and play.",
-  },
-  {
-    icon: LayoutDashboard,
-    title: "Painel de gestão intuitivo",
-    description: "Dashboard limpo para acompanhar pedidos, vendas e métricas do seu negócio em tempo real.",
-  },
-  {
-    icon: Palette,
-    title: "Cardápio personalizado com a sua marca",
-    description: "Customize cores, fotos, categorias e descrições. Seu cardápio digital, sua identidade visual.",
-  },
-  {
-    icon: Smartphone,
-    title: "Compatível com qualquer celular",
-    description: "Android, iPhone, tablet — se tem navegador, o Barty funciona perfeitamente.",
+    icon: ShieldCheck,
+    title: "Segurança e conformidade LGPD",
+    description: "Pagamentos criptografados, compliance com LGPD e integração Pix instantânea — melhor que soluções antigas que dependem de pulseiras caras e hardware dedicado.",
   },
 ];
 
@@ -39,7 +40,7 @@ const WhyBarty = () => {
     <section
       id="vantagens"
       className="py-24 md:py-32 relative overflow-hidden"
-      aria-label="Vantagens do cardápio digital Barty para restaurantes e bares"
+      aria-label="Vantagens do Barty sobre soluções cashless tradicionais"
     >
       <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-primary/5 blur-3xl bubble-float-delayed" aria-hidden="true" />
 
@@ -51,7 +52,7 @@ const WhyBarty = () => {
             viewport={{ once: true }}
             className="text-sm font-semibold text-primary tracking-widest uppercase mb-4"
           >
-            Vantagens do cardápio digital Barty
+            Por que trocar sua solução atual
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -59,8 +60,8 @@ const WhyBarty = () => {
             viewport={{ once: true }}
             className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4"
           >
-            Resultados que você{" "}
-            <span className="text-gradient">sente no caixa</span>
+            Por Que Trocar Pelo Barty{" "}
+            <span className="text-gradient">Hoje?</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 10 }}
@@ -69,7 +70,7 @@ const WhyBarty = () => {
             transition={{ delay: 0.1 }}
             className="text-lg text-muted-foreground font-light"
           >
-            Tecnologia invisível para o cliente, transformadora para o faturamento do seu negócio.
+            Resultados que você sente no caixa. Tecnologia invisível para o cliente, transformadora para o faturamento do seu evento.
           </motion.p>
         </header>
 
@@ -81,8 +82,13 @@ const WhyBarty = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="glass-card rounded-2xl p-7 hover:scale-[1.02] transition-all duration-300 group"
+              className="glass-card rounded-2xl p-7 hover:scale-[1.02] transition-all duration-300 group relative"
             >
+              {item.badge && (
+                <span className="absolute top-4 right-4 text-[10px] font-bold uppercase tracking-wider text-primary bg-primary/10 px-2.5 py-1 rounded-full">
+                  {item.badge}
+                </span>
+              )}
               <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary/15 to-accent/20 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300" aria-hidden="true">
                 <item.icon className="w-5 h-5 text-primary" />
               </div>
