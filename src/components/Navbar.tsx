@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
+import bartyLogo from "@/assets/barty-logo.png";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
