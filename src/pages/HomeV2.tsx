@@ -1,23 +1,61 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, Suspense, lazy } from "react";
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from "framer-motion";
-import { ArrowRight, Sparkles, TrendingUp, ShieldCheck, Zap, Star, ChevronDown, Check, Users, QrCode, CreditCard, Bell, BarChart3, Target, Timer, DollarSign, Scaling, Calendar, Store } from "lucide-react";
+import {
+  ArrowRight, Sparkles, TrendingUp, ShieldCheck, Zap, Star,
+  ChevronDown, Check, Users, QrCode, CreditCard, Bell, BarChart3,
+  Target, Timer, DollarSign, Scaling, Calendar, Store, Play
+} from "lucide-react";
 import Navbar from "@/components/Navbar";
 import bartyLogo from "@/assets/barty-logo.png";
 import heroImage from "@/assets/hero-barty.jpg";
 
-/* ───────────────────── CUSTOM CURSOR ───────────────────── */
+const ParticleField = lazy(() => import("@/components/ParticleField"));
+
+/* ─── SMOOTH SCROLL ENGINE ─── */
+const useSmoothScroll = () => {
+  useEffect(() => {
+    let current = 0;
+    let target = 0;
+    let rafId: number;
+    const ease = 0.08;
+    const container = document.getElementById("v2-smooth-container");
+    if (!container) return;
+
+    const body = document.body;
+    const setHeight = () => {
+      body.style.height = `${container.scrollHeight}px`;
+    };
+
+    const tick = () => {
+      target = window.scrollY;
+      current += (target - current) * ease;
+      container.style.transform = `matrix3d(1,0,0,0,0,1,0,0,0,0,1,0,0,${-current},0,1)`;
+      rafId = requestAnimationFrame(tick);
+    };
+
+    setHeight();
+    window.addEventListener("resize", setHeight);
+    rafId = requestAnimationFrame(tick);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("resize", setHeight);
+      body.style.height = "";
+    };
+  }, []);
+};
+
+/* ─── CUSTOM CURSOR ─── */
 const CustomCursor = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const move = (e: MouseEvent) => {
-      if (cursorRef.current) {
+      if (cursorRef.current)
         cursorRef.current.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
-      }
-      if (glowRef.current) {
-        glowRef.current.style.transform = `translate(${e.clientX - 150}px, ${e.clientY - 150}px)`;
-      }
+      if (glowRef.current)
+        glowRef.current.style.transform = `translate(${e.clientX - 200}px, ${e.clientY - 200}px)`;
     };
     window.addEventListener("mousemove", move);
     return () => window.removeEventListener("mousemove", move);
@@ -27,97 +65,57 @@ const CustomCursor = () => {
     <>
       <div
         ref={glowRef}
-        className="fixed top-0 left-0 w-[300px] h-[300px] rounded-full pointer-events-none z-[9998] opacity-20 transition-transform duration-700 ease-out"
-        style={{ background: "radial-gradient(circle, hsl(22 90% 52% / 0.3), transparent 70%)" }}
+        className="fixed top-0 left-0 w-[400px] h-[400px] rounded-full pointer-events-none z-[9998] opacity-15"
+        style={{ background: "radial-gradient(circle, hsl(22 90% 52% / 0.35), transparent 70%)", transition: "transform 0.6s cubic-bezier(0.16,1,0.3,1)" }}
       />
       <div
         ref={cursorRef}
         className="fixed top-0 left-0 w-5 h-5 rounded-full pointer-events-none z-[9999] mix-blend-difference bg-white hidden md:block"
+        style={{ transition: "transform 0.15s ease-out" }}
       />
     </>
   );
 };
 
-/* ───────────────────── TYPEWRITER ───────────────────── */
-const TypewriterText = ({ text, className }: { text: string; className?: string }) => {
+/* ─── TYPEWRITER ─── */
+const TypewriterText = ({ text, className, delay = 0 }: { text: string; className?: string; delay?: number }) => {
   const [displayed, setDisplayed] = useState("");
-  const [done, setDone] = useState(false);
+  const [started, setStarted] = useState(false);
 
   useEffect(() => {
+    const t = setTimeout(() => setStarted(true), delay);
+    return () => clearTimeout(t);
+  }, [delay]);
+
+  useEffect(() => {
+    if (!started) return;
     let i = 0;
     const interval = setInterval(() => {
       if (i <= text.length) {
         setDisplayed(text.slice(0, i));
         i++;
-      } else {
-        setDone(true);
-        clearInterval(interval);
-      }
-    }, 45);
+      } else clearInterval(interval);
+    }, 35);
     return () => clearInterval(interval);
-  }, [text]);
+  }, [text, started]);
 
   return (
     <span className={className}>
       {displayed}
-      <span className={`inline-block w-[3px] h-[1em] bg-primary ml-1 align-middle ${done ? "animate-pulse" : ""}`} />
+      {started && <span className="inline-block w-[3px] h-[0.85em] bg-primary ml-1 align-middle animate-pulse" />}
     </span>
   );
 };
 
-/* ───────────────────── PARALLAX SECTION WRAPPER ───────────────────── */
-const ParallaxSection = ({ children, className, id }: { children: React.ReactNode; className?: string; id?: string }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [60, -60]);
-  const smoothY = useSpring(y, { stiffness: 80, damping: 30 });
-
-  return (
-    <section ref={ref} id={id} className={`relative overflow-hidden ${className || ""}`}>
-      <motion.div style={{ y: smoothY }}>
-        {children}
-      </motion.div>
-    </section>
-  );
-};
-
-/* ───────────────────── FLOATING PARTICLES ───────────────────── */
-const FloatingParticles = () => (
-  <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-    {[...Array(6)].map((_, i) => (
-      <motion.div
-        key={i}
-        className="absolute w-2 h-2 rounded-full bg-primary/20"
-        style={{
-          left: `${15 + i * 15}%`,
-          top: `${20 + (i % 3) * 25}%`,
-        }}
-        animate={{
-          y: [0, -30, 0],
-          x: [0, (i % 2 === 0 ? 15 : -15), 0],
-          opacity: [0.2, 0.6, 0.2],
-        }}
-        transition={{
-          duration: 4 + i,
-          repeat: Infinity,
-          delay: i * 0.5,
-        }}
-      />
-    ))}
-  </div>
-);
-
-/* ───────────────────── MAGNETIC BUTTON ───────────────────── */
+/* ─── MAGNETIC BUTTON ─── */
 const MagneticButton = ({ children, href, className }: { children: React.ReactNode; href: string; className?: string }) => {
   const ref = useRef<HTMLAnchorElement>(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [pos, setPos] = useState({ x: 0, y: 0 });
 
   const handleMouse = useCallback((e: React.MouseEvent) => {
     if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left - rect.width / 2) * 0.15;
-    const y = (e.clientY - rect.top - rect.height / 2) * 0.15;
-    setPosition({ x, y });
+    const r = ref.current.getBoundingClientRect();
+    setPos({ x: (e.clientX - r.left - r.width / 2) * 0.2, y: (e.clientY - r.top - r.height / 2) * 0.2 });
   }, []);
 
   return (
@@ -128,69 +126,93 @@ const MagneticButton = ({ children, href, className }: { children: React.ReactNo
       rel="noopener noreferrer"
       className={className}
       onMouseMove={handleMouse}
-      onMouseLeave={() => setPosition({ x: 0, y: 0 })}
-      animate={{ x: position.x, y: position.y }}
-      transition={{ type: "spring", stiffness: 200, damping: 15 }}
+      onMouseLeave={() => setPos({ x: 0, y: 0 })}
+      animate={{ x: pos.x, y: pos.y }}
+      transition={{ type: "spring", stiffness: 250, damping: 20 }}
     >
       {children}
     </motion.a>
   );
 };
 
-/* ───────────────────── FAQ ITEM ───────────────────── */
+/* ─── REVEAL WRAPPER ─── */
+const Reveal = ({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 50 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-80px" }}
+    transition={{ duration: 0.7, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
+    className={className}
+  >
+    {children}
+  </motion.div>
+);
+
+/* ─── HORIZONTAL LINE DIVIDER ─── */
+const LineDivider = () => (
+  <div className="container">
+    <motion.div
+      initial={{ scaleX: 0 }}
+      whileInView={{ scaleX: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className="h-px bg-gradient-to-r from-transparent via-border to-transparent origin-left"
+    />
+  </div>
+);
+
+/* ─── FAQ ITEM ─── */
 const FaqItem = ({ question, answer, index }: { question: string; answer: string; index: number }) => {
   const [open, setOpen] = useState(false);
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.05 }}
-      className="glass-card rounded-2xl overflow-hidden"
-    >
-      <button
-        onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between p-5 text-left"
-        aria-expanded={open}
-      >
-        <span className="font-display font-semibold text-brand-navy pr-4 text-sm">{question}</span>
-        <ChevronDown className={`w-4 h-4 text-muted-foreground shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
-      </button>
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <p className="px-5 pb-5 text-sm text-muted-foreground leading-relaxed">{answer}</p>
+    <Reveal delay={index * 0.04}>
+      <div className="border-b border-border/50 last:border-0">
+        <button
+          onClick={() => setOpen(!open)}
+          className="w-full flex items-center justify-between py-6 text-left group"
+          aria-expanded={open}
+        >
+          <span className="font-display font-semibold text-foreground pr-4 text-base md:text-lg group-hover:text-primary transition-colors">{question}</span>
+          <motion.div animate={{ rotate: open ? 45 : 0 }} transition={{ duration: 0.3 }}>
+            <span className="text-2xl text-primary font-light">+</span>
           </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+        </button>
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
+              <p className="pb-6 text-muted-foreground leading-relaxed max-w-2xl">{answer}</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </Reveal>
   );
 };
 
 /* ═══════════════════════════════════════════════════════
-   HOME V2 — CREATIVE EDITION
+   DATA
    ═══════════════════════════════════════════════════════ */
 
 const steps = [
-  { icon: Users, title: "Crie seu evento e vincule parceiros", description: "Integre food trucks, bares e cozinhas em minutos. Defina cardápios personalizados e venda fichas pré-pagas por item.", accent: "from-primary/20 to-primary/5" },
-  { icon: QrCode, title: "Gere QR Code e divulgue", description: "Compartilhe via redes ou ingressos. Clientes compram antecipado, garantindo estoque exato e previsibilidade.", accent: "from-primary/15 to-accent/10" },
-  { icon: CreditCard, title: "Cliente pede e paga no celular", description: "Sem app, via web. Pagamento via Pix ou cartão, com taxa mínima só sobre vendas reais.", accent: "from-accent/20 to-primary/5" },
-  { icon: Bell, title: "Acompanhe e produza na hora", description: "Notificações em tempo real. Retirada sem fila: cliente mostra QR e pega pronto.", accent: "from-primary/10 to-accent/15" },
-  { icon: BarChart3, title: "Analise e lucre mais", description: "Relatórios de vendas por parceiro e item. Aumente receita em até 30% com upsell automático.", accent: "from-accent/15 to-primary/10" },
+  { icon: Users, num: "01", title: "Crie e vincule parceiros", description: "Integre food trucks, bares e cozinhas em minutos. Defina cardápios e venda fichas pré-pagas por item." },
+  { icon: QrCode, num: "02", title: "Gere QR Code e divulgue", description: "Compartilhe via redes ou ingressos. Clientes compram antecipado, garantindo estoque exato." },
+  { icon: CreditCard, num: "03", title: "Cliente pede no celular", description: "Sem app, via web. Pix ou cartão, com taxa mínima só sobre vendas reais." },
+  { icon: Bell, num: "04", title: "Produza na hora certa", description: "Notificações em tempo real. Retirada via QR sem fila: cliente mostra e pega pronto." },
+  { icon: BarChart3, num: "05", title: "Analise e escale", description: "Relatórios por parceiro e item. Aumente receita em até 30% com upsell automático." },
 ];
 
 const benefits = [
-  { icon: Target, title: "Previsibilidade máxima", badge: "Diferencial chave", description: "Vendas antecipadas por item e estabelecimento específico. Reduza custos em 20-40%." },
-  { icon: Timer, title: "Redução de filas em 80%+", description: "Clientes retiram pronto via QR. Sua equipe foca em upsell e atendimento premium." },
-  { icon: DollarSign, title: "Sem custos fixos", description: "Taxa de 3% sobre vendas. Sem mensalidade. Migração gratuita." },
-  { icon: Scaling, title: "Escalável", description: "De blocos de rua a festivais gigantes. Suporte 24/7 durante o evento." },
-  { icon: TrendingUp, title: "Receita comprovada", description: "Clientes compram mais antecipado (impulso de 15-25%). ROI em semanas." },
-  { icon: ShieldCheck, title: "Segurança LGPD", description: "Criptografia ponta a ponta, Pix instantâneo. Sem pulseiras caras." },
+  { icon: Target, title: "Previsibilidade", stat: "20-40%", statLabel: "redução de custos", description: "Vendas antecipadas por item e estabelecimento específico." },
+  { icon: Timer, title: "Zero filas", stat: "80%+", statLabel: "menos espera", description: "Clientes retiram pronto via QR. Equipe foca em upsell." },
+  { icon: DollarSign, title: "Sem custos fixos", stat: "3%", statLabel: "sobre vendas", description: "Sem mensalidade para eventos. Migração gratuita." },
+  { icon: Scaling, title: "Escalável", stat: "∞", statLabel: "capacidade", description: "De blocos de rua a festivais gigantes. Suporte 24/7." },
+  { icon: TrendingUp, title: "Mais receita", stat: "+25%", statLabel: "impulso médio", description: "Compra antecipada gera impulso. ROI em semanas." },
+  { icon: ShieldCheck, title: "LGPD seguro", stat: "100%", statLabel: "compliance", description: "Criptografia ponta a ponta, Pix instantâneo." },
 ];
 
 const testimonials = [
@@ -201,7 +223,7 @@ const testimonials = [
 
 const faqs = [
   { question: "O cliente precisa baixar algum aplicativo?", answer: "Não. Funciona 100% pelo navegador do celular. Sem cadastro, sem download, sem atrito." },
-  { question: "Como o pedido chega para a cozinha?", answer: "Após pagamento confirmado, aparece automaticamente no painel da cozinha. Funciona em qualquer dispositivo." },
+  { question: "Como o pedido chega para a cozinha?", answer: "Após a compra da ficha, o usuário faz a liberação da produção do pedido, sendo direcionado para a cozinha (funciona em qualquer tablet, computador ou celular). Você pode imprimir o pedido ou exibir na tela como preferir." },
   { question: "O Barty funciona para eventos com grande público?", answer: "Sim. Infraestrutura para picos de acesso. Festivais, formaturas, corporativos — sem instabilidade." },
   { question: "Qual a diferença entre o Barty e sistemas como Zig, Meep ou Imply?", answer: "Simplicidade e custo real. O Barty foi feito para quem precisa vender mais amanhã, sem depender de técnico, contrato de 12 meses ou hardware caro." },
   { question: "Posso personalizar o cardápio com fotos e promoções?", answer: "Sim. Fotos, descrições, variações, preços e promoções diretamente no painel. Mudanças em tempo real." },
@@ -209,522 +231,470 @@ const faqs = [
   { question: "Tem fidelidade ou contrato mínimo?", answer: "Eventos: uso por demanda. Estabelecimentos: mensalidade sem fidelidade. Cancele quando quiser." },
 ];
 
+/* ═══════════════════════════════════════════════════════
+   HOME V2 — ANTIGRAVITY EDITION
+   ═══════════════════════════════════════════════════════ */
+
 const HomeV2 = () => {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  useSmoothScroll();
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
-    <div className="min-h-screen bg-background relative">
+    <>
       <CustomCursor />
 
-      {/* Scroll progress bar */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-[3px] bg-primary z-[100] origin-left"
-        style={{ scaleX }}
-      />
+      {/* Progress bar */}
+      <motion.div className="fixed top-0 left-0 right-0 h-[2px] bg-primary z-[100] origin-left" style={{ scaleX }} />
 
-      <Navbar />
+      <div id="v2-smooth-container" className="fixed top-0 left-0 w-full will-change-transform">
+        <div className="min-h-screen bg-background relative">
+          <Navbar />
 
-      <main>
-        {/* ═══ HERO ═══ */}
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-          <FloatingParticles />
-          <div className="absolute inset-0 mesh-gradient-bg" aria-hidden="true" />
+          <main>
+            {/* ═══ HERO — SPLIT LAYOUT ═══ */}
+            <section className="relative min-h-screen flex items-center overflow-hidden">
+              {/* 3D Particle background */}
+              <Suspense fallback={null}>
+                <ParticleField />
+              </Suspense>
 
-          {/* Large blurred background shapes */}
-          <motion.div
-            animate={{ scale: [1, 1.1, 1], rotate: [0, 3, 0] }}
-            transition={{ duration: 20, repeat: Infinity }}
-            className="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-primary/5 blur-[100px]"
-            aria-hidden="true"
-          />
-          <motion.div
-            animate={{ scale: [1, 1.05, 1], rotate: [0, -2, 0] }}
-            transition={{ duration: 15, repeat: Infinity, delay: 3 }}
-            className="absolute bottom-[-10%] left-[-5%] w-[400px] h-[400px] rounded-full bg-brand-navy/5 blur-[80px]"
-            aria-hidden="true"
-          />
+              {/* Gradient overlays */}
+              <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background z-[1]" />
+              <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent z-[1]" />
 
-          <div className="container relative z-10 pt-28 pb-20">
-            <div className="max-w-5xl mx-auto text-center">
-              {/* Pill badge */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ type: "spring", delay: 0.2 }}
-                className="inline-flex items-center gap-2 glass-card rounded-full px-5 py-2 mb-10"
-              >
-                <Sparkles className="w-4 h-4 text-primary" />
-                <span className="text-sm font-medium text-brand-navy">Venda antecipada por item + Parceiros integrados</span>
-              </motion.div>
+              <div className="container relative z-10 pt-24 pb-16">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center min-h-[80vh]">
+                  {/* Left — Copy */}
+                  <div>
+                    <motion.div
+                      initial={{ opacity: 0, x: -30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, delay: 0.3 }}
+                      className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/50 backdrop-blur-sm px-4 py-1.5 mb-8"
+                    >
+                      <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                      <span className="text-xs font-medium text-muted-foreground tracking-wide uppercase">Sistema Cashless</span>
+                    </motion.div>
 
-              {/* Typewriter H1 */}
-              <motion.h1
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-brand-navy leading-[1.05] mb-6 tracking-tight"
-              >
-                <TypewriterText text="A Revolução Cashless que Transforma Eventos em Máquinas de Lucro." />
-              </motion.h1>
+                    <motion.h1
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.5 }}
+                      className="font-display text-[2.75rem] md:text-6xl lg:text-[4.25rem] font-bold text-foreground leading-[1.05] mb-8 tracking-tight"
+                    >
+                      <TypewriterText
+                        text="Eventos sem filas. Lucro sem limites."
+                        delay={600}
+                      />
+                    </motion.h1>
 
-              <motion.p
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 3.5, duration: 0.6 }}
-                className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10 leading-relaxed font-light"
-              >
-                Pare de perder vendas por filas intermináveis. Venda antecipada por item, integração com parceiros e retirada instantânea via QR Code.
-              </motion.p>
+                    <motion.p
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 3.2, duration: 0.6 }}
+                      className="text-lg text-muted-foreground max-w-xl mb-10 leading-relaxed"
+                    >
+                      Venda antecipada por item, integração com parceiros de comida e bebida, retirada instantânea via QR Code.{" "}
+                      <strong className="text-foreground font-medium">Sem hardware. Sem filas. Sem custos fixos.</strong>
+                    </motion.p>
 
-              {/* Trust badges */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 4 }}
-                className="flex flex-wrap items-center justify-center gap-6 mb-10"
-              >
-                {[
-                  { icon: TrendingUp, label: "+30% receita média" },
-                  { icon: Zap, label: "80% menos filas" },
-                  { icon: ShieldCheck, label: "Sem custos fixos" },
-                ].map((b) => (
-                  <div key={b.label} className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <b.icon className="w-4 h-4 text-primary" />
-                    <span>{b.label}</span>
+                    {/* Metrics row */}
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 3.6 }}
+                      className="flex gap-8 mb-10"
+                    >
+                      {[
+                        { value: "+30%", label: "receita" },
+                        { value: "80%", label: "menos filas" },
+                        { value: "24h", label: "para migrar" },
+                      ].map((m) => (
+                        <div key={m.label}>
+                          <p className="font-display text-2xl md:text-3xl font-bold text-primary">{m.value}</p>
+                          <p className="text-xs text-muted-foreground uppercase tracking-wider mt-1">{m.label}</p>
+                        </div>
+                      ))}
+                    </motion.div>
+
+                    {/* CTA */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 3.8 }}
+                      className="flex flex-wrap gap-4"
+                    >
+                      <MagneticButton
+                        href="https://wa.me/553484428888"
+                        className="btn-glow inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl text-primary-foreground text-base font-semibold"
+                      >
+                        Solicitar demo grátis
+                        <ArrowRight className="w-4 h-4" />
+                      </MagneticButton>
+                      <motion.a
+                        href="#como-funciona-v2"
+                        className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl border border-border/60 text-foreground text-base font-medium hover:bg-card/60 backdrop-blur-sm transition-all"
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.97 }}
+                      >
+                        <Play className="w-4 h-4 text-primary" />
+                        Como funciona
+                      </motion.a>
+                    </motion.div>
                   </div>
-                ))}
-              </motion.div>
 
-              {/* CTA */}
+                  {/* Right — Hero Image */}
+                  <motion.figure
+                    initial={{ opacity: 0, scale: 0.85, rotateY: -10 }}
+                    animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+                    transition={{ delay: 1, duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+                    className="relative"
+                    style={{ perspective: "1200px" }}
+                  >
+                    <div className="relative rounded-3xl overflow-hidden border border-border/30 shadow-2xl shadow-primary/10">
+                      <img
+                        src={heroImage}
+                        alt="Evento lotado com clientes usando QR Code do Barty"
+                        className="w-full h-auto"
+                        loading="eager"
+                        width="1200"
+                        height="675"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
+                    </div>
+                    {/* Floating stat card */}
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 2, duration: 0.6 }}
+                      className="absolute -bottom-6 -left-6 glass-card-strong rounded-2xl p-4 shadow-xl hidden lg:block"
+                    >
+                      <p className="text-xs text-muted-foreground mb-1">Eventos ativos</p>
+                      <p className="font-display text-2xl font-bold text-foreground">+200</p>
+                      <p className="text-xs text-primary font-medium">em todo o Brasil</p>
+                    </motion.div>
+                  </motion.figure>
+                </div>
+              </div>
+
+              {/* Scroll cue */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 4.2 }}
-                className="flex flex-col sm:flex-row gap-4 justify-center"
-              >
-                <MagneticButton
-                  href="https://wa.me/553484428888"
-                  className="btn-glow inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl text-primary-foreground text-base font-semibold"
-                >
-                  Solicitar demo grátis
-                  <ArrowRight className="w-4 h-4" />
-                </MagneticButton>
-                <motion.a
-                  href="#como-funciona-v2"
-                  className="glass-card inline-flex items-center justify-center px-8 py-4 rounded-2xl text-brand-navy text-base font-medium hover:bg-card/80 transition-colors"
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  Ver como funciona
-                </motion.a>
-              </motion.div>
-
-              {/* Social proof */}
-              <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 4.5 }}
-                className="mt-8 text-sm text-muted-foreground"
+                className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
               >
-                Usado por <strong className="font-semibold text-brand-navy">+200 eventos e estabelecimentos</strong> no Brasil
-              </motion.p>
-            </div>
-
-            {/* Hero image with reveal */}
-            <motion.figure
-              initial={{ opacity: 0, y: 80, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ delay: 4.6, duration: 1, ease: "easeOut" }}
-              className="max-w-5xl mx-auto mt-16"
-            >
-              <motion.div
-                className="glass-card-strong rounded-3xl p-2 md:p-3"
-                whileHover={{ scale: 1.01 }}
-                transition={{ type: "spring", stiffness: 200 }}
-              >
-                <img
-                  src={heroImage}
-                  alt="Evento lotado com clientes usando QR Code do Barty para pedir e pagar sem filas"
-                  className="w-full h-auto rounded-2xl"
-                  loading="eager"
-                />
+                <motion.div
+                  animate={{ y: [0, 8, 0] }}
+                  transition={{ repeat: Infinity, duration: 1.8 }}
+                  className="w-6 h-10 rounded-full border-2 border-border flex items-start justify-center pt-2"
+                >
+                  <div className="w-1 h-2.5 rounded-full bg-primary" />
+                </motion.div>
               </motion.div>
-            </motion.figure>
-          </div>
+            </section>
 
-          {/* Scroll indicator */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 5 }}
-            className="absolute bottom-8 left-1/2 -translate-x-1/2"
-          >
-            <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
-              className="w-6 h-10 rounded-full border-2 border-brand-navy/20 flex items-start justify-center pt-2"
-            >
-              <div className="w-1 h-2 rounded-full bg-primary" />
-            </motion.div>
-          </motion.div>
-        </section>
+            <LineDivider />
 
-        {/* ═══ HOW IT WORKS ═══ */}
-        <ParallaxSection id="como-funciona-v2" className="py-24 md:py-32">
-          <div className="container relative z-10">
-            <header className="text-center mb-16">
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="text-xs font-semibold text-primary tracking-widest uppercase mb-3"
-              >
-                Como funciona o Barty
-              </motion.p>
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="font-display text-3xl md:text-5xl font-bold text-brand-navy"
-              >
-                Do setup à venda em <span className="text-gradient">5 passos simples</span>
-              </motion.h2>
-            </header>
-
-            <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto list-none p-0">
-              {steps.map((step, i) => (
-                <motion.li
-                  key={step.title}
-                  initial={{ opacity: 0, y: 40, rotateX: 10 }}
-                  whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                  whileHover={{ y: -6, scale: 1.02 }}
-                  className="group glass-card rounded-2xl p-7 transition-shadow duration-300 hover:shadow-xl hover:shadow-primary/5"
-                >
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${step.accent} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}>
-                    <step.icon className="w-6 h-6 text-primary" />
+            {/* ═══ HOW IT WORKS ═══ */}
+            <section id="como-funciona-v2" className="py-28 md:py-40">
+              <div className="container">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+                  {/* Left sticky header */}
+                  <div className="lg:col-span-4">
+                    <Reveal>
+                      <p className="text-xs font-semibold text-primary tracking-[0.2em] uppercase mb-4">Processo</p>
+                      <h2 className="font-display text-3xl md:text-5xl font-bold text-foreground leading-tight mb-6">
+                        Do setup à venda em{" "}
+                        <span className="text-gradient">5 passos.</span>
+                      </h2>
+                      <p className="text-muted-foreground leading-relaxed mb-8">
+                        Migre de soluções genéricas para Barty em 24h. Sem contrato, sem técnico.
+                      </p>
+                      <MagneticButton
+                        href="https://wa.me/553484428888"
+                        className="btn-glow inline-flex items-center gap-2 px-6 py-3 rounded-xl text-primary-foreground text-sm font-semibold"
+                      >
+                        Começar agora <ArrowRight className="w-4 h-4" />
+                      </MagneticButton>
+                    </Reveal>
                   </div>
-                  <h3 className="font-display text-lg font-bold text-brand-navy mb-2">
-                    <span className="text-primary mr-1">{i + 1}.</span> {step.title}
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{step.description}</p>
-                </motion.li>
-              ))}
-            </ol>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mt-12"
-            >
-              <p className="text-muted-foreground mb-4">Migre de soluções genéricas para Barty em 24h.</p>
-              <MagneticButton
-                href="https://wa.me/553484428888"
-                className="btn-glow inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl text-primary-foreground text-base font-semibold"
-              >
-                Solicitar demo grátis
-                <ArrowRight className="w-4 h-4" />
-              </MagneticButton>
-            </motion.div>
-          </div>
-        </ParallaxSection>
-
-        {/* ═══ WHY BARTY ═══ */}
-        <ParallaxSection id="vantagens-v2" className="py-24 md:py-32">
-          <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-primary/5 blur-3xl bubble-float-delayed" aria-hidden="true" />
-          <div className="container relative z-10">
-            <header className="max-w-3xl mx-auto text-center mb-16">
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="text-xs font-semibold text-primary tracking-widest uppercase mb-3"
-              >
-                Por que trocar sua solução atual
-              </motion.p>
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="font-display text-3xl md:text-5xl font-bold text-brand-navy mb-4"
-              >
-                Por Que Trocar Pelo Barty <span className="text-gradient">Hoje?</span>
-              </motion.h2>
-            </header>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              {benefits.map((item, i) => (
-                <motion.article
-                  key={item.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.08 }}
-                  whileHover={{ y: -8, rotateY: 2 }}
-                  className="glass-card rounded-2xl p-7 group relative cursor-default"
-                  style={{ perspective: "800px" }}
-                >
-                  {item.badge && (
-                    <span className="absolute top-4 right-4 text-[10px] font-bold uppercase tracking-wider text-primary bg-primary/10 px-2.5 py-1 rounded-full">
-                      {item.badge}
-                    </span>
-                  )}
-                  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-primary/15 to-accent/20 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300">
-                    <item.icon className="w-5 h-5 text-primary" />
+                  {/* Right steps */}
+                  <div className="lg:col-span-8">
+                    <div className="space-y-6">
+                      {steps.map((step, i) => (
+                        <Reveal key={step.num} delay={i * 0.08}>
+                          <motion.div
+                            whileHover={{ x: 8 }}
+                            className="group flex gap-6 p-6 rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm hover:bg-card/60 hover:border-primary/20 transition-all duration-500 cursor-default"
+                          >
+                            <div className="shrink-0">
+                              <span className="font-display text-3xl font-bold text-primary/20 group-hover:text-primary/50 transition-colors">{step.num}</span>
+                            </div>
+                            <div>
+                              <div className="flex items-center gap-3 mb-2">
+                                <step.icon className="w-5 h-5 text-primary" />
+                                <h3 className="font-display text-lg font-bold text-foreground">{step.title}</h3>
+                              </div>
+                              <p className="text-sm text-muted-foreground leading-relaxed">{step.description}</p>
+                            </div>
+                          </motion.div>
+                        </Reveal>
+                      ))}
+                    </div>
                   </div>
-                  <h3 className="font-display font-bold text-brand-navy mb-2">{item.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
-                </motion.article>
-              ))}
-            </div>
-          </div>
-        </ParallaxSection>
+                </div>
+              </div>
+            </section>
 
-        {/* ═══ PRICING ═══ */}
-        <ParallaxSection id="planos-v2" className="py-24 md:py-32">
-          <div className="absolute inset-0 mesh-gradient-bg opacity-40" aria-hidden="true" />
-          <div className="container relative z-10">
-            <header className="text-center mb-16">
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="text-xs font-semibold text-primary tracking-widest uppercase mb-3"
-              >
-                Planos que facilitam a troca
-              </motion.p>
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="font-display text-3xl md:text-5xl font-bold text-brand-navy"
-              >
-                Planos que Fazem Sentido
-              </motion.h2>
-            </header>
+            <LineDivider />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-              {/* Eventos */}
-              <motion.article
-                initial={{ opacity: 0, x: -40 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -6 }}
-                className="glass-card-strong rounded-3xl p-8 md:p-10 relative border-2 border-primary/20"
-              >
-                <div className="absolute -top-3 right-6 btn-glow text-primary-foreground text-xs font-semibold px-4 py-1.5 rounded-full">
-                  Foco principal
-                </div>
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center mb-6">
-                  <Calendar className="w-6 h-6 text-primary" />
-                </div>
-                <h3 className="font-display text-2xl font-bold text-brand-navy mb-2">Para Eventos</h3>
-                <div className="mb-4">
-                  <span className="font-display text-4xl font-bold text-brand-navy">3%</span>
-                  <span className="text-muted-foreground text-sm ml-2">sobre vendas</span>
-                </div>
-                <p className="text-muted-foreground text-sm mb-6">Zero custo fixo. Pague só quando vender. Setup grátis e migração em 24h.</p>
-                <ul className="space-y-3 mb-8">
-                  {["Sem mensalidade", "Setup e migração grátis", "Venda antecipada por item", "Suporte 24/7 no evento", "Relatórios por parceiro"].map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-sm text-brand-navy">
-                      <Check className="w-4 h-4 text-primary shrink-0" />
-                      {item}
-                    </li>
+            {/* ═══ BENEFITS — BENTO GRID ═══ */}
+            <section id="vantagens-v2" className="py-28 md:py-40">
+              <div className="container">
+                <Reveal>
+                  <header className="max-w-2xl mb-16">
+                    <p className="text-xs font-semibold text-primary tracking-[0.2em] uppercase mb-4">Vantagens</p>
+                    <h2 className="font-display text-3xl md:text-5xl font-bold text-foreground leading-tight">
+                      Por que trocar pelo Barty{" "}
+                      <span className="text-gradient">hoje?</span>
+                    </h2>
+                  </header>
+                </Reveal>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-border/40 rounded-3xl overflow-hidden border border-border/40">
+                  {benefits.map((item, i) => (
+                    <Reveal key={item.title} delay={i * 0.06}>
+                      <motion.article
+                        whileHover={{ backgroundColor: "hsl(var(--card) / 0.8)" }}
+                        className="p-8 md:p-10 bg-card/40 backdrop-blur-sm h-full cursor-default group transition-colors duration-500"
+                      >
+                        <item.icon className="w-6 h-6 text-primary mb-6 group-hover:scale-110 transition-transform duration-300" />
+                        <div className="mb-4">
+                          <span className="font-display text-3xl md:text-4xl font-bold text-foreground">{item.stat}</span>
+                          <span className="text-xs text-muted-foreground ml-2 uppercase tracking-wider">{item.statLabel}</span>
+                        </div>
+                        <h3 className="font-display font-bold text-foreground mb-2">{item.title}</h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
+                      </motion.article>
+                    </Reveal>
                   ))}
-                </ul>
-                <MagneticButton
-                  href="https://wa.me/553484428888"
-                  className="btn-glow inline-flex items-center justify-center w-full gap-2 px-6 py-3.5 rounded-xl text-primary-foreground text-sm font-semibold"
-                >
-                  Quero pra meu evento <ArrowRight className="w-4 h-4" />
-                </MagneticButton>
-              </motion.article>
+                </div>
+              </div>
+            </section>
 
-              {/* Estabelecimentos */}
-              <motion.article
-                initial={{ opacity: 0, x: 40 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -6 }}
-                className="glass-card rounded-3xl p-8 md:p-10"
-              >
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/15 to-accent/20 flex items-center justify-center mb-6">
-                  <Store className="w-6 h-6 text-primary" />
+            <LineDivider />
+
+            {/* ═══ PRICING ═══ */}
+            <section id="planos-v2" className="py-28 md:py-40">
+              <div className="container">
+                <Reveal>
+                  <header className="text-center max-w-2xl mx-auto mb-16">
+                    <p className="text-xs font-semibold text-primary tracking-[0.2em] uppercase mb-4">Planos</p>
+                    <h2 className="font-display text-3xl md:text-5xl font-bold text-foreground">
+                      Planos que Fazem Sentido
+                    </h2>
+                  </header>
+                </Reveal>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                  {/* Eventos */}
+                  <Reveal delay={0.1}>
+                    <motion.article
+                      whileHover={{ y: -8 }}
+                      className="relative rounded-3xl border-2 border-primary/30 bg-card/50 backdrop-blur-sm p-8 md:p-10 overflow-hidden"
+                    >
+                      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary to-transparent" />
+                      <div className="absolute -top-3 right-6 btn-glow text-primary-foreground text-xs font-semibold px-4 py-1.5 rounded-full">
+                        Foco principal
+                      </div>
+                      <Calendar className="w-8 h-8 text-primary mb-6" />
+                      <h3 className="font-display text-2xl font-bold text-foreground mb-2">Para Eventos</h3>
+                      <div className="mb-4">
+                        <span className="font-display text-5xl font-bold text-foreground">3%</span>
+                        <span className="text-muted-foreground text-sm ml-2">sobre vendas</span>
+                      </div>
+                      <p className="text-muted-foreground text-sm mb-8">Zero custo fixo. Pague só quando vender.</p>
+                      <ul className="space-y-3 mb-8">
+                        {["Sem mensalidade", "Setup e migração grátis", "Venda antecipada por item", "Suporte 24/7 no evento", "Relatórios por parceiro"].map((item) => (
+                          <li key={item} className="flex items-center gap-3 text-sm text-foreground">
+                            <Check className="w-4 h-4 text-primary shrink-0" />
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                      <MagneticButton
+                        href="https://wa.me/553484428888"
+                        className="btn-glow inline-flex items-center justify-center w-full gap-2 px-6 py-3.5 rounded-xl text-primary-foreground text-sm font-semibold"
+                      >
+                        Quero pra meu evento <ArrowRight className="w-4 h-4" />
+                      </MagneticButton>
+                    </motion.article>
+                  </Reveal>
+
+                  {/* Estabelecimentos */}
+                  <Reveal delay={0.2}>
+                    <motion.article
+                      whileHover={{ y: -8 }}
+                      className="rounded-3xl border border-border/50 bg-card/30 backdrop-blur-sm p-8 md:p-10"
+                    >
+                      <Store className="w-8 h-8 text-primary mb-6" />
+                      <h3 className="font-display text-2xl font-bold text-foreground mb-2">Para Estabelecimentos</h3>
+                      <div className="mb-4">
+                        <span className="font-display text-5xl font-bold text-foreground">R$99</span>
+                        <span className="text-muted-foreground text-sm ml-2">/mês</span>
+                      </div>
+                      <p className="text-muted-foreground text-sm mb-8">Pedidos ilimitados com analytics premium.</p>
+                      <ul className="space-y-3 mb-8">
+                        {["Pedidos ilimitados", "Painel com analytics", "Cardápio customizável", "Sem fidelidade"].map((item) => (
+                          <li key={item} className="flex items-center gap-3 text-sm text-foreground">
+                            <Check className="w-4 h-4 text-primary shrink-0" />
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                      <motion.a
+                        href="https://wa.me/553484428888"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center w-full gap-2 px-6 py-3.5 rounded-xl border border-border text-foreground text-sm font-semibold hover:bg-card/80 transition-colors"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.97 }}
+                      >
+                        Começar agora <ArrowRight className="w-4 h-4" />
+                      </motion.a>
+                    </motion.article>
+                  </Reveal>
                 </div>
-                <h3 className="font-display text-2xl font-bold text-brand-navy mb-2">Para Estabelecimentos</h3>
-                <div className="mb-4">
-                  <span className="font-display text-4xl font-bold text-brand-navy">R$99</span>
-                  <span className="text-muted-foreground text-sm ml-2">/mês</span>
-                </div>
-                <p className="text-muted-foreground text-sm mb-6">Pedidos ilimitados com analytics premium. ROI no primeiro mês.</p>
-                <ul className="space-y-3 mb-8">
-                  {["Pedidos ilimitados", "Painel com analytics", "Cardápio customizável", "Sem fidelidade"].map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-sm text-brand-navy">
-                      <Check className="w-4 h-4 text-primary shrink-0" />
-                      {item}
-                    </li>
+              </div>
+            </section>
+
+            <LineDivider />
+
+            {/* ═══ TESTIMONIALS ═══ */}
+            <section className="py-28 md:py-40">
+              <div className="container">
+                <Reveal>
+                  <header className="text-center max-w-2xl mx-auto mb-16">
+                    <p className="text-xs font-semibold text-primary tracking-[0.2em] uppercase mb-4">Depoimentos</p>
+                    <h2 className="font-display text-3xl md:text-5xl font-bold text-foreground">
+                      Quem usa o Barty{" "}
+                      <span className="text-gradient">não volta atrás</span>
+                    </h2>
+                  </header>
+                </Reveal>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                  {testimonials.map((t, i) => (
+                    <Reveal key={t.name} delay={i * 0.12}>
+                      <motion.blockquote
+                        whileHover={{ y: -8 }}
+                        className="rounded-2xl border border-border/40 bg-card/30 backdrop-blur-sm p-8 cursor-default h-full flex flex-col"
+                      >
+                        <div className="flex gap-1 mb-5">
+                          {[...Array(5)].map((_, j) => (
+                            <Star key={j} className="w-4 h-4 fill-primary text-primary" />
+                          ))}
+                        </div>
+                        <p className="text-foreground leading-relaxed mb-6 flex-1">"{t.quote}"</p>
+                        <footer className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                            <span className="text-sm font-bold text-primary">{t.name[0]}</span>
+                          </div>
+                          <div>
+                            <cite className="font-semibold text-foreground text-sm not-italic block">{t.name}</cite>
+                            <p className="text-xs text-muted-foreground">{t.role}</p>
+                          </div>
+                        </footer>
+                      </motion.blockquote>
+                    </Reveal>
                   ))}
-                </ul>
-                <motion.a
-                  href="https://wa.me/553484428888"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="glass-card inline-flex items-center justify-center w-full gap-2 px-6 py-3.5 rounded-xl text-brand-navy text-sm font-semibold hover:bg-card/80 transition-colors"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  Começar agora <ArrowRight className="w-4 h-4" />
-                </motion.a>
-              </motion.article>
-            </div>
-          </div>
-        </ParallaxSection>
+                </div>
+              </div>
+            </section>
 
-        {/* ═══ TESTIMONIALS ═══ */}
-        <ParallaxSection className="py-24 md:py-32">
-          <div className="container relative z-10">
-            <header className="text-center mb-16">
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="text-xs font-semibold text-primary tracking-widest uppercase mb-3"
-              >
-                Resultados reais
-              </motion.p>
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="font-display text-3xl md:text-5xl font-bold text-brand-navy"
-              >
-                Quem usa o Barty <span className="text-gradient">não volta atrás</span>
-              </motion.h2>
-            </header>
+            <LineDivider />
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              {testimonials.map((t, i) => (
-                <motion.blockquote
-                  key={t.name}
-                  initial={{ opacity: 0, y: 30, rotateX: 5 }}
-                  whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.15 }}
-                  whileHover={{ y: -8 }}
-                  className="glass-card rounded-2xl p-8 cursor-default"
-                >
-                  <div className="flex gap-1 mb-5">
-                    {[...Array(5)].map((_, j) => (
-                      <Star key={j} className="w-4 h-4 fill-primary text-primary" />
+            {/* ═══ FAQ ═══ */}
+            <section id="faq-v2" className="py-28 md:py-40">
+              <div className="container">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+                  <div className="lg:col-span-4">
+                    <Reveal>
+                      <p className="text-xs font-semibold text-primary tracking-[0.2em] uppercase mb-4">FAQ</p>
+                      <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground leading-tight">
+                        Tire suas dúvidas sobre o{" "}
+                        <span className="text-gradient">Barty</span>
+                      </h2>
+                    </Reveal>
+                  </div>
+                  <div className="lg:col-span-8">
+                    {faqs.map((faq, i) => (
+                      <FaqItem key={faq.question} question={faq.question} answer={faq.answer} index={i} />
                     ))}
                   </div>
-                  <p className="text-sm text-brand-navy leading-relaxed mb-6">"{t.quote}"</p>
-                  <footer className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/20 to-accent/30 flex items-center justify-center">
-                      <span className="text-sm font-bold text-primary">{t.name[0]}</span>
-                    </div>
-                    <div>
-                      <cite className="font-semibold text-brand-navy text-sm not-italic">{t.name}</cite>
-                      <p className="text-xs text-muted-foreground">{t.role}</p>
-                    </div>
-                  </footer>
-                </motion.blockquote>
-              ))}
-            </div>
-          </div>
-        </ParallaxSection>
+                </div>
+              </div>
+            </section>
 
-        {/* ═══ FAQ ═══ */}
-        <ParallaxSection id="faq-v2" className="py-24 md:py-32">
-          <div className="absolute inset-0 mesh-gradient-bg opacity-30" aria-hidden="true" />
-          <div className="container relative z-10">
-            <header className="text-center mb-16">
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="text-xs font-semibold text-primary tracking-widest uppercase mb-3"
-              >
-                Perguntas frequentes
-              </motion.p>
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="font-display text-3xl md:text-5xl font-bold text-brand-navy"
-              >
-                Tire suas dúvidas sobre o <span className="text-gradient">Barty</span>
-              </motion.h2>
-            </header>
+            {/* ═══ FINAL CTA ═══ */}
+            <section className="py-28 md:py-40 relative overflow-hidden">
+              <div className="absolute inset-0 bg-foreground" />
+              <div className="absolute inset-0 opacity-30">
+                <Suspense fallback={null}>
+                  <ParticleField />
+                </Suspense>
+              </div>
 
-            <div className="max-w-3xl mx-auto space-y-3">
-              {faqs.map((faq, i) => (
-                <FaqItem key={faq.question} question={faq.question} answer={faq.answer} index={i} />
-              ))}
-            </div>
-          </div>
-        </ParallaxSection>
+              <div className="container relative z-10">
+                <Reveal>
+                  <div className="max-w-3xl mx-auto text-center">
+                    <h2 className="font-display text-3xl md:text-5xl lg:text-6xl font-bold text-background mb-6 leading-tight">
+                      Pronto pra trocar filas por{" "}
+                      <span className="text-primary">lucro previsível?</span>
+                    </h2>
+                    <p className="text-background/50 text-lg mb-10">
+                      Migre em 24h. Sem contrato. Sem custos fixos. Setup grátis.
+                    </p>
+                    <MagneticButton
+                      href="https://wa.me/553484428888"
+                      className="btn-glow inline-flex items-center justify-center gap-3 px-10 py-5 rounded-2xl text-primary-foreground text-lg font-semibold"
+                    >
+                      Solicitar demo grátis agora
+                      <ArrowRight className="w-5 h-5" />
+                    </MagneticButton>
+                  </div>
+                </Reveal>
+              </div>
+            </section>
+          </main>
 
-        {/* ═══ FINAL CTA ═══ */}
-        <section className="py-24 md:py-32 relative overflow-hidden">
-          <div className="absolute inset-0 bg-brand-navy" aria-hidden="true" />
-          <div className="absolute top-10 left-[20%] w-72 h-72 rounded-full bg-primary/10 blur-3xl bubble-float" aria-hidden="true" />
-          <div className="absolute bottom-10 right-[15%] w-56 h-56 rounded-full bg-primary/8 blur-3xl bubble-float-delayed" aria-hidden="true" />
-
-          <div className="container relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="max-w-3xl mx-auto text-center"
-            >
-              <h2 className="font-display text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-                Pronto pra trocar filas por{" "}
-                <span className="text-primary">lucro previsível?</span>
-              </h2>
-              <p className="text-white/60 text-lg mb-10 font-light">
-                Migre em 24h. Sem contrato. Sem custos fixos. Setup grátis.
+          {/* Footer */}
+          <footer className="py-10 bg-foreground border-t border-background/10" role="contentinfo">
+            <div className="container flex flex-col md:flex-row items-center justify-between gap-6">
+              <img src={bartyLogo} alt="Barty" className="h-8 w-auto brightness-0 invert" />
+              <nav className="flex flex-wrap gap-6">
+                {[
+                  { label: "Fichas", href: "/fichas" },
+                  { label: "Eventos", href: "/eventos" },
+                  { label: "Food", href: "/food" },
+                  { label: "Ingressos", href: "/ingressos" },
+                ].map((link) => (
+                  <a key={link.href} href={link.href} className="text-background/40 text-xs hover:text-background/70 transition-colors">{link.label}</a>
+                ))}
+              </nav>
+              <p className="text-background/30 text-xs">
+                © {new Date().getFullYear()} Barty. Todos os direitos reservados.
               </p>
-              <MagneticButton
-                href="https://wa.me/553484428888"
-                className="btn-glow inline-flex items-center justify-center gap-2 px-10 py-5 rounded-2xl text-primary-foreground text-lg font-semibold"
-              >
-                Solicitar demo grátis agora
-                <ArrowRight className="w-5 h-5" />
-              </MagneticButton>
-            </motion.div>
-          </div>
-        </section>
-      </main>
-
-      {/* Footer */}
-      <footer className="py-8 bg-brand-navy border-t border-white/10" role="contentinfo">
-        <div className="container flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2.5">
-            <img src={bartyLogo} alt="Barty" className="h-8 w-auto brightness-0 invert" />
-          </div>
-          <nav className="flex flex-wrap gap-4">
-            {[
-              { label: "Barty Fichas", href: "/fichas" },
-              { label: "Barty Eventos", href: "/eventos" },
-              { label: "Barty Food", href: "/food" },
-            ].map((link) => (
-              <a key={link.href} href={link.href} className="text-white/50 text-xs hover:text-white/80 transition-colors">{link.label}</a>
-            ))}
-          </nav>
-          <p className="text-white/40 text-xs">
-            © {new Date().getFullYear()} Barty. Todos os direitos reservados.
-          </p>
+            </div>
+          </footer>
         </div>
-      </footer>
-    </div>
+      </div>
+    </>
   );
 };
 
