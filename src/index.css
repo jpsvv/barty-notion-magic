@@ -7,19 +7,19 @@
 @layer base {
   :root {
     --background: 220 20% 97%;
-    --foreground: 220 20% 10%;
+    --foreground: 215 50% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 20% 10%;
+    --card-foreground: 215 50% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 10%;
+    --popover-foreground: 215 50% 15%;
 
     --primary: 22 90% 52%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 220 15% 94%;
-    --secondary-foreground: 220 20% 10%;
+    --secondary-foreground: 215 50% 15%;
 
     --muted: 220 10% 95%;
     --muted-foreground: 220 10% 45%;
@@ -35,6 +35,10 @@
     --ring: 22 90% 52%;
 
     --radius: 1rem;
+
+    --brand-navy: 215 50% 15%;
+    --brand-orange: 22 90% 52%;
+    --brand-black: 0 0% 8%;
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -54,9 +58,10 @@
 
     /* Gradient tokens */
     --gradient-warm: linear-gradient(135deg, hsl(22 90% 52%), hsl(35 95% 55%));
-    --gradient-mesh: radial-gradient(ellipse at 20% 50%, hsl(22 90% 52% / 0.15) 0%, transparent 50%),
-                     radial-gradient(ellipse at 80% 20%, hsl(260 70% 60% / 0.1) 0%, transparent 50%),
-                     radial-gradient(ellipse at 60% 80%, hsl(190 80% 50% / 0.08) 0%, transparent 50%);
+    --gradient-navy: linear-gradient(135deg, hsl(215 50% 15%), hsl(215 50% 25%));
+    --gradient-mesh: radial-gradient(ellipse at 20% 50%, hsl(22 90% 52% / 0.1) 0%, transparent 50%),
+                     radial-gradient(ellipse at 80% 20%, hsl(215 50% 15% / 0.08) 0%, transparent 50%),
+                     radial-gradient(ellipse at 60% 80%, hsl(22 90% 52% / 0.05) 0%, transparent 50%);
   }
 
   .dark {
