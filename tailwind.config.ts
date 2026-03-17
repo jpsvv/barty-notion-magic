@@ -53,6 +53,9 @@ export default {
         },
         "surface-elevated": "hsl(var(--surface-elevated))",
         "text-subtle": "hsl(var(--text-subtle))",
+        "brand-navy": "hsl(var(--brand-navy))",
+        "brand-orange": "hsl(var(--brand-orange))",
+        "brand-black": "hsl(var(--brand-black))",
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",
