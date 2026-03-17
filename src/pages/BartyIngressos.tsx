@@ -115,7 +115,7 @@ const BartyIngressos = () => (
         { old: "Sem tagueamento nativo para tráfego pago", barty: "UTMs integradas para medir cada canal" },
         { old: "QR Code básico sem personalização", barty: "QR Code para divulgação + ingresso digital" },
         { old: "Relatórios limitados e atrasados", barty: "Dashboard em tempo real com dados de conversão" },
-        { old: "Suporte genérico para milhares de clientes", barty: "Atendimento direto e setup em 24h" },
+        { old: "Usam aplicativo para acessar ingresso digital", barty: "QR Code no final da compra, direto no acesso do usuário" },
       ]}
       objectionsTitle="Dúvidas sobre ingressos"
       objections={[
