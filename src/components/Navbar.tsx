@@ -13,6 +13,7 @@ const Navbar = () => {
     { label: "Fichas", href: "/fichas" },
     { label: "Eventos", href: "/eventos" },
     { label: "Food", href: "/food" },
+    { label: "Ingressos", href: "/ingressos" },
   ];
 
   const homeLinks = [

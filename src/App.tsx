@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import BartyFichas from "./pages/BartyFichas";
 import BartyEventos from "./pages/BartyEventos";
 import BartyFood from "./pages/BartyFood";
+import BartyIngressos from "./pages/BartyIngressos";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/fichas" element={<BartyFichas />} />
             <Route path="/eventos" element={<BartyEventos />} />
             <Route path="/food" element={<BartyFood />} />
+            <Route path="/ingressos" element={<BartyIngressos />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
