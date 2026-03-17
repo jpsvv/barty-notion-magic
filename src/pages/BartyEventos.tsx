@@ -9,135 +9,148 @@ const BartyEventos = () => (
       <title>Barty Eventos — Ingresso + Consumo Cashless Integrado para Eventos</title>
       <meta
         name="description"
-        content="Venda ingressos e consumo antecipado num só sistema. Cardápio digital, QR Code, dashboard em tempo real. Ideal para festivais, feiras, eventos corporativos. Sem custos fixos."
+        content="Venda ingressos e consumo antecipado num só sistema. Cardápio digital, QR Code, dashboard em tempo real. Sem custos fixos."
       />
       <link rel="canonical" href="https://barty.fun/eventos" />
       <meta property="og:title" content="Barty Eventos — Gestão Completa de Ingressos e Consumo Cashless" />
-      <meta property="og:description" content="Ingressos + consumo antecipado + cardápio digital + dashboard em tempo real. Tudo num sistema sem custos fixos." />
+      <meta property="og:description" content="Ingressos + consumo antecipado + cardápio digital + dashboard em tempo real." />
       <meta property="og:url" content="https://barty.fun/eventos" />
       <meta property="og:type" content="website" />
     </Helmet>
     <SolutionPageLayout
       pageTitle="Barty Eventos"
-      heroTag="Barty Eventos — Ingresso + Consumo Integrado"
+      heroTag="Barty Eventos"
       heroTitle={
         <>
-          O evento perfeito começa com <span className="text-gradient">vendas antes do primeiro convidado chegar.</span>
+          Ingresso + consumo <span className="text-gradient">num só sistema.</span> Cashless de verdade.
         </>
       }
-      heroDescription="Ingressos, fichas de consumo, cardápio digital dos parceiros e dashboard em tempo real — tudo num sistema que cabe no celular do seu público. Sem pulseiras, sem totens, sem maquininhas. Lucro previsível desde o primeiro lote."
-      heroCtaText="Quero gerenciar meu evento com Barty"
+      heroDescription="Ingressos, fichas de consumo e cardápio digital dos parceiros — tudo pelo celular do público. Sem pulseiras, sem totens."
+      heroCtaText="Quero gerenciar meu evento"
+      heroPhoneScreens={[
+        {
+          icon: "🎪",
+          title: "Festival Barty",
+          subtitle: "Ingresso + Consumo",
+          items: [
+            { label: "Ingresso VIP", price: "R$ 120,00", badge: "1º Lote" },
+            { label: "2x Cerveja Premium", price: "R$ 36,00" },
+            { label: "Combo Food Truck", price: "R$ 28,00" },
+            { label: "Cortesia Staff", price: "Grátis", badge: "Cupom" },
+          ],
+        },
+      ]}
       metricsBanner={[
-        { value: "+30%", label: "Receita média por evento" },
+        { value: "+30%", label: "Receita por evento" },
         { value: "0", label: "Custos com hardware" },
         { value: "100%", label: "Digital e cashless" },
         { value: "Real-time", label: "Dashboard de vendas" },
       ]}
       stepsSubtitle="Passo a passo"
-      stepsTitle="Do primeiro lote ao último pedido — tudo no Barty"
+      stepsTitle="Do primeiro lote ao último pedido"
       steps={[
         {
           number: "01",
           title: "Crie o evento e configure tudo",
-          description: "Ingressos por lote, cupons de desconto, cortesias, setores. Se o evento tiver comes e bebes, vincule os estabelecimentos parceiros e monte o cardápio digital de cada um. Tudo no mesmo painel.",
+          description: "Ingressos por lote, cupons, cortesias, setores. Vincule estabelecimentos parceiros e monte o cardápio digital.",
         },
         {
           number: "02",
-          title: "Divulgue com link exclusivo e tagueamento",
-          description: "Cada evento gera uma página própria com URL compartilhável. UTMs integradas para campanhas de tráfego pago. QR Code para materiais impressos. Comece a vender imediatamente.",
+          title: "Divulgue com link exclusivo",
+          description: "Página própria com URL e QR Code. UTMs integradas para tráfego pago.",
         },
         {
           number: "03",
-          title: "Público compra ingresso + consumo antecipado",
-          description: "Seu público compra o ingresso E as fichas de consumo pelo celular, antes do evento. Sabe quanto vai gastar, escolhe o que vai comer e beber. Sem surpresas, sem filas.",
+          title: "Público compra ingresso + consumo",
+          description: "Ingresso e fichas de consumo pelo celular, antes do evento. Sem surpresas, sem filas.",
         },
         {
           number: "04",
           title: "No evento: QR Code para tudo",
-          description: "Entrada com QR do ingresso. Retirada de comida e bebida com QR das fichas. O staff valida tudo pelo celular. Se o público quiser comprar mais no local, é só escanear o QR Code do cardápio.",
+          description: "Entrada, retirada de comida e compras extras — tudo via QR Code pelo celular.",
         },
         {
           number: "05",
-          title: "Acompanhe em tempo real e otimize",
-          description: "Dashboard com faturamento, vendas por parceiro, formas de pagamento, controle de staff (vendas, pedidos pendentes, retiradas). Relatórios completos para escalar no próximo evento.",
+          title: "Acompanhe em tempo real",
+          description: "Dashboard com faturamento, vendas por parceiro, controle de staff e relatórios completos.",
         },
       ]}
       benefitsSubtitle="Diferenciais"
-      benefitsTitle="Tudo que seu evento precisa — e nada que não precisa"
+      benefitsTitle="Tudo que seu evento precisa"
       benefits={[
         {
           icon: Calendar,
-          title: "Ingresso + consumo num só sistema",
-          description: "Pare de usar uma plataforma para ingressos e outra para cashless. No Barty, o público compra tudo junto. Menos fornecedores, menos custo, mais controle.",
+          title: "Ingresso + consumo integrado",
+          description: "Pare de usar plataformas separadas. No Barty, o público compra tudo junto.",
         },
         {
           icon: Utensils,
-          title: "Cardápio digital de todos os parceiros",
-          description: "Cada bar, food truck ou cozinha tem seu cardápio dentro do Barty. O público vê tudo, compra antecipado e retira sem fila. Previsibilidade de produção garantida.",
+          title: "Cardápio digital dos parceiros",
+          description: "Cada bar e food truck com seu cardápio. Público compra antecipado e retira sem fila.",
         },
         {
           icon: Tag,
-          title: "Cupons, cortesias e lotes automáticos",
-          description: "Configure descontos, cortesias para convidados VIP e lotes com virada automática. Controle total de vendas por canal, promotor e campanha.",
+          title: "Cupons, cortesias e lotes",
+          description: "Descontos, VIP e virada automática de lotes. Controle total por canal.",
         },
         {
           icon: TrendingUp,
-          title: "Receita antecipada e previsível",
-          description: "Com venda pré-paga de ingressos e fichas, você sabe antes do evento quanto vai faturar e o que vai produzir. Planejamento com dados, não com achismo.",
+          title: "Receita antecipada",
+          description: "Saiba antes do evento quanto vai faturar e o que produzir.",
         },
         {
           icon: Smartphone,
           title: "Sem hardware extra",
-          description: "Sem maquininha, pulseira, cartão físico ou totem. O celular do público é o ingresso e a ficha. O celular do staff é o validador. Economia real desde o dia 1.",
+          description: "Sem maquininha, pulseira ou totem. Economia real desde o dia 1.",
         },
         {
           icon: BarChart3,
-          title: "Dashboard e relatórios completos",
-          description: "Acompanhe vendas de fichas, produtos, quantidades, formas de pagamento. Controle de staff: quem vendeu, quem entregou, o que está pendente. Tudo em tempo real.",
+          title: "Dashboard completo",
+          description: "Vendas, produtos, pagamentos e staff em tempo real.",
         },
       ]}
-      comparisonTitle="Eventos tradicionais vs Eventos com Barty"
+      comparisonTitle="Eventos tradicionais vs Barty"
       comparisonItems={[
-        { old: "Ingresso numa plataforma, cashless em outra, caixa em outra", barty: "Tudo integrado: ingresso, consumo, cardápio e relatórios" },
-        { old: "Pulseiras, maquininhas e totens = custo alto", barty: "Só celulares — zero custo de hardware" },
-        { old: "Filas no caixa, filas no bar, filas na entrada", barty: "QR Code para tudo: entrada, pedido e retirada" },
-        { old: "Produção no escuro: sem saber o que vai vender", barty: "Venda antecipada: sabe exatamente o que produzir" },
-        { old: "Erros de pedido, extravio de fichas, desvios", barty: "Digital, rastreável e com relatório por transação" },
-        { old: "Relatórios manuais dias depois do evento", barty: "Dashboard em tempo real durante e após o evento" },
+        { old: "Ingresso numa plataforma, cashless em outra", barty: "Tudo integrado num só sistema" },
+        { old: "Pulseiras, maquininhas e totens = custo alto", barty: "Só celulares — zero hardware" },
+        { old: "Filas no caixa, bar e entrada", barty: "QR Code para tudo" },
+        { old: "Produção no escuro", barty: "Venda antecipada = previsibilidade" },
+        { old: "Erros, extravios e desvios", barty: "Digital e rastreável" },
+        { old: "Relatórios manuais dias depois", barty: "Dashboard em tempo real" },
       ]}
       extraSection={
-        <section className="py-24 md:py-32 relative overflow-hidden">
+        <section className="py-20 md:py-28 relative overflow-hidden">
           <div className="container relative z-10">
-            <header className="text-center mb-16">
+            <header className="text-center mb-14">
               <motion.h2
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="font-display text-3xl md:text-5xl font-bold text-foreground"
+                className="font-display text-2xl md:text-4xl font-bold text-brand-navy"
               >
                 Para quem é o <span className="text-gradient">Barty Eventos?</span>
               </motion.h2>
             </header>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
               {[
-                { icon: Users, title: "Produtores de eventos", desc: "Festivais de música, formaturas, feiras, eventos esportivos. De 100 a 100.000 pessoas." },
-                { icon: Calendar, title: "Empresas e corporativos", desc: "Eventos internos, confraternizações, launches. Controle total com relatório por centro de custo." },
-                { icon: ShieldCheck, title: "Condomínios e associações", desc: "Festas de fim de ano, churrascos, eventos de comunidade. Simples de configurar, fácil de usar." },
-                { icon: Utensils, title: "Donos de estabelecimentos", desc: "Bares e restaurantes que promovem eventos próprios. Cardápio digital e venda antecipada." },
-                { icon: LineChart, title: "Feiras e exposições", desc: "Múltiplos expositores com cardápios e produtos próprios. Cada um com seu painel." },
-                { icon: Smartphone, title: "Blocos de rua e festas populares", desc: "Sem estrutura de caixa? Sem problema. Só precisa de celulares e QR Codes." },
+                { icon: Users, title: "Produtores de eventos", desc: "Festivais, formaturas, feiras, esportivos. De 100 a 100.000 pessoas." },
+                { icon: Calendar, title: "Empresas e corporativos", desc: "Eventos internos, confraternizações, launches." },
+                { icon: ShieldCheck, title: "Condomínios e associações", desc: "Festas comunitárias, churrascos, eventos sociais." },
+                { icon: Utensils, title: "Estabelecimentos", desc: "Bares e restaurantes que promovem eventos próprios." },
+                { icon: LineChart, title: "Feiras e exposições", desc: "Múltiplos expositores, cada um com seu painel." },
+                { icon: Smartphone, title: "Blocos e festas populares", desc: "Sem estrutura de caixa? Só precisa de celulares." },
               ].map((item, i) => (
                 <motion.div
                   key={item.title}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: i * 0.08 }}
-                  className="glass-card rounded-2xl p-6"
+                  transition={{ delay: i * 0.06 }}
+                  className="glass-card rounded-2xl p-5"
                 >
-                  <item.icon className="w-8 h-8 text-primary mb-4" aria-hidden="true" />
-                  <h3 className="font-display font-semibold text-foreground mb-2">{item.title}</h3>
-                  <p className="text-sm text-muted-foreground">{item.desc}</p>
+                  <item.icon className="w-7 h-7 text-primary mb-3" aria-hidden="true" />
+                  <h3 className="font-display font-semibold text-brand-navy mb-1 text-sm">{item.title}</h3>
+                  <p className="text-xs text-muted-foreground">{item.desc}</p>
                 </motion.div>
               ))}
             </div>
@@ -147,28 +160,28 @@ const BartyEventos = () => (
       objectionsTitle="Dúvidas sobre Barty Eventos"
       objections={[
         {
-          question: "Posso usar Barty só para ingressos, sem a parte de consumo?",
-          answer: "Sim. Você ativa os módulos que precisa. Só ingressos? Funciona perfeitamente. Quer adicionar fichas de consumo e cardápio depois? É só ligar no painel.",
+          question: "Posso usar só para ingressos, sem consumo?",
+          answer: "Sim. Ative só o que precisa. Quer adicionar fichas depois? É só ligar no painel.",
         },
         {
-          question: "E se alguém quiser comprar no evento, sem ter comprado antecipado?",
-          answer: "Sem problema. Disponibilize o QR Code do cardápio no evento. O cliente escaneia, compra na hora pelo celular e retira no balcão. Mesma experiência fluida.",
+          question: "E se alguém quiser comprar no evento?",
+          answer: "QR Code do cardápio no evento. O cliente escaneia, compra e retira na hora.",
         },
         {
-          question: "Como funciona para eventos com múltiplos estabelecimentos parceiros?",
-          answer: "Cada parceiro tem seu cardápio, seus produtos e seus relatórios separados. Você, como organizador, tem a visão consolidada de tudo. Total transparência.",
+          question: "Como funciona com múltiplos parceiros?",
+          answer: "Cada parceiro tem cardápio e relatórios separados. Você tem visão consolidada.",
         },
         {
-          question: "Consigo configurar % de receita sobre os parceiros?",
-          answer: "Sim. Você define sua porcentagem sobre as vendas de cada estabelecimento parceiro. Tudo configurável no painel, com relatório automático de comissões.",
+          question: "Consigo configurar % de receita sobre parceiros?",
+          answer: "Sim. Porcentagem configurável no painel com relatório automático de comissões.",
         },
         {
-          question: "Qual a diferença para sistemas como Zig ou Meep?",
-          answer: "Simplicidade e custo. Zig e Meep exigem hardware caro (pulseiras, maquininhas, totens), equipes de TI e contratos longos. Barty funciona 100% pelo celular, sem custos fixos, com setup em 24h.",
+          question: "Diferença para Zig ou Meep?",
+          answer: "Simplicidade e custo. Sem hardware caro, sem contratos longos. 100% pelo celular, setup em 24h.",
         },
         {
           question: "E a segurança dos pagamentos?",
-          answer: "Pix instantâneo, criptografia ponta a ponta e compliance LGPD. O dinheiro cai direto na sua conta sem intermediários financeiros.",
+          answer: "Pix instantâneo, criptografia ponta a ponta e compliance LGPD.",
         },
       ]}
     />
