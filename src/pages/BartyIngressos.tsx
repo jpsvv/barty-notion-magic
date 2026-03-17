@@ -21,7 +21,7 @@ const BartyIngressos = () => (
       heroTag="Barty Ingressos"
       heroTitle={
         <>
-          Venda ingressos com <span className="text-gradient">metade da taxa.</span> Receita antes do evento.
+          Venda ingressos com <span className="text-gradient">metade da taxa de mercado.</span> Receita antes do evento.
         </>
       }
       heroDescription="Página própria, QR Code na entrada, link rastreável para tráfego pago. Taxa de 5% — metade do que o Sympla cobra. Para eventos presenciais e online."
