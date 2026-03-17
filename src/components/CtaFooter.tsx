@@ -49,11 +49,12 @@ const CtaFooter = () => {
             </div>
             <span className="text-background/80 text-sm font-medium">Barty — Sistema Cashless para Eventos</span>
           </div>
-          <nav aria-label="Links do rodapé">
-            <a href="#como-funciona" className="text-background/50 text-xs hover:text-background/80 transition-colors mr-4">Como funciona</a>
-            <a href="#vantagens" className="text-background/50 text-xs hover:text-background/80 transition-colors mr-4">Vantagens</a>
-            <a href="#planos" className="text-background/50 text-xs hover:text-background/80 transition-colors mr-4">Planos</a>
-            <a href="#perguntas-frequentes" className="text-background/50 text-xs hover:text-background/80 transition-colors">FAQ</a>
+          <nav aria-label="Links do rodapé" className="flex flex-wrap gap-4">
+            <a href="/fichas" className="text-background/50 text-xs hover:text-background/80 transition-colors">Barty Fichas</a>
+            <a href="/eventos" className="text-background/50 text-xs hover:text-background/80 transition-colors">Barty Eventos</a>
+            <a href="/food" className="text-background/50 text-xs hover:text-background/80 transition-colors">Barty Food</a>
+            <a href="#como-funciona" className="text-background/50 text-xs hover:text-background/80 transition-colors">Como funciona</a>
+            <a href="#planos" className="text-background/50 text-xs hover:text-background/80 transition-colors">Planos</a>
           </nav>
           <p className="text-background/40 text-xs">
             © {new Date().getFullYear()} Barty. Todos os direitos reservados.

@@ -1,27 +1,64 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+
+  const solutionLinks = [
+    { label: "Fichas", href: "/fichas" },
+    { label: "Eventos", href: "/eventos" },
+    { label: "Food", href: "/food" },
+  ];
+
+  const homeLinks = [
+    { label: "Como funciona", href: "#como-funciona" },
+    { label: "Vantagens", href: "#vantagens" },
+    { label: "Planos", href: "#planos" },
+    { label: "FAQ", href: "#perguntas-frequentes" },
+  ];
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass-nav" aria-label="Navegação principal">
       <div className="container flex items-center justify-between h-16">
-        <a href="/" className="flex items-center gap-2.5" aria-label="Barty — Página inicial">
+        <Link to="/" className="flex items-center gap-2.5" aria-label="Barty — Página inicial">
           <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20" aria-hidden="true">
             <span className="text-primary-foreground font-bold text-sm">B</span>
           </div>
           <span className="font-display text-xl font-bold text-foreground">Barty</span>
-        </a>
+        </Link>
 
         {/* Desktop */}
         <div className="hidden md:flex items-center gap-8">
-          <a href="#como-funciona" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Como funciona</a>
-          <a href="#vantagens" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Vantagens</a>
-          <a href="#planos" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Planos</a>
-          <a href="#depoimentos" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Depoimentos</a>
-          <a href="#perguntas-frequentes" className="text-sm text-muted-foreground hover:text-foreground transition-colors">FAQ</a>
+          {/* Solution pages */}
+          {solutionLinks.map((link) => (
+            <Link
+              key={link.href}
+              to={link.href}
+              className={`text-sm font-medium transition-colors ${
+                location.pathname === link.href
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
+
+          {/* Home anchor links (only on home) */}
+          {isHome &&
+            homeLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
         </div>
 
         <div className="hidden md:block">
@@ -56,11 +93,31 @@ const Navbar = () => {
             className="md:hidden overflow-hidden glass-card border-t-0 rounded-none"
           >
             <div className="container py-4 flex flex-col gap-4">
-              <a href="#como-funciona" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground">Como funciona</a>
-              <a href="#vantagens" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground">Vantagens</a>
-              <a href="#planos" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground">Planos</a>
-              <a href="#depoimentos" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground">Depoimentos</a>
-              <a href="#perguntas-frequentes" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground">FAQ</a>
+              {solutionLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  onClick={() => setOpen(false)}
+                  className={`text-sm font-medium ${
+                    location.pathname === link.href
+                      ? "text-primary"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              {isHome &&
+                homeLinks.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    className="text-sm text-muted-foreground hover:text-foreground"
+                  >
+                    {link.label}
+                  </a>
+                ))}
               <a
                 href="https://wa.me/553484428888"
                 target="_blank"
