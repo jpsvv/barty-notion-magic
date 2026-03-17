@@ -101,7 +101,7 @@ const BartyEventos = () => (
         {
           icon: Smartphone,
           title: "Sem hardware extra",
-          description: "Sem maquininha, pulseira ou totem. Economia real desde o dia 1.",
+          description: "Sem maquininha, cartão físico, pulseira, caixa móvel ou totem. Economia real desde o dia 1.",
         },
         {
           icon: BarChart3,
