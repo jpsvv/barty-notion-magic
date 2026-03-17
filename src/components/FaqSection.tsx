@@ -9,7 +9,7 @@ const faqs = [
   },
   {
     question: "Como o pedido chega para a cozinha?",
-    answer: "Após o pagamento confirmado, o pedido aparece automaticamente no painel da cozinha (funciona em qualquer tablet, computador ou celular). Você pode imprimir o pedido ou exibir na tela — como preferir.",
+    answer: "Após a compra da ficha, o usuário faz a liberação da produção do pedido, sendo direcionado para a cozinha (funciona em qualquer tablet, computador ou celular). Você pode imprimir o pedido ou exibir na tela como preferir.",
   },
   {
     question: "O Barty funciona para eventos com grande público?",
