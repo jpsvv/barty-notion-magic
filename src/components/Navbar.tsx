@@ -25,11 +25,8 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass-nav" aria-label="Navegação principal">
       <div className="container flex items-center justify-between h-16">
-        <Link to="/" className="flex items-center gap-2.5" aria-label="Barty — Página inicial">
-          <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20" aria-hidden="true">
-            <span className="text-primary-foreground font-bold text-sm">B</span>
-          </div>
-          <span className="font-display text-xl font-bold text-foreground">Barty</span>
+        <Link to="/" className="flex items-center gap-2" aria-label="Barty — Página inicial">
+          <img src={bartyLogo} alt="Barty" className="h-9 w-auto" />
         </Link>
 
         {/* Desktop */}
