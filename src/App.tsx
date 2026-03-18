@@ -12,6 +12,7 @@ import BartyEventos from "./pages/BartyEventos";
 import BartyFood from "./pages/BartyFood";
 import BartyIngressos from "./pages/BartyIngressos";
 import HomeV3 from "./pages/HomeV3";
+import HomeV4 from "./pages/HomeV4";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/v2" element={<HomeV2 />} />
             <Route path="/v3" element={<HomeV3 />} />
+            <Route path="/v4" element={<HomeV4 />} />
             <Route path="/fichas" element={<BartyFichas />} />
             <Route path="/eventos" element={<BartyEventos />} />
             <Route path="/food" element={<BartyFood />} />

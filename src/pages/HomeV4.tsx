@@ -47,27 +47,6 @@ const BentoCard = ({
   </motion.div>
 );
 
-/* ─── COUNTER ANIMATION ─── */
-const AnimatedCounter = ({ value, suffix = "" }: { value: number; suffix?: string }) => {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    let start = 0;
-    const end = value;
-    const duration = 2000;
-    const step = end / (duration / 16);
-    const timer = setInterval(() => {
-      start += step;
-      if (start >= end) {
-        setCount(end);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(start));
-      }
-    }, 16);
-    return () => clearInterval(timer);
-  }, [value]);
-  return <span>{count}{suffix}</span>;
-};
 
 /* ─── FAQ ITEM ─── */
 const FaqItem = ({ question, answer, index }: { question: string; answer: string; index: number }) => {
