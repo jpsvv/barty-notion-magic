@@ -272,7 +272,7 @@ const HomeV4 = () => {
                   ].map((item) => (
                     <motion.div
                       key={item.label}
-                      className="rounded-xl bg-card border border-border p-3 text-center"
+                      className="rounded-xl p-3 text-center" style={{ background: "hsl(0 0% 100% / 0.6)", backdropFilter: "blur(12px)", border: "1px solid hsl(0 0% 100% / 0.5)" }}
                       whileHover={{ scale: 1.05, y: -2 }}
                     >
                       <span className="text-2xl block mb-1">{item.emoji}</span>
