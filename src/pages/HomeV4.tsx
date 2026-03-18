@@ -261,7 +261,7 @@ const HomeV4 = () => {
                   </div>
                 </div>
                 {/* Visual — mockup card grid */}
-                <div className="flex-1 rounded-2xl bg-muted/50 border border-border p-6 grid grid-cols-3 gap-3">
+                <div className="flex-1 rounded-2xl p-6 grid grid-cols-3 gap-3" style={{ background: "hsl(var(--glass-bg))", backdropFilter: "blur(16px)", border: "1px solid hsl(var(--glass-border))" }}>
                   {[
                     { emoji: "🍺", label: "Cerveja", price: "R$ 12" },
                     { emoji: "🍔", label: "Burger", price: "R$ 25" },
