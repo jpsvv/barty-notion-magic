@@ -29,11 +29,13 @@ const BentoCard = ({
   className = "",
   delay = 0,
   hover = true,
+  style,
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
   hover?: boolean;
+  style?: React.CSSProperties;
 }) => (
   <motion.div
     initial={{ opacity: 0, y: 30, scale: 0.97 }}
@@ -48,6 +50,7 @@ const BentoCard = ({
       WebkitBackdropFilter: "blur(24px) saturate(1.6)",
       border: "1px solid hsl(var(--glass-border))",
       boxShadow: "0 8px 32px hsl(220 20% 10% / 0.08), inset 0 1px 0 hsl(0 0% 100% / 0.35), 0 1px 3px hsl(220 20% 10% / 0.04)",
+      ...style,
     }}
   >
     {children}
