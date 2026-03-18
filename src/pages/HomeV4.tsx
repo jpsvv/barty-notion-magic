@@ -454,7 +454,7 @@ const HomeV4 = () => {
             </BentoCard>
 
             {/* Barty way */}
-            <BentoCard className="border-primary/20 bg-primary/[0.03]" delay={0.1} hover={false}>
+            <BentoCard className="" delay={0.1} hover={false} style={{ background: "hsl(22 90% 52% / 0.04)", borderColor: "hsl(22 90% 52% / 0.2)" }}>
               <h3 className="font-display text-lg font-bold text-foreground mb-4 flex items-center gap-2">
                 <span className="text-xl">🚀</span> Com Barty
               </h3>
