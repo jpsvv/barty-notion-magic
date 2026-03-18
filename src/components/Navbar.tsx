@@ -10,7 +10,7 @@ const Navbar = () => {
   const isHome = location.pathname === "/";
 
   const solutionLinks = [
-    { label: "Ficha", href: "/fichas" },
+    { label: "Fichas", href: "/fichas" },
     { label: "Eventos", href: "/eventos" },
     { label: "Food", href: "/food" },
     { label: "Ingressos", href: "/ingressos" },
@@ -38,9 +38,7 @@ const Navbar = () => {
               key={link.href}
               to={link.href}
               className={`text-sm font-medium transition-colors ${
-                location.pathname === link.href
-                  ? "text-primary"
-                  : "text-muted-foreground hover:text-foreground"
+                location.pathname === link.href ? "text-primary" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               {link.label}
@@ -98,9 +96,7 @@ const Navbar = () => {
                   to={link.href}
                   onClick={() => setOpen(false)}
                   className={`text-sm font-medium ${
-                    location.pathname === link.href
-                      ? "text-primary"
-                      : "text-muted-foreground hover:text-foreground"
+                    location.pathname === link.href ? "text-primary" : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   {link.label}
