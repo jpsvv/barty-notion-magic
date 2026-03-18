@@ -430,7 +430,7 @@ const HomeV4 = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 max-w-4xl mx-auto">
             {/* Old way */}
-            <BentoCard className="border-destructive/20 bg-destructive/[0.03]" delay={0.05} hover={false}>
+            <BentoCard className="border-destructive/20" delay={0.05} hover={false} style={{ background: "hsl(0 84% 60% / 0.04)" }}>
               <h3 className="font-display text-lg font-bold text-foreground mb-4 flex items-center gap-2">
                 <span className="text-xl">😤</span> Jeito antigo
               </h3>
