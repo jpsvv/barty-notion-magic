@@ -23,17 +23,19 @@ const Reveal = ({ children, className, delay = 0 }: { children: React.ReactNode;
   </motion.div>
 );
 
-/* ─── BENTO CARD ─── */
+/* ─── BENTO CARD (Glassmorphism) ─── */
 const BentoCard = ({
   children,
   className = "",
   delay = 0,
   hover = true,
+  style,
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
   hover?: boolean;
+  style?: React.CSSProperties;
 }) => (
   <motion.div
     initial={{ opacity: 0, y: 30, scale: 0.97 }}
@@ -41,7 +43,15 @@ const BentoCard = ({
     viewport={{ once: true, margin: "-30px" }}
     transition={{ duration: 0.5, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
     whileHover={hover ? { y: -4, scale: 1.01 } : undefined}
-    className={`rounded-3xl border border-border bg-card p-6 md:p-8 transition-shadow duration-300 hover:shadow-xl ${className}`}
+    className={`rounded-3xl p-6 md:p-8 transition-all duration-300 ${className}`}
+    style={{
+      background: "hsl(var(--glass-bg))",
+      backdropFilter: "blur(24px) saturate(1.6)",
+      WebkitBackdropFilter: "blur(24px) saturate(1.6)",
+      border: "1px solid hsl(var(--glass-border))",
+      boxShadow: "0 8px 32px hsl(220 20% 10% / 0.08), inset 0 1px 0 hsl(0 0% 100% / 0.35), 0 1px 3px hsl(220 20% 10% / 0.04)",
+      ...style,
+    }}
   >
     {children}
   </motion.div>
@@ -100,7 +110,14 @@ const HomeV4 = () => {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
-    <div className="min-h-screen bg-background overflow-hidden">
+    <div className="min-h-screen bg-background overflow-hidden relative">
+      {/* Ambient background orbs for glass refraction */}
+      <div className="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+        <div className="absolute top-[10%] left-[5%] w-[500px] h-[500px] rounded-full bg-primary/[0.07] blur-[120px]" />
+        <div className="absolute top-[40%] right-[10%] w-[400px] h-[400px] rounded-full bg-accent/[0.12] blur-[100px]" />
+        <div className="absolute bottom-[15%] left-[30%] w-[600px] h-[600px] rounded-full bg-primary/[0.05] blur-[140px]" />
+        <div className="absolute top-[70%] right-[25%] w-[350px] h-[350px] rounded-full bg-secondary/[0.08] blur-[100px]" />
+      </div>
       {/* Progress bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-[3px] z-[100] origin-left bg-primary"
@@ -247,7 +264,7 @@ const HomeV4 = () => {
                   </div>
                 </div>
                 {/* Visual — mockup card grid */}
-                <div className="flex-1 rounded-2xl bg-muted/50 border border-border p-6 grid grid-cols-3 gap-3">
+                <div className="flex-1 rounded-2xl p-6 grid grid-cols-3 gap-3" style={{ background: "hsl(var(--glass-bg))", backdropFilter: "blur(16px)", border: "1px solid hsl(var(--glass-border))" }}>
                   {[
                     { emoji: "🍺", label: "Cerveja", price: "R$ 12" },
                     { emoji: "🍔", label: "Burger", price: "R$ 25" },
@@ -258,7 +275,7 @@ const HomeV4 = () => {
                   ].map((item) => (
                     <motion.div
                       key={item.label}
-                      className="rounded-xl bg-card border border-border p-3 text-center"
+                      className="rounded-xl p-3 text-center" style={{ background: "hsl(0 0% 100% / 0.6)", backdropFilter: "blur(12px)", border: "1px solid hsl(0 0% 100% / 0.5)" }}
                       whileHover={{ scale: 1.05, y: -2 }}
                     >
                       <span className="text-2xl block mb-1">{item.emoji}</span>
@@ -304,7 +321,7 @@ const HomeV4 = () => {
                     Pedidos chegam em tempo real. A cozinha produz sob demanda. Menos desperdício, mais agilidade.
                   </p>
                 </div>
-                <div className="flex-1 rounded-2xl bg-muted/50 border border-border p-4 space-y-2">
+                <div className="flex-1 rounded-2xl p-4 space-y-2" style={{ background: "hsl(var(--glass-bg))", backdropFilter: "blur(16px)", border: "1px solid hsl(var(--glass-border))" }}>
                   {["Pedido #42 — 2x Burger", "Pedido #43 — 1x Cerveja", "Pedido #44 — 3x Pizza"].map((order, i) => (
                     <motion.div
                       key={order}
@@ -312,7 +329,7 @@ const HomeV4 = () => {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: 0.3 + i * 0.1 }}
-                      className="flex items-center gap-2 rounded-xl bg-card border border-border px-3 py-2"
+                      className="flex items-center gap-2 rounded-xl px-3 py-2" style={{ background: "hsl(0 0% 100% / 0.5)", backdropFilter: "blur(10px)", border: "1px solid hsl(0 0% 100% / 0.4)" }}
                     >
                       <div className={`w-2 h-2 rounded-full ${i === 0 ? "bg-primary animate-pulse" : "bg-muted-foreground/30"}`} />
                       <span className="text-xs text-foreground">{order}</span>
@@ -337,7 +354,7 @@ const HomeV4 = () => {
       </section>
 
       {/* ═══ HOW IT WORKS ═══ */}
-      <section id="como-funciona-v4" className="py-16 md:py-24 bg-muted/30">
+      <section id="como-funciona-v4" className="py-16 md:py-24 relative">
         <div className="container">
           <Reveal className="text-center mb-12">
             <p className="text-xs font-semibold text-primary tracking-widest uppercase mb-3">Passo a passo</p>
@@ -406,7 +423,7 @@ const HomeV4 = () => {
       </section>
 
       {/* ═══ COMPARISON BENTO ═══ */}
-      <section className="py-16 md:py-24 bg-muted/30">
+      <section className="py-16 md:py-24 relative">
         <div className="container">
           <Reveal className="text-center mb-12">
             <h2 className="font-display text-3xl md:text-5xl font-bold text-foreground">
@@ -416,7 +433,7 @@ const HomeV4 = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 max-w-4xl mx-auto">
             {/* Old way */}
-            <BentoCard className="border-destructive/20 bg-destructive/[0.03]" delay={0.05} hover={false}>
+            <BentoCard className="border-destructive/20" delay={0.05} hover={false} style={{ background: "hsl(0 84% 60% / 0.04)" }}>
               <h3 className="font-display text-lg font-bold text-foreground mb-4 flex items-center gap-2">
                 <span className="text-xl">😤</span> Jeito antigo
               </h3>
@@ -437,7 +454,7 @@ const HomeV4 = () => {
             </BentoCard>
 
             {/* Barty way */}
-            <BentoCard className="border-primary/20 bg-primary/[0.03]" delay={0.1} hover={false}>
+            <BentoCard className="" delay={0.1} hover={false} style={{ background: "hsl(22 90% 52% / 0.04)", borderColor: "hsl(22 90% 52% / 0.2)" }}>
               <h3 className="font-display text-lg font-bold text-foreground mb-4 flex items-center gap-2">
                 <span className="text-xl">🚀</span> Com Barty
               </h3>
@@ -497,7 +514,7 @@ const HomeV4 = () => {
       </section>
 
       {/* ═══ FAQ ═══ */}
-      <section className="py-16 md:py-24 bg-muted/30">
+      <section className="py-16 md:py-24 relative">
         <div className="container">
           <Reveal className="text-center mb-12">
             <h2 className="font-display text-3xl md:text-5xl font-bold text-foreground">
