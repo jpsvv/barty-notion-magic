@@ -10,7 +10,7 @@ const Navbar = () => {
   const isHome = location.pathname === "/";
 
   const solutionLinks = [
-    { label: "Fichas", href: "/fichas" },
+    { label: "Ficha", href: "/fichas" },
     { label: "Eventos", href: "/eventos" },
     { label: "Food", href: "/food" },
     { label: "Ingressos", href: "/ingressos" },
