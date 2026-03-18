@@ -351,7 +351,7 @@ const HomeV4 = () => {
       </section>
 
       {/* ═══ HOW IT WORKS ═══ */}
-      <section id="como-funciona-v4" className="py-16 md:py-24 bg-muted/30">
+      <section id="como-funciona-v4" className="py-16 md:py-24 relative">
         <div className="container">
           <Reveal className="text-center mb-12">
             <p className="text-xs font-semibold text-primary tracking-widest uppercase mb-3">Passo a passo</p>
