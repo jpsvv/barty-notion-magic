@@ -23,7 +23,7 @@ const Reveal = ({ children, className, delay = 0 }: { children: React.ReactNode;
   </motion.div>
 );
 
-/* ─── BENTO CARD ─── */
+/* ─── BENTO CARD (Glassmorphism) ─── */
 const BentoCard = ({
   children,
   className = "",
@@ -41,7 +41,14 @@ const BentoCard = ({
     viewport={{ once: true, margin: "-30px" }}
     transition={{ duration: 0.5, delay, ease: [0.25, 0.46, 0.45, 0.94] }}
     whileHover={hover ? { y: -4, scale: 1.01 } : undefined}
-    className={`rounded-3xl border border-border bg-card p-6 md:p-8 transition-shadow duration-300 hover:shadow-xl ${className}`}
+    className={`rounded-3xl p-6 md:p-8 transition-all duration-300 ${className}`}
+    style={{
+      background: "hsl(var(--glass-bg))",
+      backdropFilter: "blur(24px) saturate(1.6)",
+      WebkitBackdropFilter: "blur(24px) saturate(1.6)",
+      border: "1px solid hsl(var(--glass-border))",
+      boxShadow: "0 8px 32px hsl(220 20% 10% / 0.08), inset 0 1px 0 hsl(0 0% 100% / 0.35), 0 1px 3px hsl(220 20% 10% / 0.04)",
+    }}
   >
     {children}
   </motion.div>
