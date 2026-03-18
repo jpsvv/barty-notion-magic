@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { motion, useScroll, useSpring, AnimatePresence } from "framer-motion";
 import {
-  ArrowRight, Sparkles, TrendingUp, ShieldCheck, Zap, Star,
+  ArrowRight, Sparkles, TrendingUp, ShieldCheck, Star,
   Users, QrCode, CreditCard, Bell, BarChart3,
   Target, Timer, DollarSign, ChevronDown, Play,
-  Smartphone, ShoppingBag, Clock, CheckCircle2, Globe
+  Smartphone, Clock, CheckCircle2, Globe, X
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import dopamineHero from "@/assets/dopamine-hero.jpg";
