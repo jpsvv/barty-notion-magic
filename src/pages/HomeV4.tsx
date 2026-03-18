@@ -318,7 +318,7 @@ const HomeV4 = () => {
                     Pedidos chegam em tempo real. A cozinha produz sob demanda. Menos desperdício, mais agilidade.
                   </p>
                 </div>
-                <div className="flex-1 rounded-2xl bg-muted/50 border border-border p-4 space-y-2">
+                <div className="flex-1 rounded-2xl p-4 space-y-2" style={{ background: "hsl(var(--glass-bg))", backdropFilter: "blur(16px)", border: "1px solid hsl(var(--glass-border))" }}>
                   {["Pedido #42 — 2x Burger", "Pedido #43 — 1x Cerveja", "Pedido #44 — 3x Pizza"].map((order, i) => (
                     <motion.div
                       key={order}
