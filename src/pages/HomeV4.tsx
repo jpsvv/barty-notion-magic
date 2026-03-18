@@ -107,7 +107,14 @@ const HomeV4 = () => {
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   return (
-    <div className="min-h-screen bg-background overflow-hidden">
+    <div className="min-h-screen bg-background overflow-hidden relative">
+      {/* Ambient background orbs for glass refraction */}
+      <div className="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+        <div className="absolute top-[10%] left-[5%] w-[500px] h-[500px] rounded-full bg-primary/[0.07] blur-[120px]" />
+        <div className="absolute top-[40%] right-[10%] w-[400px] h-[400px] rounded-full bg-accent/[0.12] blur-[100px]" />
+        <div className="absolute bottom-[15%] left-[30%] w-[600px] h-[600px] rounded-full bg-primary/[0.05] blur-[140px]" />
+        <div className="absolute top-[70%] right-[25%] w-[350px] h-[350px] rounded-full bg-secondary/[0.08] blur-[100px]" />
+      </div>
       {/* Progress bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-[3px] z-[100] origin-left bg-primary"
