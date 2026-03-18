@@ -326,7 +326,7 @@ const HomeV4 = () => {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: 0.3 + i * 0.1 }}
-                      className="flex items-center gap-2 rounded-xl bg-card border border-border px-3 py-2"
+                      className="flex items-center gap-2 rounded-xl px-3 py-2" style={{ background: "hsl(0 0% 100% / 0.5)", backdropFilter: "blur(10px)", border: "1px solid hsl(0 0% 100% / 0.4)" }}
                     >
                       <div className={`w-2 h-2 rounded-full ${i === 0 ? "bg-primary animate-pulse" : "bg-muted-foreground/30"}`} />
                       <span className="text-xs text-foreground">{order}</span>
