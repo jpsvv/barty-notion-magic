@@ -66,21 +66,7 @@ const Footer = () => {
     <footer className="bg-foreground pt-16 pb-8" role="contentinfo">
       <div className="container">
         {/* Top grid */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-10 mb-14">
-          {/* Brand column */}
-          <div className="col-span-2 md:col-span-1">
-            <Link to="/" className="inline-block mb-4">
-              <img
-                src={bartyLogo}
-                alt="Barty"
-                className="h-12 w-auto brightness-0 invert opacity-90"
-              />
-            </Link>
-            <p className="text-background/50 text-sm leading-relaxed max-w-xs">
-              Sistema cashless completo para eventos e estabelecimentos. Sem filas, sem complicação.
-            </p>
-          </div>
-
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-14">
           {/* Link columns */}
           {Object.entries(footerLinks).map(([title, links]) => (
             <div key={title}>
@@ -112,34 +98,41 @@ const Footer = () => {
               </ul>
             </div>
           ))}
-
-          {/* Siga-nos column */}
-          <div>
-            <h4 className="font-display text-xs font-semibold text-background/70 uppercase tracking-widest mb-4">
-              Siga-nos
-            </h4>
-            <div className="flex flex-wrap gap-3">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center w-10 h-10 rounded-full bg-background/10 text-background/50 hover:bg-primary hover:text-primary-foreground transition-all duration-200"
-                  aria-label={social.label}
-                >
-                  {social.icon}
-                </a>
-              ))}
-            </div>
-          </div>
         </div>
 
-        {/* Divider */}
+        {/* Siga-nos inline row */}
+        <div className="flex items-center gap-4 mb-10">
+          <span className="font-display text-sm font-semibold text-background/70">
+            Siga-nos
+          </span>
+          {socialLinks.map((social) => (
+            <a
+              key={social.label}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center w-9 h-9 rounded-lg bg-background/10 text-background/60 hover:bg-primary hover:text-primary-foreground transition-all duration-200"
+              aria-label={social.label}
+            >
+              {social.icon}
+            </a>
+          ))}
+        </div>
+
+        {/* Divider + bottom bar */}
         <div className="border-t border-background/10 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-background/35 text-xs">
-            © {year} Barty. Todos os direitos reservados.
-          </p>
+          <div className="flex items-center gap-4">
+            <Link to="/">
+              <img
+                src={bartyLogo}
+                alt="Barty"
+                className="h-10 w-auto brightness-0 invert opacity-80"
+              />
+            </Link>
+            <p className="text-background/35 text-xs">
+              © {year} Barty. Todos os direitos reservados.
+            </p>
+          </div>
           <p className="text-background/35 text-xs">
             Feito com 🧡 no Brasil
           </p>
