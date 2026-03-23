@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, X, ArrowRight } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const plans = [
   {
