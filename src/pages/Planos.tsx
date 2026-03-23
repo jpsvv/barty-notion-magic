@@ -233,7 +233,7 @@ const Planos = () => {
               >
                 {/* Category header */}
                 <div className="px-4 py-3 mt-6 first:mt-0">
-                  <h3 className="font-display text-sm font-bold text-foreground tracking-wide uppercase">
+                  <h3 className="font-display text-sm font-bold text-primary tracking-wide uppercase">
                     {cat.category}
                   </h3>
                 </div>
