@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, X, ArrowRight } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const plans = [
   {
@@ -273,13 +275,32 @@ const Planos = () => {
               </motion.div>
             ))}
           </div>
+        </section>
 
-          {/* Bottom CTA */}
+        {/* FAQ */}
+        <section className="container max-w-3xl mt-24">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="font-display text-2xl md:text-3xl font-bold text-foreground text-center mb-10"
+          >
+            Perguntas frequentes
+          </motion.h2>
+          <div className="space-y-3">
+            {faqItems.map((item, i) => (
+              <FaqItem key={item.question} question={item.question} answer={item.answer} index={i} />
+            ))}
+          </div>
+        </section>
+
+        {/* Bottom CTA */}
+        <section className="container max-w-4xl">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mt-16"
+            className="text-center mt-16 mb-8"
           >
             <p className="text-muted-foreground mb-6">
               Ainda com dúvida? Fale com a gente.
@@ -296,7 +317,69 @@ const Planos = () => {
           </motion.div>
         </section>
       </main>
+
+      <Footer />
     </>
+  );
+};
+
+const faqItems = [
+  {
+    question: "Preciso de algum equipamento especial?",
+    answer: "Não. O Barty funciona 100% digital, direto no celular do cliente e no seu navegador. Sem maquininha, sem pulseira, sem totem.",
+  },
+  {
+    question: "Posso cancelar a qualquer momento?",
+    answer: "O plano Grátis não tem fidelidade. O plano Completo tem fidelidade de 1 ano, mas você pode cancelar ao final do período sem burocracia.",
+  },
+  {
+    question: "Qual a diferença entre a taxa sobre faturamento e a taxa de ingresso?",
+    answer: "A taxa sobre faturamento incide sobre vendas de fichas e pedidos. A taxa de ingresso é cobrada separadamente sobre a venda de ingressos pelo módulo de eventos.",
+  },
+  {
+    question: "O plano Grátis tem alguma limitação de uso?",
+    answer: "O plano Grátis oferece todas as funcionalidades essenciais sem limite de pedidos. Funcionalidades avançadas como múltiplos cardápios, relatórios avançados, módulo caixa e tracking estão disponíveis no plano Completo.",
+  },
+  {
+    question: "Como funciona a migração para o Barty?",
+    answer: "No plano Completo, oferecemos onboarding e implantação assistida. Nossa equipe cuida de todo o setup, migração de cardápios e treinamento em até 24h.",
+  },
+  {
+    question: "Quais formas de pagamento o cliente pode usar?",
+    answer: "Pix, cartão de crédito/débito e carteira Barty. Tudo integrado no app, sem necessidade de maquininha.",
+  },
+];
+
+const FaqItem = ({ question, answer, index }: { question: string; answer: string; index: number }) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.05 }}
+      className="border border-border rounded-2xl overflow-hidden bg-card"
+    >
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between p-5 text-left"
+        aria-expanded={open}
+      >
+        <span className="font-display font-semibold text-foreground pr-4 text-sm">{question}</span>
+        <svg
+          className={`w-4 h-4 text-muted-foreground shrink-0 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+      <div className={`overflow-hidden transition-all duration-300 ${open ? "max-h-96 pb-5" : "max-h-0"}`}>
+        <p className="px-5 text-sm text-muted-foreground leading-relaxed">{answer}</p>
+      </div>
+    </motion.div>
   );
 };
 

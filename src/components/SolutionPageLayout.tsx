@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2, type LucideIcon } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import CtaFooter from "@/components/CtaFooter";
+import Footer from "@/components/Footer";
 import PhoneMockup from "@/components/PhoneMockup";
 import { useEffect, useState } from "react";
 
@@ -363,7 +364,7 @@ const SolutionPageLayout = ({
           </div>
         </section>
       </main>
-      <CtaFooter />
+      <Footer />
     </div>
   );
 };
