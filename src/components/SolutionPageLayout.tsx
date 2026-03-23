@@ -364,7 +364,7 @@ const SolutionPageLayout = ({
           </div>
         </section>
       </main>
-      <CtaFooter />
+      <Footer />
     </div>
   );
 };
