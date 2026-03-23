@@ -275,6 +275,7 @@ const Planos = () => {
               </motion.div>
             ))}
           </div>
+        </section>
 
         {/* FAQ */}
         <section className="container max-w-3xl mt-24">
