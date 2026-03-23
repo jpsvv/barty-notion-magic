@@ -13,6 +13,7 @@ import BartyFood from "./pages/BartyFood";
 import BartyIngressos from "./pages/BartyIngressos";
 import HomeV3 from "./pages/HomeV3";
 import HomeV4 from "./pages/HomeV4";
+import Planos from "./pages/Planos";
 
 const queryClient = new QueryClient();
 
