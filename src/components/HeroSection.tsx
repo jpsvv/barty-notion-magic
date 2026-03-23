@@ -110,7 +110,7 @@ const HeroSection = () => {
           <div className="glass-card-strong rounded-3xl p-2 md:p-3">
             <img
               src={heroImage}
-              alt="Evento lotado com clientes usando QR Code do Barty para pedir e pagar sem filas"
+              alt="Cliente escaneando QR Code do cardápio digital Barty em evento gastronômico"
               className="w-full h-auto rounded-2xl"
               loading="eager"
               width="1200"
