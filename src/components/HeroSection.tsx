@@ -29,7 +29,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-[1.05] mb-6 tracking-tight"
+            className="font-display text-4xl md:text-6xl font-bold text-foreground leading-[1.05] mb-6 tracking-tight lg:text-6xl"
           >
             A Revolução Cashless que Transforma Eventos em{" "}
             <span className="text-gradient">Máquinas de Lucro Sem Filas.</span>
@@ -41,9 +41,10 @@ const HeroSection = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10 leading-relaxed font-light"
           >
-            Organizadores de festivais, feiras e eventos corporativos: pare de perder vendas por filas intermináveis. 
-            Com Barty, venda antecipada por item específico, integração com parceiros de comida e bebida 
-            e retirada instantânea via QR Code. <strong className="text-foreground font-medium">Clientes felizes, equipe focada e você com dados reais para escalar.</strong>
+            Organizadores de festivais, feiras e eventos corporativos: ofereça menos fila, mais diversão e venda garantida. 
+            Com o Barty, a venda é antecipada, integração com parceiros de comida e bebida 
+            e retirada instantânea via QR Code.<br />
+            <strong className="text-foreground font-medium">Clientes felizes, equipe focada e você com dados reais para escalar.</strong>
           </motion.p>
 
           {/* Trust badges */}
