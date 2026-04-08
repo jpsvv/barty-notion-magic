@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, ArrowRight, ChevronDown } from "lucide-react";
+import RevenueSimulator from "@/components/RevenueSimulator";
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -273,6 +274,9 @@ const Planos = () => {
 
           <FeatureAccordion categories={featureCategories} />
         </section>
+
+        {/* Revenue Simulator */}
+        <RevenueSimulator />
 
         {/* FAQ */}
         <section className="container max-w-3xl mt-24">
