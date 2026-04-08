@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, ArrowRight, ChevronDown } from "lucide-react";
+import { Check, ArrowRight, ChevronDown, Calculator } from "lucide-react";
+import { Slider } from "@/components/ui/slider";
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
