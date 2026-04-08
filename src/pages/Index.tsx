@@ -15,6 +15,7 @@ const Index = () => {
       <main>
         <HeroSection />
         <HowItWorks />
+        <ProductDemo />
         <WhyBarty />
         <PricingSection />
         <Testimonials />
