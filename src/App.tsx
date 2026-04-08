@@ -14,6 +14,7 @@ import BartyIngressos from "./pages/BartyIngressos";
 import HomeV3 from "./pages/HomeV3";
 import HomeV4 from "./pages/HomeV4";
 import Planos from "./pages/Planos";
+import Blog from "./pages/Blog";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/food" element={<BartyFood />} />
             <Route path="/ingressos" element={<BartyIngressos />} />
             <Route path="/planos" element={<Planos />} />
+            <Route path="/blog" element={<Blog />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

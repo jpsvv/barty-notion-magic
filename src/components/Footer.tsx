@@ -14,6 +14,9 @@ const footerLinks = {
     { label: "Vantagens", href: "/#vantagens" },
     { label: "FAQ", href: "/#perguntas-frequentes" },
   ],
+  Aprenda: [
+    { label: "Blog Barty", href: "/blog" },
+  ],
   Contato: [
     { label: "WhatsApp", href: "https://wa.me/553484428888", external: true },
     { label: "contato@barty.com.br", href: "mailto:contato@barty.com.br", external: true },

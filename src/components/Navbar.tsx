@@ -87,6 +87,14 @@ const Navbar = () => {
             Vantagens
           </a>
           <Link
+            to="/blog"
+            className={`text-sm font-medium transition-colors ${
+              location.pathname === "/blog" ? "text-primary" : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            Conteúdo
+          </Link>
+          <Link
             to="/planos"
             className={`text-sm font-medium transition-colors ${
               location.pathname === "/planos" ? "text-primary" : "text-muted-foreground hover:text-foreground"
@@ -175,6 +183,9 @@ const Navbar = () => {
               <a href="/#vantagens" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground">
                 Vantagens
               </a>
+              <Link to="/blog" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground">
+                Conteúdo
+              </Link>
               <Link to="/planos" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground">
                 Planos
               </Link>
