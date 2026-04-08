@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Check, X, ArrowRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Check, ArrowRight, ChevronDown } from "lucide-react";
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -111,12 +111,9 @@ const featureCategories: Category[] = [
   },
 ];
 
-const FeatureIcon = ({ included }: { included: boolean }) =>
-  included ? (
-    <Check className="w-4 h-4 text-primary shrink-0" />
-  ) : (
-    <X className="w-4 h-4 text-muted-foreground/40 shrink-0" />
-  );
+const FeatureIcon = () => (
+  <Check className="w-4 h-4 text-primary shrink-0" />
+);
 
 const Planos = () => {
   return (
@@ -208,7 +205,7 @@ const Planos = () => {
           </div>
         </section>
 
-        {/* Feature comparison */}
+        {/* Feature accordion */}
         <section className="container max-w-4xl">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -216,67 +213,10 @@ const Planos = () => {
             viewport={{ once: true }}
             className="font-display text-2xl md:text-3xl font-bold text-foreground text-center mb-12"
           >
-            Compare os planos em detalhe
+            Conheça todas as funcionalidades
           </motion.h2>
 
-          {/* Desktop table header */}
-          <div className="hidden md:grid grid-cols-[1fr_100px_100px] gap-4 items-center px-4 pb-4 border-b border-border mb-2">
-            <span className="text-sm font-semibold text-muted-foreground">Funcionalidade</span>
-            <span className="text-sm font-semibold text-muted-foreground text-center">Grátis</span>
-            <span className="text-sm font-semibold text-primary text-center">Completo</span>
-          </div>
-
-          <div className="space-y-8 md:space-y-0">
-            {featureCategories.map((cat, catIdx) => (
-              <motion.div
-                key={cat.category}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: catIdx * 0.05 }}
-              >
-                {/* Category header */}
-                <div className="px-4 py-3 mt-6 first:mt-0">
-                  <h3 className="font-display text-sm font-bold text-primary tracking-wide uppercase">
-                    {cat.category}
-                  </h3>
-                </div>
-
-                {/* Features */}
-                {cat.features.map((feature) => (
-                  <div
-                    key={feature.name}
-                    className="grid grid-cols-1 md:grid-cols-[1fr_100px_100px] gap-2 md:gap-4 items-center px-4 py-3 border-b border-border/50 hover:bg-muted/30 transition-colors"
-                  >
-                    <div>
-                      <p className="text-sm font-medium text-foreground">{feature.name}</p>
-                      <p className="text-xs text-muted-foreground">{feature.description}</p>
-                    </div>
-
-                    {/* Mobile: inline badges */}
-                    <div className="flex md:hidden gap-4 mt-1">
-                      <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                        <FeatureIcon included={feature.free} />
-                        Grátis
-                      </span>
-                      <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                        <FeatureIcon included={feature.complete} />
-                        Completo
-                      </span>
-                    </div>
-
-                    {/* Desktop: centered icons */}
-                    <div className="hidden md:flex justify-center">
-                      <FeatureIcon included={feature.free} />
-                    </div>
-                    <div className="hidden md:flex justify-center">
-                      <FeatureIcon included={feature.complete} />
-                    </div>
-                  </div>
-                ))}
-              </motion.div>
-            ))}
-          </div>
+          <FeatureAccordion categories={featureCategories} />
         </section>
 
         {/* FAQ */}
