@@ -111,9 +111,64 @@ const featureCategories: Category[] = [
   },
 ];
 
-const FeatureIcon = () => (
-  <Check className="w-4 h-4 text-primary shrink-0" />
-);
+const FeatureAccordion = ({ categories }: { categories: Category[] }) => {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const toggle = (idx: number) => {
+    setOpenIndex(openIndex === idx ? null : idx);
+  };
+
+  return (
+    <div className="space-y-3">
+      {categories.map((cat, idx) => (
+        <motion.div
+          key={cat.category}
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: idx * 0.05 }}
+          className="border border-border rounded-2xl overflow-hidden bg-card"
+        >
+          <button
+            onClick={() => toggle(idx)}
+            className="w-full flex items-center justify-between p-5 text-left"
+            aria-expanded={openIndex === idx}
+          >
+            <span className="font-display font-semibold text-foreground text-sm">{cat.category}</span>
+            <ChevronDown
+              className={`w-4 h-4 text-muted-foreground shrink-0 transition-transform duration-300 ${
+                openIndex === idx ? "rotate-180" : ""
+              }`}
+            />
+          </button>
+          <AnimatePresence initial={false}>
+            {openIndex === idx && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="overflow-hidden"
+              >
+                <div className="px-5 pb-5 space-y-3">
+                  {cat.features.map((feature) => (
+                    <div key={feature.name} className="flex items-start gap-3 py-2">
+                      <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <p className="text-sm font-medium text-foreground">{feature.name}</p>
+                        <p className="text-xs text-muted-foreground">{feature.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
+      ))}
+    </div>
+  );
+};
 
 const Planos = () => {
   return (
