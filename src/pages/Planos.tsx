@@ -275,6 +275,9 @@ const Planos = () => {
           <FeatureAccordion categories={featureCategories} />
         </section>
 
+        {/* Revenue Simulator */}
+        <RevenueSimulator />
+
         {/* FAQ */}
         <section className="container max-w-3xl mt-24">
           <motion.h2
