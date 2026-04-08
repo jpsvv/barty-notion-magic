@@ -16,6 +16,7 @@ const plans = [
     details: [
       { label: "Taxa sobre faturamento", value: "1%" },
       { label: "Taxa de ingresso", value: "10%" },
+      { label: "Taxa de pagamento repasse via Barty", value: "3,2%" },
       { label: "Fidelidade", value: "Sem fidelidade" },
     ],
   },
@@ -29,6 +30,7 @@ const plans = [
     details: [
       { label: "Taxa sobre faturamento", value: "0,5%" },
       { label: "Taxa de ingresso", value: "8%" },
+      { label: "Taxa de pagamento repasse via Barty", value: "3,2%" },
       { label: "Fidelidade", value: "1 ano" },
     ],
   },
