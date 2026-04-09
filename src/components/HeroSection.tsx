@@ -1,8 +1,24 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, TrendingUp, ShieldCheck, Zap } from "lucide-react";
+import { useEffect, useState } from "react";
 import heroImage from "@/assets/hero-barty.jpg";
 
+const typewriterText = "Eventos sem filas. Lucro sem limites.";
+
 const HeroSection = () => {
+  const [displayedText, setDisplayedText] = useState("");
+  const [charIndex, setCharIndex] = useState(0);
+
+  useEffect(() => {
+    if (charIndex < typewriterText.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedText(typewriterText.slice(0, charIndex + 1));
+        setCharIndex(charIndex + 1);
+      }, 50);
+      return () => clearTimeout(timeout);
+    }
+  }, [charIndex]);
+
   return (
     <section
       className="relative pt-28 pb-20 md:pt-36 md:pb-32 overflow-hidden"
@@ -31,8 +47,11 @@ const HeroSection = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="font-display text-4xl md:text-6xl font-bold text-foreground leading-[1.05] mb-6 tracking-tight lg:text-6xl"
           >
-            A Revolução Cashless que Transforma Eventos em{" "}
-            <span className="text-gradient">Máquinas de Lucro Sem Filas.</span>
+            A Revolução Cashless{" "}
+            <span className="text-gradient">
+              {displayedText}
+              <span className="inline-block w-[3px] h-[1em] bg-primary align-middle ml-1 animate-pulse" />
+            </span>
           </motion.h1>
 
           <motion.p
@@ -41,10 +60,8 @@ const HeroSection = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10 leading-relaxed font-light"
           >
-            Organizadores de festivais, feiras e eventos corporativos: ofereça menos fila, mais diversão e venda garantida. 
-            Com o Barty, a venda é antecipada, integração com parceiros de comida e bebida 
-            e retirada instantânea via QR Code.<br />
-            <strong className="text-foreground font-medium">Clientes felizes, equipe focada e você com dados reais para escalar.</strong>
+            Venda antecipada por item, integração com parceiros de comida e bebida, retirada instantânea via QR Code.{" "}
+            <strong className="text-foreground font-medium">Sem hardware. Sem filas. Equipe focada.</strong>
           </motion.p>
 
           {/* Trust badges */}
@@ -64,7 +81,7 @@ const HeroSection = () => {
             </div>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <ShieldCheck className="w-4 h-4 text-primary" aria-hidden="true" />
-              <span>Sem custos fixos</span>
+              <span>Setup grátis</span>
             </div>
           </motion.div>
 
