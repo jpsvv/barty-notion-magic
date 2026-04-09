@@ -3,7 +3,7 @@ import { ArrowRight, Check } from "lucide-react";
 
 const plans = [
   {
-    name: "Grátis",
+    name: "Free",
     subtitle: "Para quem está começando",
     price: "R$ 0",
     period: "/mês",
@@ -17,7 +17,7 @@ const plans = [
     ],
   },
   {
-    name: "Completo",
+    name: "Grow",
     subtitle: "Tudo que você precisa para crescer",
     price: "R$ 99,90",
     period: "/mês",
