@@ -3,7 +3,7 @@ import { ArrowRight, Sparkles, TrendingUp, ShieldCheck, Zap } from "lucide-react
 import { useEffect, useState } from "react";
 import heroImage from "@/assets/hero-barty.jpg";
 
-const typewriterText = "Eventos sem filas. Lucro sem limites.";
+const typewriterText = "eventos sem filas. Lucro sem limites.";
 
 const HeroSection = () => {
   const [displayedText, setDisplayedText] = useState("");
@@ -47,7 +47,8 @@ const HeroSection = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="font-display text-4xl md:text-6xl font-bold text-foreground leading-[1.05] mb-6 tracking-tight lg:text-6xl"
           >
-            A Revolução Cashless{" "}
+            A Revolução Cashless
+            <br />
             <span className="text-gradient">
               {displayedText}
               <span className="inline-block w-[3px] h-[1em] bg-primary align-middle ml-1 animate-pulse" />
