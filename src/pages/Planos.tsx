@@ -8,7 +8,7 @@ import Footer from "@/components/Footer";
 
 const plans = [
   {
-    name: "Grátis",
+    name: "Free",
     subtitle: "Para quem está começando",
     price: "R$ 0",
     period: "/mês",
@@ -22,7 +22,7 @@ const plans = [
     ],
   },
   {
-    name: "Completo",
+    name: "Grow",
     subtitle: "Tudo que você precisa para crescer",
     price: "R$ 99,90",
     period: "/mês",
@@ -331,19 +331,19 @@ const faqItems = [
   },
   {
     question: "Posso cancelar a qualquer momento?",
-    answer: "O plano Grátis não tem fidelidade. O plano Completo tem fidelidade de 1 ano, mas você pode cancelar ao final do período sem burocracia.",
+    answer: "O plano Free não tem fidelidade. O plano Grow tem fidelidade de 1 ano, mas você pode cancelar ao final do período sem burocracia.",
   },
   {
     question: "Qual a diferença entre a taxa sobre faturamento e a taxa de ingresso?",
     answer: "A taxa sobre faturamento incide sobre vendas de fichas e pedidos. A taxa de ingresso é cobrada separadamente sobre a venda de ingressos pelo módulo de eventos.",
   },
   {
-    question: "O plano Grátis tem alguma limitação de uso?",
-    answer: "O plano Grátis oferece todas as funcionalidades essenciais sem limite de pedidos. Funcionalidades avançadas como múltiplos cardápios, relatórios avançados, módulo caixa e tracking estão disponíveis no plano Completo.",
+    question: "O plano Free tem alguma limitação de uso?",
+    answer: "O plano Free oferece todas as funcionalidades essenciais sem limite de pedidos. Funcionalidades avançadas como múltiplos cardápios, relatórios avançados, módulo caixa e tracking estão disponíveis no plano Grow.",
   },
   {
     question: "Como funciona a migração para o Barty?",
-    answer: "No plano Completo, oferecemos onboarding e implantação assistida. Nossa equipe cuida de todo o setup, migração de cardápios e treinamento em até 24h.",
+    answer: "No plano Grow, oferecemos onboarding e implantação assistida. Nossa equipe cuida de todo o setup, migração de cardápios e treinamento em até 24h.",
   },
   {
     question: "Quais formas de pagamento o cliente pode usar?",
