@@ -3,7 +3,7 @@ import { ArrowRight, Sparkles, TrendingUp, ShieldCheck, Zap } from "lucide-react
 import { useEffect, useState } from "react";
 import heroImage from "@/assets/hero-barty.jpg";
 
-const typewriterText = "Eventos sem filas. Lucro sem limites.";
+const typewriterText = "eventos sem filas. Lucro sem limites.";
 
 const HeroSection = () => {
   const [displayedText, setDisplayedText] = useState("");
