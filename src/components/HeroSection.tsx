@@ -116,7 +116,7 @@ const HeroSection = () => {
             transition={{ duration: 0.5, delay: 0.6 }}
             className="mt-8 text-sm text-muted-foreground"
           >
-            Já usado por <strong className="font-semibold text-foreground">+200 eventos e estabelecimentos</strong> em todo o Brasil
+            A revolução chegou para os produtores de eventos no Brasil
           </motion.p>
         </div>
 
