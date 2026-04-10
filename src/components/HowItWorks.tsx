@@ -17,7 +17,7 @@ const steps = [
   {
     icon: CreditCard,
     title: "Cliente pede e paga no celular",
-    description: "Sem app, via web. Pagamento via Pix ou cartão, com taxa mínima só sobre vendas reais. Sem pulseiras caras, sem hardware extra.",
+    description: "Sem app, via web. Pagamento via Pix cartão ou carteira Barty, com taxa mínima só sobre vendas reais. Sem pulseiras caras, cartões físicos, promotores e sem hardware extra.",
     accent: "from-accent/20 to-primary/5",
   },
   {
