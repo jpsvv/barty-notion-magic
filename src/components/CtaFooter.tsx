@@ -26,7 +26,7 @@ const CtaFooter = () => {
               <span className="text-primary">lucro previsível?</span>
             </h2>
             <p className="text-background/60 text-lg mb-10 font-light">
-              Migre em 24h. Sem contrato. Sem custos fixos. Setup grátis para seu próximo evento.
+              Migre em 24h. Custo baixo. Lucro alto. Setup grátis para seu próximo evento.
             </p>
             <a
               href="https://wa.me/553484428888"
