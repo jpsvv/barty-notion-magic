@@ -24,7 +24,8 @@ const BartyFichas = () => (
           Venda consumo <span className="text-gradient">antes do evento.</span> Receita no bolso, zero filas.
         </>
       }
-      heroDescription="Seu público compra fichas pelo celular — cerveja, lanche, combo. No dia, mostra o QR Code e retira. Sem maquininha, sem pulseira."
+      heroDescription="Seu público compra fichas pelo celular — cerveja, lanche, combo. No dia manda produzir, mostra o 
+QR Code e retira. Sem maquininha, sem pulseira, sem cartão."
       heroCtaText="Quero vender fichas antecipadas"
       heroPhoneScreens={[
         {
@@ -56,22 +57,22 @@ const BartyFichas = () => (
         {
           number: "02",
           title: "Gere o QR Code e divulgue",
-          description: "Compartilhe o link nas redes sociais ou no ingresso. UTMs integradas para medir tráfego pago.",
+          description: "Compartilhe o link nas redes sociais ou no ingresso. Rastreabilidade integrada para medir tráfego.",
         },
         {
           number: "03",
           title: "Cliente compra e paga pelo celular",
-          description: "Sem app. Abre no navegador, escolhe, paga via Pix ou cartão. Recebe o QR Code da ficha na hora.",
+          description: "Sem app. Abre no navegador, escolhe, paga via Pix, cartão ou carteira Barty. Recebe o QR Code da ficha na hora.",
         },
         {
           number: "04",
           title: "No evento: QR Code → Retira pronto",
-          description: "O cliente mostra o QR, o staff valida e entrega. Sem fila de pagamento. A cozinha já sabe o que produzir.",
+          description: "O cliente mostra o QR, o staff valida e entrega. Sem fila de pedido e de pagamento. A cozinha já sabe o que produzir.",
         },
         {
           number: "05",
           title: "Acompanhe e escale",
-          description: "Relatórios em tempo real de vendas por item, parceiro e forma de pagamento.",
+          description: "Relatórios em tempo real de vendas por item, parceiro e forma de pagamento utilizadas.",
         },
       ]}
       benefitsSubtitle="Vantagens"
@@ -85,7 +86,7 @@ const BartyFichas = () => (
         {
           icon: Ticket,
           title: "Fichas por item específico",
-          description: "O cliente compra exatamente o que vai consumir. Você sabe o que produzir — zero desperdício.",
+          description: "O cliente compra exatamente o que vai consumir. Você sabe o que produzir, zero desperdício.",
         },
         {
           icon: QrCode,
@@ -95,12 +96,12 @@ const BartyFichas = () => (
         {
           icon: ShieldCheck,
           title: "Pagamento seguro e instantâneo",
-          description: "Pix em segundos. Criptografia ponta a ponta. Compliance LGPD.",
+          description: "Pix em segundos. Criptografia ponta a ponta. Compliance LGPD. Aceita todas as bandeiras de cartão.",
         },
         {
           icon: Share2,
           title: "Link compartilhável + tagueamento",
-          description: "UTMs integradas para medir resultados de tráfego pago e campanhas.",
+          description: "UTMs integradas para medir resultados de tráfego e campanhas.",
         },
         {
           icon: BarChart3,
@@ -111,11 +112,11 @@ const BartyFichas = () => (
       comparisonTitle="Fichas tradicionais vs Barty Fichas"
       comparisonItems={[
         { old: "Filas enormes no caixa para comprar fichas físicas", barty: "Cliente compra pelo celular, antes ou durante" },
-        { old: "Fichas de papel que se perdem e geram confusão", barty: "QR Code no celular — impossível perder" },
+        { old: "Fichas de papel que se perdem e geram confusão", barty: "QR Code no celular - impossível perder" },
         { old: "Sem previsibilidade: volume só no dia", barty: "Receita antecipada + planejamento exato" },
-        { old: "Custo com maquininhas, pulseiras e totens", barty: "Zero hardware — tudo pelo celular" },
+        { old: "Custo com maquininhas, pulseiras, cartões e totens", barty: "Zero hardware - tudo pelo celular" },
         { old: "Erros de troco, fichas falsas, desvios", barty: "Pagamento digital rastreável" },
-        { old: "Desperdício por produção sem dados", barty: "Produz só o que já foi vendido" },
+        { old: "Desperdiço por produção sem dados", barty: "Produz só o que já foi vendido" },
       ]}
       objectionsTitle="Dúvidas sobre fichas pré-pagas"
       objections={[
