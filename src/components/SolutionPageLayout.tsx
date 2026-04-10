@@ -349,7 +349,7 @@ const SolutionPageLayout = ({
                 Pronto pra revolucionar suas <span className="text-primary">vendas?</span>
               </h2>
               <p className="text-white/60 text-base mb-8 font-light">
-                Sem contrato. Sem custos fixos. Setup grátis. Migração em 24h.
+                Custo baixo. Lucro alto. Setup grátis. Migração em 24h.
               </p>
               <a
                 href="https://wa.me/553484428888"
