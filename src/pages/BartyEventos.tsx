@@ -25,7 +25,7 @@ const BartyEventos = () => (
           Ingresso + consumo <span className="text-gradient">num só sistema.</span> Cashless de verdade.
         </>
       }
-      heroDescription="Ingressos, fichas de consumo e cardápio digital dos parceiros — tudo pelo celular do público. Sem pulseiras, sem totens."
+      heroDescription={"Ingressos, fichas de consumo e cardápio digital dos parceiros.\nTudo pelo celular do público. Sem pulseiras, sem cartão, sem totens."}
       heroCtaText="Quero gerenciar meu evento"
       heroPhoneScreens={[
         {
@@ -42,7 +42,7 @@ const BartyEventos = () => (
       ]}
       metricsBanner={[
         { value: "+30%", label: "Receita por evento" },
-        { value: "0", label: "Custos com hardware" },
+        { value: "R$0", label: "Custos com hardware" },
         { value: "100%", label: "Digital e cashless" },
         { value: "Real-time", label: "Dashboard de vendas" },
       ]}
@@ -57,17 +57,17 @@ const BartyEventos = () => (
         {
           number: "02",
           title: "Divulgue com link exclusivo",
-          description: "Página própria com URL e QR Code. UTMs integradas para tráfego pago.",
+          description: "Página própria com URL e QR Code. Rastreabilidade integrada para tráfego e campanhas.",
         },
         {
           number: "03",
           title: "Público compra ingresso + consumo",
-          description: "Ingresso e fichas de consumo pelo celular, antes do evento. Sem surpresas, sem filas.",
+          description: "Ingresso e fichas de consumo pelo celular, antes do evento. Sem surpresas, sem filas de pedidos e de pagamentos.",
         },
         {
           number: "04",
           title: "No evento: QR Code para tudo",
-          description: "Entrada, retirada de comida e compras extras — tudo via QR Code pelo celular.",
+          description: "Entrada, retirada de comida e compras extras, tudo via QR Code pelo celular.",
         },
         {
           number: "05",
@@ -81,12 +81,12 @@ const BartyEventos = () => (
         {
           icon: Calendar,
           title: "Ingresso + consumo integrado",
-          description: "Pare de usar plataformas separadas. No Barty, o público compra tudo junto.",
+          description: "Pare de usar plataformas separadas. No Barty, o público compra tudo junto. Melhore a gestão geral do seu evento.",
         },
         {
           icon: Utensils,
           title: "Cardápio digital dos parceiros",
-          description: "Cada bar e food truck com seu cardápio. Público compra antecipado e retira sem fila.",
+          description: "Cada bar, food truck, restaurante com seu cardápio, e unificado no evento. Público compra antecipado e retira sem fila.",
         },
         {
           icon: Tag,
@@ -112,8 +112,8 @@ const BartyEventos = () => (
       comparisonTitle="Eventos tradicionais vs Barty"
       comparisonItems={[
         { old: "Ingresso numa plataforma, cashless em outra", barty: "Tudo integrado num só sistema" },
-        { old: "Pulseiras, maquininhas e totens = custo alto", barty: "Só celulares — zero hardware" },
-        { old: "Filas no caixa, bar e entrada", barty: "QR Code para tudo" },
+        { old: "Pulseiras, maquininhas, cartões e totens = custo alto", barty: "Só celulares - zero hardware" },
+        { old: "Filas na entrada, no caixa e bar", barty: "QR Code para tudo" },
         { old: "Produção no escuro", barty: "Venda antecipada = previsibilidade" },
         { old: "Erros, extravios e desvios", barty: "Digital e rastreável" },
         { old: "Relatórios manuais dias depois", barty: "Dashboard em tempo real" },
@@ -133,8 +133,8 @@ const BartyEventos = () => (
             </header>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
               {[
-                { icon: Users, title: "Produtores de eventos", desc: "Festivais, formaturas, feiras, esportivos. De 100 a 100.000 pessoas." },
-                { icon: Calendar, title: "Empresas e corporativos", desc: "Eventos internos, confraternizações, launches." },
+                { icon: Users, title: "Produtores de eventos", desc: "Festivais, formaturas, feiras, esportivos. De 100 a +100.000 pessoas." },
+                { icon: Calendar, title: "Empresas e corporativos", desc: "Eventos internos, confraternizações, lançamentos." },
                 { icon: ShieldCheck, title: "Condomínios e associações", desc: "Festas comunitárias, churrascos, eventos sociais." },
                 { icon: Utensils, title: "Estabelecimentos", desc: "Bares e restaurantes que promovem eventos próprios." },
                 { icon: LineChart, title: "Feiras e exposições", desc: "Múltiplos expositores, cada um com seu painel." },
