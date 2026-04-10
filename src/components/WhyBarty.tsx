@@ -6,7 +6,7 @@ const benefits = [
     icon: Target,
     title: "Previsibilidade máxima",
     badge: "Diferencial chave",
-    description: "Ao contrário de carteiras digitais genéricas, Barty permite vendas antecipadas por item e estabelecimento específico. Saiba exatamente o que produzir — reduza custos em 20-40% e evite sobras.",
+    description: "Ao contrário de carteiras digitais genéricas, Barty permite vendas antecipadas por item e estabelecimento específico. Saiba exatamente o que produzir, reduza custos em 20-40% e evite sobras.",
   },
   {
     icon: Timer,
