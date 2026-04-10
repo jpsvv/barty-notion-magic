@@ -92,7 +92,7 @@ const HowItWorks = () => {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="text-center mt-12"
         >
-          <p className="text-muted-foreground mb-4">Migre de soluções genéricas para Barty em 24h.</p>
+          <p className="text-muted-foreground mb-4">Migre de soluções que encarecem seu evento, para Barty em 24h.</p>
           <a
             href="https://wa.me/553484428888"
             target="_blank"
