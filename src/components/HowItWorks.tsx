@@ -11,7 +11,7 @@ const steps = [
   {
     icon: QrCode,
     title: "Gere QR Code e divulgue",
-    description: "Compartilhe via redes ou ingressos. Clientes compram antecipado, garantindo estoque exato e previsibilidade de produção — evite desperdícios e subprodução.",
+    description: "Compartilhe via redes ou ingressos. Clientes compram antecipado, garantindo estoque exato e previsibilidade de produção. Evite desperdícios e subprodução.",
     accent: "from-primary/15 to-accent/10",
   },
   {
