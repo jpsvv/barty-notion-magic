@@ -61,7 +61,8 @@ const HeroSection = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-10 leading-relaxed font-light"
           >
-            Venda antecipada por item, integração com parceiros de comida e bebida, retirada instantânea via QR Code.{" "}
+            Venda antecipada por item de consumo e ingressos, integração com parceiros de comida e bebida, retirada instantânea via QR Code e relatório em tempo real.{" "}
+            <br />
             <strong className="text-foreground font-medium">Sem hardware. Sem filas. Equipe focada.</strong>
           </motion.p>
 
