@@ -122,7 +122,7 @@ const BartyFood = () => (
       comparisonItems={[
         { old: "Receita depende do público presente", barty: "Venda antecipada: fature antes" },
         { old: "Comanda de papel, conta surpresa", barty: "Cliente paga antes. Sem surpresa" },
-        { old: "iFood cobra até 27% de comissão", barty: "R$99/mês. Zero comissão" },
+        { old: "iFood cobra até 27% de comissão", barty: "R$99/mês. Comissão mais parceira" },
         { old: "Garçom anotando e errando", barty: "Cliente pede pelo celular, certo" },
         { old: "Cozinha sobrecarregada no pico", barty: "Produção sob demanda" },
         { old: "Maquininha + sistema caro", barty: "Só celular e QR Code" },
