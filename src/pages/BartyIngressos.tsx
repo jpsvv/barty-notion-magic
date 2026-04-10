@@ -8,11 +8,11 @@ const BartyIngressos = () => (
       <title>Barty Ingressos — Venda de Ingressos com QR Code | Apenas 5% de Taxa</title>
       <meta
         name="description"
-        content="Venda ingressos online com QR Code, página própria e link rastreável para tráfego pago. Taxa de apenas 5% — metade do Sympla. Para eventos presenciais e online."
+        content="Venda ingressos online com QR Code, página própria e link rastreável para tráfego pago. Taxa de apenas 5% metade do que o mercado cobra. Para eventos presenciais e online."
       />
       <link rel="canonical" href="https://barty.fun/ingressos" />
       <meta property="og:title" content="Barty Ingressos — Ingressos com QR Code | Taxa de 5%" />
-      <meta property="og:description" content="Venda ingressos com metade da taxa do Sympla. Página própria, QR Code e tagueamento para tráfego pago." />
+      <meta property="og:description" content="Venda ingressos com metade da taxa do mercado. Página própria, QR Code e tagueamento para tráfego pago." />
       <meta property="og:url" content="https://barty.fun/ingressos" />
       <meta property="og:type" content="website" />
     </Helmet>
@@ -24,7 +24,7 @@ const BartyIngressos = () => (
           Venda ingressos com <span className="text-gradient">metade da taxa de mercado.</span> Receita antes do evento.
         </>
       }
-      heroDescription="Página própria, QR Code na entrada, link rastreável para tráfego pago. Taxa de 5% — metade do que o Sympla cobra. Para eventos presenciais e online."
+      heroDescription="Página própria, QR Code na entrada, link rastreável para tráfego pago. Taxa de 5% metade do que o mercado cobra. Para eventos presenciais e online."
       heroCtaText="Quero vender ingressos"
       heroPhoneScreens={[
         {
@@ -41,8 +41,8 @@ const BartyIngressos = () => (
       ]}
       metricsBanner={[
         { value: "5%", label: "Taxa sobre vendas" },
-        { value: "50%", label: "Menor que Sympla" },
-        { value: "0", label: "Custo fixo" },
+        { value: "50%", label: "Menor que o mercado" },
+        { value: "R$0", label: "Custo fixo" },
         { value: "24h", label: "Página no ar" },
       ]}
       stepsSubtitle="Como funciona"
@@ -66,7 +66,7 @@ const BartyIngressos = () => (
         {
           number: "04",
           title: "Na entrada: QR Code → Validação instantânea",
-          description: "Staff escaneia o QR Code com o próprio celular. Acesso liberado em segundos, sem fila.",
+          description: "Staff escaneia o QR Code com o próprio celular. Acesso liberado em segundos, sem demora na fila.",
         },
         {
           number: "05",
@@ -85,7 +85,7 @@ const BartyIngressos = () => (
         {
           icon: Ticket,
           title: "Taxa de apenas 5%",
-          description: "Metade do que o Sympla cobra (10%). Mais lucro no seu bolso a cada ingresso vendido.",
+          description: "Metade do que o mercado cobra (10%). Mais lucro no seu bolso a cada ingresso vendido.",
         },
         {
           icon: Share2,
@@ -108,9 +108,9 @@ const BartyIngressos = () => (
           description: "Vendas por lote, canal de aquisição, receita por dia. Dados em tempo real para decisões rápidas.",
         },
       ]}
-      comparisonTitle="Sympla vs Barty Ingressos"
+      comparisonTitle="Outras soluções vs Barty Ingressos"
       comparisonItems={[
-        { old: "Taxa de 10% sobre cada ingresso vendido", barty: "Taxa de apenas 5% — o dobro de lucro" },
+        { old: "Taxa de 10% sobre cada ingresso vendido", barty: "Taxa de apenas 5%. O dobro de lucro" },
         { old: "Página genérica dentro da plataforma", barty: "Página própria com link exclusivo do seu evento" },
         { old: "Sem tagueamento nativo para tráfego pago", barty: "UTMs integradas para medir cada canal" },
         { old: "QR Code básico sem personalização", barty: "QR Code para divulgação + ingresso digital" },
@@ -121,7 +121,7 @@ const BartyIngressos = () => (
       objections={[
         {
           question: "A taxa é realmente só 5%?",
-          answer: "Sim. 5% sobre o valor do ingresso vendido. Sem mensalidade, sem custo fixo, sem surpresas. Metade do que o Sympla cobra.",
+          answer: "Sim. 5% sobre o valor do ingresso vendido. Sem mensalidade, sem custo fixo, sem surpresas. Metade do que o mercado cobra.",
         },
         {
           question: "Funciona para eventos online?",
