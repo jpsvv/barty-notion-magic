@@ -110,7 +110,7 @@ const SolutionPageLayout = ({
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: 0.2 }}
-                  className="text-base md:text-lg text-muted-foreground mb-8 leading-relaxed font-light max-w-md"
+                  className="text-base text-muted-foreground mb-8 leading-relaxed font-light max-w-md md:text-sm"
                 >
                   {heroDescription}
                 </motion.p>
@@ -349,7 +349,7 @@ const SolutionPageLayout = ({
                 Pronto pra revolucionar suas <span className="text-primary">vendas?</span>
               </h2>
               <p className="text-white/60 text-base mb-8 font-light">
-                Sem contrato. Sem custos fixos. Setup grátis. Migração em 24h.
+                Custo baixo. Lucro alto. Setup grátis. Migração em 24h.
               </p>
               <a
                 href="https://wa.me/553484428888"
