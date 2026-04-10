@@ -21,7 +21,7 @@ const benefits = [
   {
     icon: Scaling,
     title: "Escalável para qualquer tamanho",
-    description: "De blocos de rua a festivais gigantes. Integra com ferramentas existentes (ex: ingressos via Sympla) e oferece suporte 24/7 durante o evento.",
+    description: "De blocos de rua a festivais gigantes. O Barty proporciona previsibilidade de receita, estima produção e o staff já está preparado para a demanda.",
   },
   {
     icon: TrendingUp,
@@ -31,7 +31,7 @@ const benefits = [
   {
     icon: ShieldCheck,
     title: "Segurança e conformidade LGPD",
-    description: "Pagamentos criptografados, compliance com LGPD e integração Pix instantânea — melhor que soluções antigas que dependem de pulseiras caras e hardware dedicado.",
+    description: "Pagamentos criptografados, compliance com LGPD e integração Pix instantânea. Melhor que soluções antigas que dependem de pulseiras caras, cartões físicos e hardware dedicado.",
   },
 ];
 
