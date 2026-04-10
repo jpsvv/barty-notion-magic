@@ -95,7 +95,7 @@ const BartyFood = () => (
         {
           icon: Printer,
           title: "Comanda impressa (opcional)",
-          description: "Ativa ou desativa. Tudo no painel digital ou impresso — você escolhe.",
+          description: "Ativa ou desativa. Tudo no painel digital ou impresso, você escolhe.",
         },
         {
           icon: QrCode,
