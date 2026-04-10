@@ -15,8 +15,8 @@ const benefits = [
   },
   {
     icon: DollarSign,
-    title: "Sem custos fixos para eventos",
-    description: "Pague só taxa sobre vendas (ex: 3%, sem mensalidade). Migração gratuita de dados da sua solução atual — comece a lucrar imediatamente.",
+    title: "Somos seu parceiro nos eventos",
+    description: "Planos com as melhores taxas do mercado brasileiro. Migração gratuita de dados da sua solução atual. Comece a lucrar imediatamente.",
   },
   {
     icon: Scaling,
