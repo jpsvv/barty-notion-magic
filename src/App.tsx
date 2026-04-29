@@ -15,6 +15,13 @@ import HomeV3 from "./pages/HomeV3";
 import HomeV4 from "./pages/HomeV4";
 import Planos from "./pages/Planos";
 import Blog from "./pages/Blog";
+import Auth from "./pages/Auth";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminPages from "./pages/admin/AdminPages";
+import AdminPageEditor from "./pages/admin/AdminPageEditor";
+import AdminMedia from "./pages/admin/AdminMedia";
+import AdminUsers from "./pages/admin/AdminUsers";
+import { AuthProvider } from "./hooks/useAuth";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +32,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <AuthProvider>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/v2" element={<HomeV2 />} />
@@ -36,9 +44,16 @@ const App = () => (
             <Route path="/ingressos" element={<BartyIngressos />} />
             <Route path="/planos" element={<Planos />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/pages" element={<AdminPages />} />
+            <Route path="/admin/pages/:slug" element={<AdminPageEditor />} />
+            <Route path="/admin/media" element={<AdminMedia />} />
+            <Route path="/admin/users" element={<AdminUsers />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+          </AuthProvider>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>
