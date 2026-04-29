@@ -21,6 +21,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [roles, setRoles] = useState<Role[]>([]);
   const [loading, setLoading] = useState(true);
+  const [rolesLoading, setRolesLoading] = useState(true);
 
   useEffect(() => {
     // Set up listener FIRST
@@ -28,17 +29,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setSession(sess);
       setUser(sess?.user ?? null);
       if (sess?.user) {
+        setRolesLoading(true);
         // Defer role fetch to avoid deadlock inside listener
         setTimeout(() => fetchRoles(sess.user.id), 0);
       } else {
         setRoles([]);
+        setRolesLoading(false);
       }
     });
 
     supabase.auth.getSession().then(({ data: { session: sess } }) => {
       setSession(sess);
       setUser(sess?.user ?? null);
-      if (sess?.user) fetchRoles(sess.user.id);
+      if (sess?.user) {
+        setRolesLoading(true);
+        fetchRoles(sess.user.id);
+      } else {
+        setRolesLoading(false);
+      }
       setLoading(false);
     });
 
@@ -48,6 +56,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const fetchRoles = async (uid: string) => {
     const { data } = await supabase.from("user_roles").select("role").eq("user_id", uid);
     setRoles((data ?? []).map((r) => r.role as Role));
+    setRolesLoading(false);
   };
 
   const signOut = async () => {
@@ -58,7 +67,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const isAdmin = roles.includes("admin");
 
   return (
-    <AuthContext.Provider value={{ user, session, roles, loading, isStaff, isAdmin, signOut }}>
+    <AuthContext.Provider value={{ user, session, roles, loading: loading || rolesLoading, isStaff, isAdmin, signOut }}>
       {children}
     </AuthContext.Provider>
   );
