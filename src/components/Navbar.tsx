@@ -106,13 +106,13 @@ const Navbar = () => {
 
         {/* Desktop right */}
         <div className="hidden md:flex items-center gap-4">
-          <a
-            href="#"
+          <Link
+            to="/auth"
             className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
             <LogIn className="w-4 h-4" />
             Login
-          </a>
+          </Link>
           <a
             href="https://wa.me/553484428888"
             target="_blank"
@@ -189,10 +189,10 @@ const Navbar = () => {
               <Link to="/planos" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground">
                 Planos
               </Link>
-              <a href="#" onClick={() => setOpen(false)} className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
+              <Link to="/auth" onClick={() => setOpen(false)} className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
                 <LogIn className="w-4 h-4" />
                 Login
-              </a>
+              </Link>
               <a
                 href="https://wa.me/553484428888"
                 target="_blank"
