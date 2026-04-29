@@ -25,7 +25,7 @@ export async function saveBlock(
 ) {
   const { data: { user } } = await supabase.auth.getUser();
   return supabase.from("site_content").upsert(
-    [{ page_slug: page, block_key: block, content, updated_by: user?.id }],
+    [{ page_slug: page, block_key: block, content: content as never, updated_by: user?.id }],
     { onConflict: "page_slug,block_key" },
   );
 }
