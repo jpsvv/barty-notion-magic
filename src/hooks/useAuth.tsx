@@ -9,6 +9,7 @@ interface AuthCtx {
   session: Session | null;
   roles: Role[];
   loading: boolean;
+  rolesLoading: boolean;
   isStaff: boolean;
   isAdmin: boolean;
   signOut: () => Promise<void>;
@@ -21,7 +22,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [roles, setRoles] = useState<Role[]>([]);
   const [loading, setLoading] = useState(true);
-  const [rolesLoading, setRolesLoading] = useState(true);
+  const [rolesLoading, setRolesLoading] = useState(false);
 
   useEffect(() => {
     // Set up listener FIRST
@@ -54,20 +55,41 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const fetchRoles = async (uid: string) => {
-    const { data } = await supabase.from("user_roles").select("role").eq("user_id", uid);
-    setRoles((data ?? []).map((r) => r.role as Role));
-    setRolesLoading(false);
+    try {
+      const [{ data: isAdminRole, error: adminError }, { data: isStaffRole, error: staffError }] = await Promise.all([
+        supabase.rpc("has_role", { _user_id: uid, _role: "admin" }),
+        supabase.rpc("is_staff", { _user_id: uid }),
+      ]);
+
+      if (adminError || staffError) {
+        const { data, error } = await supabase.from("user_roles").select("role").eq("user_id", uid);
+        if (error) throw error;
+        setRoles((data ?? []).map((r) => r.role as Role));
+        return;
+      }
+
+      setRoles(isAdminRole ? ["admin"] : isStaffRole ? ["editor"] : []);
+    } catch (error) {
+      console.error("Erro ao carregar permissões do usuário:", error);
+      setRoles([]);
+    } finally {
+      setRolesLoading(false);
+    }
   };
 
   const signOut = async () => {
     await supabase.auth.signOut();
+    setSession(null);
+    setUser(null);
+    setRoles([]);
+    setRolesLoading(false);
   };
 
   const isStaff = roles.includes("admin") || roles.includes("editor");
   const isAdmin = roles.includes("admin");
 
   return (
-    <AuthContext.Provider value={{ user, session, roles, loading: loading || rolesLoading, isStaff, isAdmin, signOut }}>
+    <AuthContext.Provider value={{ user, session, roles, loading: loading || rolesLoading, rolesLoading, isStaff, isAdmin, signOut }}>
       {children}
     </AuthContext.Provider>
   );
