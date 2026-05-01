@@ -15,12 +15,15 @@ import HomeV3 from "./pages/HomeV3";
 import HomeV4 from "./pages/HomeV4";
 import Planos from "./pages/Planos";
 import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import Auth from "./pages/Auth";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminPages from "./pages/admin/AdminPages";
 import AdminPageEditor from "./pages/admin/AdminPageEditor";
 import AdminMedia from "./pages/admin/AdminMedia";
 import AdminUsers from "./pages/admin/AdminUsers";
+import AdminBlog from "./pages/admin/AdminBlog";
+import AdminBlogEditor from "./pages/admin/AdminBlogEditor";
 import { AuthProvider } from "./hooks/useAuth";
 
 const queryClient = new QueryClient();
@@ -44,12 +47,15 @@ const App = () => (
             <Route path="/ingressos" element={<BartyIngressos />} />
             <Route path="/planos" element={<Planos />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/pages" element={<AdminPages />} />
             <Route path="/admin/pages/:slug" element={<AdminPageEditor />} />
             <Route path="/admin/media" element={<AdminMedia />} />
             <Route path="/admin/users" element={<AdminUsers />} />
+            <Route path="/admin/blog" element={<AdminBlog />} />
+            <Route path="/admin/blog/:id" element={<AdminBlogEditor />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
