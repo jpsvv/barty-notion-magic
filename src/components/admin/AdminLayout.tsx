@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { NavLink, Navigate, useLocation } from "react-router-dom";
-import { LayoutDashboard, FileEdit, Users, LogOut, ExternalLink, Image } from "lucide-react";
+import { LayoutDashboard, FileEdit, Users, LogOut, ExternalLink, Image, Newspaper } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import bartyLogo from "@/assets/barty-logo.png";
@@ -8,6 +8,7 @@ import bartyLogo from "@/assets/barty-logo.png";
 const navItems = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true },
   { to: "/admin/pages", label: "Páginas do site", icon: FileEdit },
+  { to: "/admin/blog", label: "Blog", icon: Newspaper },
   { to: "/admin/media", label: "Mídia", icon: Image },
   { to: "/admin/users", label: "Usuários", icon: Users, adminOnly: true },
 ];

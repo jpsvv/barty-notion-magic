@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
-import { FileEdit, Users, Image as ImageIcon } from "lucide-react";
+import { FileEdit, Users, Image as ImageIcon, Newspaper } from "lucide-react";
 import AdminLayout from "@/components/admin/AdminLayout";
 import { useAuth } from "@/hooks/useAuth";
 
 const cards = [
   { to: "/admin/pages", icon: FileEdit, title: "Páginas do site", desc: "Edite hero, textos, imagens e botões." },
+  { to: "/admin/blog", icon: Newspaper, title: "Blog", desc: "Crie, edite e publique artigos com SEO." },
   { to: "/admin/media", icon: ImageIcon, title: "Biblioteca de mídia", desc: "Imagens e vídeos enviados." },
   { to: "/admin/users", icon: Users, title: "Usuários e cargos", desc: "Gerencie quem pode editar.", adminOnly: true },
 ];
