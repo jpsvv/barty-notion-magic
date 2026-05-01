@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const plans = [
   {
@@ -79,14 +79,14 @@ const PricingSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
-              className={`rounded-3xl p-8 md:p-10 relative transition-all duration-300 hover:scale-[1.01] ${
+              className={`rounded-2xl p-8 md:p-10 relative transition-all duration-300 ${
                 plan.highlight
-                  ? "glass-card-strong border-2 border-primary/20"
-                  : "glass-card"
+                  ? "border-2 border-primary/30 bg-card shadow-lg"
+                  : "border border-border bg-card"
               }`}
             >
               {plan.highlight && (
-                <div className="absolute -top-3 right-6 btn-glow text-primary-foreground text-xs font-semibold px-4 py-1.5 rounded-full">
+                <div className="absolute -top-3 left-6 btn-glow text-primary-foreground text-xs font-semibold px-4 py-1 rounded-full">
                   Recomendado
                 </div>
               )}
@@ -103,31 +103,29 @@ const PricingSection = () => {
                 <span className="text-muted-foreground text-sm ml-1">{plan.period}</span>
               </div>
 
-              <div className="space-y-3 mb-8">
-                {plan.details.map((d) => (
-                  <div key={d.label} className="flex items-center gap-3 text-sm">
-                    <Check className="w-4 h-4 text-primary shrink-0" aria-hidden="true" />
-                    <span className="text-foreground">
-                      {d.label}: <span className="font-semibold">{d.value}</span>
-                    </span>
-                  </div>
-                ))}
-              </div>
-
               <a
                 href="https://wa.me/553484428888"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`inline-flex items-center justify-center w-full gap-2 px-6 py-3.5 rounded-xl text-sm font-semibold transition-colors ${
+                className={`inline-flex items-center justify-center w-full gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition-colors ${
                   plan.highlight
                     ? "btn-glow text-primary-foreground"
-                    : "glass-card text-foreground hover:bg-card/80"
+                    : "bg-foreground text-background hover:opacity-90"
                 }`}
                 aria-label={plan.cta}
               >
                 {plan.cta}
                 <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </a>
+
+              <div className="mt-8 space-y-3">
+                {plan.details.map((d) => (
+                  <div key={d.label} className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">{d.label}</span>
+                    <span className="font-medium text-foreground">{d.value}</span>
+                  </div>
+                ))}
+              </div>
             </motion.article>
           ))}
         </div>
