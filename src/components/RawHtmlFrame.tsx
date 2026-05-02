@@ -20,10 +20,11 @@ const RawHtmlFrame = ({ html, className, minHeight = 400 }: Props) => {
 (function(){
   var lastH = 0;
   function send(){
-    var h = Math.max(
-      document.documentElement.scrollHeight,
-      document.body ? document.body.scrollHeight : 0
-    );
+    // Measure only the body's natural content height. Using
+    // documentElement.scrollHeight creates a feedback loop because the
+    // <html> element grows to fill whatever height we assign to the iframe.
+    if (!document.body) return;
+    var h = document.body.getBoundingClientRect().height;
     if (Math.abs(h - lastH) < 2) return;
     lastH = h;
     parent.postMessage({ __bartyFrameHeight: h }, "*");
@@ -35,7 +36,7 @@ const RawHtmlFrame = ({ html, className, minHeight = 400 }: Props) => {
       // debounce within a frame to avoid feedback loops
       if (window.__bartyRaf) cancelAnimationFrame(window.__bartyRaf);
       window.__bartyRaf = requestAnimationFrame(send);
-    }).observe(document.documentElement);
+    }).observe(document.body);
   } else {
     setInterval(send, 500);
   }
@@ -88,7 +89,8 @@ const RawHtmlFrame = ({ html, className, minHeight = 400 }: Props) => {
 <base target="_blank" />
 ${usesGoogleFonts ? googleFontsPreconnect : ""}
 <style>
-  html,body{margin:0;padding:0;background:transparent;}
+  html,body{margin:0;padding:0;background:transparent;height:auto;}
+  html{overflow:hidden;}
   body{overflow-x:hidden;}
   img,video,iframe{max-width:100%;height:auto;}
 </style>
@@ -106,7 +108,10 @@ ${resizeScript}
     const onMsg = (e: MessageEvent) => {
       const data = e.data as { __bartyFrameHeight?: number } | null;
       if (data && typeof data.__bartyFrameHeight === "number") {
-        setHeight(Math.max(minHeight, Math.ceil(data.__bartyFrameHeight) + 8));
+        const next = Math.max(minHeight, Math.ceil(data.__bartyFrameHeight));
+        // Only update when the change is meaningful, to break any residual
+        // measure→resize→measure feedback at the React level too.
+        setHeight((prev) => (Math.abs(prev - next) < 2 ? prev : next));
       }
     };
     window.addEventListener("message", onMsg);
