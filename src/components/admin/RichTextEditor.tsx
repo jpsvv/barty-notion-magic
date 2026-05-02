@@ -2,7 +2,7 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import LinkExt from "@tiptap/extension-link";
 import ImageExt from "@tiptap/extension-image";
-import { Bold, Italic, List, ListOrdered, Quote, Code, Link2, Image as ImgIcon, Heading2, Heading3, Undo, Redo } from "lucide-react";
+import { Bold, Italic, List, ListOrdered, Quote, Code, Link2, Image as ImgIcon, Heading2, Heading3, Undo, Redo, Code2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { uploadMedia } from "@/lib/siteContent";
 import { toast } from "sonner";
@@ -31,7 +31,7 @@ const RichTextEditor = ({ value, onChange }: Props) => {
 
   useEffect(() => {
     if (editor && value !== editor.getHTML()) {
-      editor.commands.setContent(value || "", { emitUpdate: false });
+      editor.commands.setContent(value || "", false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
@@ -61,6 +61,12 @@ const RichTextEditor = ({ value, onChange }: Props) => {
     input.click();
   };
 
+  const insertHtml = () => {
+    const html = window.prompt("Cole o código HTML:");
+    if (!html) return;
+    editor.chain().focus().insertContent(html).run();
+  };
+
   const btnCls = (active: boolean) =>
     `p-1.5 rounded hover:bg-muted ${active ? "bg-muted text-primary" : "text-muted-foreground"}`;
 
@@ -80,6 +86,7 @@ const RichTextEditor = ({ value, onChange }: Props) => {
         <span className="w-px bg-border mx-1" />
         <button type="button" className={btnCls(editor.isActive("link"))} onClick={addLink}><Link2 className="w-4 h-4" /></button>
         <button type="button" className={btnCls(false)} onClick={addImage}><ImgIcon className="w-4 h-4" /></button>
+        <button type="button" className={btnCls(false)} onClick={insertHtml} title="Inserir HTML"><Code2 className="w-4 h-4" /></button>
         <span className="flex-1" />
         <button type="button" className={btnCls(false)} onClick={() => editor.chain().focus().undo().run()}><Undo className="w-4 h-4" /></button>
         <button type="button" className={btnCls(false)} onClick={() => editor.chain().focus().redo().run()}><Redo className="w-4 h-4" /></button>
