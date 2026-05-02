@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 interface Props {
   html: string;
@@ -12,8 +12,7 @@ interface Props {
  * inside an isolated iframe using srcDoc so it cannot inherit or leak
  * CSS to/from the host site. Auto-resizes to content height.
  */
-const RawHtmlFrame = forwardRef<HTMLIFrameElement, Props>(
-  ({ html, className, minHeight = 400 }, ref) => {
+const RawHtmlFrame = ({ html, className, minHeight = 400 }: Props) => {
   const [height, setHeight] = useState(minHeight);
 
   // Auto-resize script injected in every doc
