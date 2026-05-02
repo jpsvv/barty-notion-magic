@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
 
 interface Props {
   html: string;
@@ -12,24 +12,31 @@ interface Props {
  * inside an isolated iframe using srcDoc so it cannot inherit or leak
  * CSS to/from the host site. Auto-resizes to content height.
  */
-const RawHtmlFrame = ({ html, className, minHeight = 400 }: Props) => {
-  const ref = useRef<HTMLIFrameElement>(null);
+const RawHtmlFrame = forwardRef<HTMLIFrameElement, Props>(
+  ({ html, className, minHeight = 400 }, ref) => {
   const [height, setHeight] = useState(minHeight);
 
   // Auto-resize script injected in every doc
   const resizeScript = `<script>
 (function(){
+  var lastH = 0;
   function send(){
     var h = Math.max(
       document.documentElement.scrollHeight,
       document.body ? document.body.scrollHeight : 0
     );
+    if (Math.abs(h - lastH) < 2) return;
+    lastH = h;
     parent.postMessage({ __bartyFrameHeight: h }, "*");
   }
   window.addEventListener("load", send);
   window.addEventListener("resize", send);
   if (window.ResizeObserver) {
-    new ResizeObserver(send).observe(document.documentElement);
+    new ResizeObserver(function(){
+      // debounce within a frame to avoid feedback loops
+      if (window.__bartyRaf) cancelAnimationFrame(window.__bartyRaf);
+      window.__bartyRaf = requestAnimationFrame(send);
+    }).observe(document.documentElement);
   } else {
     setInterval(send, 500);
   }
@@ -48,35 +55,33 @@ const RawHtmlFrame = ({ html, className, minHeight = 400 }: Props) => {
 })();
 <\/script>`;
 
-  // Helper: build Google Fonts preconnect tags. They speed up @import url(...fonts.googleapis...)
-  // already inside <style> blocks and ensure the browser resolves the font CSS quickly.
+  // Memoize the document string so the iframe's srcDoc is stable between
+  // parent rerenders that don't change `html`. Without this, every keystroke
+  // anywhere in the editor would recompute `doc` and React would diff a new
+  // string identity, causing the iframe to reload and appear blank/loading.
   const googleFontsPreconnect = `
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />`;
 
-  // Detect whether the user pasted a full HTML document (with <html>/<head>/<!doctype>)
-  // or only a fragment. If full document, use it as-is and just append the resize script
-  // before </body>. Otherwise, wrap it with a sensible default shell.
-  const trimmed = html.trim();
-  const isFullDoc = /<!doctype\s+html|<html[\s>]/i.test(trimmed);
-  const usesGoogleFonts = /fonts\.googleapis\.com|fonts\.gstatic\.com/i.test(trimmed);
-
-  let doc: string;
-  if (isFullDoc) {
+  const doc = useMemo(() => {
+    const trimmed = (html || "").trim();
+    const isFullDoc = /<!doctype\s+html|<html[\s>]/i.test(trimmed);
+    const usesGoogleFonts = /fonts\.googleapis\.com|fonts\.gstatic\.com/i.test(trimmed);
+    let out: string;
+    if (isFullDoc) {
     if (/<\/body>/i.test(trimmed)) {
-      doc = trimmed.replace(/<\/body>/i, `${resizeScript}</body>`);
+        out = trimmed.replace(/<\/body>/i, `${resizeScript}</body>`);
     } else {
-      doc = trimmed + resizeScript;
+        out = trimmed + resizeScript;
     }
-    // Inject base target + Google Fonts preconnect into <head>
-    if (/<head[\s>]/i.test(doc)) {
-      const inject =
-        (!/<base\s/i.test(doc) ? `<base target="_blank" />` : ``) +
-        (usesGoogleFonts ? googleFontsPreconnect : ``);
-      if (inject) doc = doc.replace(/<head([^>]*)>/i, `<head$1>${inject}`);
-    }
-  } else {
-    doc = `<!doctype html>
+      if (/<head[\s>]/i.test(out)) {
+        const inject =
+          (!/<base\s/i.test(out) ? `<base target="_blank" />` : ``) +
+          (usesGoogleFonts ? googleFontsPreconnect : ``);
+        if (inject) out = out.replace(/<head([^>]*)>/i, `<head$1>${inject}`);
+      }
+    } else {
+      out = `<!doctype html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8" />
@@ -93,7 +98,10 @@ ${usesGoogleFonts ? googleFontsPreconnect : ""}
 ${html}
 ${resizeScript}
 </body></html>`;
-  }
+    }
+    return out;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [html]);
 
   useEffect(() => {
     const onMsg = (e: MessageEvent) => {
@@ -116,6 +124,8 @@ ${resizeScript}
       style={{ width: "100%", border: 0, display: "block", height }}
     />
   );
-};
+});
+
+RawHtmlFrame.displayName = "RawHtmlFrame";
 
 export default RawHtmlFrame;
