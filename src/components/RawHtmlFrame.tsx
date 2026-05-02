@@ -115,7 +115,6 @@ ${resizeScript}
 
   return (
     <iframe
-      ref={ref}
       title="Conteúdo do post"
       srcDoc={doc}
       sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
@@ -123,8 +122,6 @@ ${resizeScript}
       style={{ width: "100%", border: 0, display: "block", height }}
     />
   );
-});
-
-RawHtmlFrame.displayName = "RawHtmlFrame";
+};
 
 export default RawHtmlFrame;
