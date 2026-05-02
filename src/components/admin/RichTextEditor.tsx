@@ -2,11 +2,12 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import LinkExt from "@tiptap/extension-link";
 import ImageExt from "@tiptap/extension-image";
-import { Bold, Italic, List, ListOrdered, Quote, Code, Link2, Image as ImgIcon, Heading2, Heading3, Undo, Redo, Code2 } from "lucide-react";
+import { Bold, Italic, List, ListOrdered, Quote, Code, Link2, Image as ImgIcon, Heading2, Heading3, Undo, Redo, Code2, FileCode } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { uploadMedia } from "@/lib/siteContent";
 import { toast } from "sonner";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   value: string;
@@ -14,6 +15,9 @@ interface Props {
 }
 
 const RichTextEditor = ({ value, onChange }: Props) => {
+  const [sourceMode, setSourceMode] = useState(false);
+  const [sourceValue, setSourceValue] = useState(value || "");
+
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -25,6 +29,19 @@ const RichTextEditor = ({ value, onChange }: Props) => {
     editorProps: {
       attributes: {
         class: "prose prose-sm max-w-none min-h-[400px] p-4 focus:outline-none",
+      },
+      handlePaste: (view, event) => {
+        const html = event.clipboardData?.getData("text/html");
+        const text = event.clipboardData?.getData("text/plain") ?? "";
+        // If clipboard already has HTML, let TipTap handle it (renders formatted)
+        if (html && html.trim()) return false;
+        // If plain text looks like HTML markup, parse and insert as formatted content
+        if (/<\/?[a-z][\s\S]*>/i.test(text)) {
+          event.preventDefault();
+          editor?.chain().focus().insertContent(text).run();
+          return true;
+        }
+        return false;
       },
     },
   });
@@ -67,6 +84,17 @@ const RichTextEditor = ({ value, onChange }: Props) => {
     editor.chain().focus().insertContent(html).run();
   };
 
+  const toggleSource = () => {
+    if (!sourceMode) {
+      setSourceValue(editor.getHTML());
+      setSourceMode(true);
+    } else {
+      editor.commands.setContent(sourceValue || "", true);
+      onChange(sourceValue || "");
+      setSourceMode(false);
+    }
+  };
+
   const btnCls = (active: boolean) =>
     `p-1.5 rounded hover:bg-muted ${active ? "bg-muted text-primary" : "text-muted-foreground"}`;
 
@@ -87,11 +115,21 @@ const RichTextEditor = ({ value, onChange }: Props) => {
         <button type="button" className={btnCls(editor.isActive("link"))} onClick={addLink}><Link2 className="w-4 h-4" /></button>
         <button type="button" className={btnCls(false)} onClick={addImage}><ImgIcon className="w-4 h-4" /></button>
         <button type="button" className={btnCls(false)} onClick={insertHtml} title="Inserir HTML"><Code2 className="w-4 h-4" /></button>
+        <button type="button" className={btnCls(sourceMode)} onClick={toggleSource} title={sourceMode ? "Voltar ao editor visual" : "Ver/editar código-fonte HTML"}><FileCode className="w-4 h-4" /></button>
         <span className="flex-1" />
         <button type="button" className={btnCls(false)} onClick={() => editor.chain().focus().undo().run()}><Undo className="w-4 h-4" /></button>
         <button type="button" className={btnCls(false)} onClick={() => editor.chain().focus().redo().run()}><Redo className="w-4 h-4" /></button>
       </div>
-      <EditorContent editor={editor} />
+      {sourceMode ? (
+        <Textarea
+          value={sourceValue}
+          onChange={(e) => { setSourceValue(e.target.value); onChange(e.target.value); }}
+          className="min-h-[400px] font-mono text-xs rounded-none border-0 focus-visible:ring-0"
+          placeholder="<p>Cole ou edite o HTML aqui...</p>"
+        />
+      ) : (
+        <EditorContent editor={editor} />
+      )}
     </div>
   );
 };
