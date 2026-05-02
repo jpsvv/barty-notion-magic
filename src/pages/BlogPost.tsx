@@ -94,36 +94,40 @@ const BlogPost = () => {
       <Navbar />
 
       <main className="min-h-screen bg-background pt-24 pb-20">
-        <article className="container max-w-3xl">
+        <article className={isRawHtml ? "container max-w-5xl" : "container max-w-3xl"}>
           <Link to="/blog" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary mb-6">
             <ArrowLeft className="w-4 h-4" /> Voltar para o blog
           </Link>
 
-          {category && (
-            <span className="inline-block text-xs font-semibold text-primary uppercase tracking-wide mb-3">
-              {category.name}
-            </span>
-          )}
+          {!isRawHtml && (
+            <>
+              {category && (
+                <span className="inline-block text-xs font-semibold text-primary uppercase tracking-wide mb-3">
+                  {category.name}
+                </span>
+              )}
 
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4 leading-tight"
-          >
-            {post.title}
-          </motion.h1>
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+                className="font-display text-3xl md:text-5xl font-bold text-foreground mb-4 leading-tight"
+              >
+                {post.title}
+              </motion.h1>
 
-          {post.excerpt && (
-            <p className="text-lg text-muted-foreground mb-6">{post.excerpt}</p>
-          )}
+              {post.excerpt && (
+                <p className="text-lg text-muted-foreground mb-6">{post.excerpt}</p>
+              )}
 
-          <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground mb-8 pb-6 border-b border-border">
-            <span>{post.author_name}</span>
-            <span className="inline-flex items-center gap-1"><Calendar className="w-3.5 h-3.5" />{format(new Date(publishedISO), "dd 'de' MMM yyyy", { locale: ptBR })}</span>
-            <span className="inline-flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{post.reading_time_min} min de leitura</span>
-          </div>
+              <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground mb-8 pb-6 border-b border-border">
+                <span>{post.author_name}</span>
+                <span className="inline-flex items-center gap-1"><Calendar className="w-3.5 h-3.5" />{format(new Date(publishedISO), "dd 'de' MMM yyyy", { locale: ptBR })}</span>
+                <span className="inline-flex items-center gap-1"><Clock className="w-3.5 h-3.5" />{post.reading_time_min} min de leitura</span>
+              </div>
 
-          {post.cover_image_url && (
-            <img src={post.cover_image_url} alt={post.title} className="w-full rounded-2xl mb-10 aspect-video object-cover" />
+              {post.cover_image_url && (
+                <img src={post.cover_image_url} alt={post.title} className="w-full rounded-2xl mb-10 aspect-video object-cover" />
+              )}
+            </>
           )}
 
           {isRawHtml ? (
