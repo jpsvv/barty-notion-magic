@@ -244,16 +244,39 @@ const AdminBlogEditor = () => {
             <div className="px-2 pt-2 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Label>Conteúdo</Label>
-                <label className="inline-flex items-center gap-2 text-xs text-muted-foreground cursor-pointer">
+                <label
+                  className={`inline-flex items-center gap-2 text-xs cursor-pointer px-2 py-1 rounded-md border transition-colors ${
+                    form.content_type === "raw_html"
+                      ? "border-primary bg-primary/10 text-primary font-semibold"
+                      : "border-border text-muted-foreground hover:bg-muted"
+                  }`}
+                >
                   <Switch
                     checked={form.content_type === "raw_html"}
                     onCheckedChange={(v) => update({ content_type: v ? "raw_html" : "rich" })}
                   />
-                  Modo HTML completo
+                  Modo HTML completo {form.content_type === "raw_html" ? "(ativo)" : ""}
                 </label>
               </div>
               <span className="text-xs text-muted-foreground">{readingTime} min de leitura</span>
             </div>
+            {form.content_type === "rich" &&
+              /<!doctype\s+html|<html[\s>]|<style[\s>]/i.test(form.content || "") && (
+                <div className="mx-2 mt-2 p-3 rounded-md border border-amber-500/40 bg-amber-500/10 text-xs text-amber-900 dark:text-amber-200 flex items-start justify-between gap-3">
+                  <span>
+                    Detectamos um documento HTML completo (com <code>&lt;style&gt;</code> ou <code>&lt;html&gt;</code>) no conteúdo,
+                    mas o editor está no modo Rich Text — o CSS será ignorado.
+                  </span>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="outline"
+                    onClick={() => update({ content_type: "raw_html" })}
+                  >
+                    Ativar HTML completo
+                  </Button>
+                </div>
+              )}
             <div className="p-2">
               {form.content_type === "raw_html" ? (
                 <div className="space-y-2">
