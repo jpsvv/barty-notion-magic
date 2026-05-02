@@ -33,17 +33,33 @@ const RawHtmlFrame = ({ html, className, minHeight = 400 }: Props) => {
   } else {
     setInterval(send, 500);
   }
+  // Re-measure after web fonts finish loading (prevents clipped layouts)
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function(){ send(); setTimeout(send, 200); });
+  }
+  // Re-measure when any <img> finishes loading
+  Array.prototype.forEach.call(document.images, function(img){
+    if (!img.complete) img.addEventListener("load", send);
+  });
   setTimeout(send, 100);
   setTimeout(send, 800);
   setTimeout(send, 2000);
+  setTimeout(send, 4000);
 })();
 <\/script>`;
+
+  // Helper: build Google Fonts preconnect tags. They speed up @import url(...fonts.googleapis...)
+  // already inside <style> blocks and ensure the browser resolves the font CSS quickly.
+  const googleFontsPreconnect = `
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />`;
 
   // Detect whether the user pasted a full HTML document (with <html>/<head>/<!doctype>)
   // or only a fragment. If full document, use it as-is and just append the resize script
   // before </body>. Otherwise, wrap it with a sensible default shell.
   const trimmed = html.trim();
   const isFullDoc = /<!doctype\s+html|<html[\s>]/i.test(trimmed);
+  const usesGoogleFonts = /fonts\.googleapis\.com|fonts\.gstatic\.com/i.test(trimmed);
 
   let doc: string;
   if (isFullDoc) {
@@ -52,9 +68,12 @@ const RawHtmlFrame = ({ html, className, minHeight = 400 }: Props) => {
     } else {
       doc = trimmed + resizeScript;
     }
-    // Ensure links open in new tab if no <base> set
-    if (!/<base\s/i.test(doc) && /<head[\s>]/i.test(doc)) {
-      doc = doc.replace(/<head([^>]*)>/i, `<head$1><base target="_blank" />`);
+    // Inject base target + Google Fonts preconnect into <head>
+    if (/<head[\s>]/i.test(doc)) {
+      const inject =
+        (!/<base\s/i.test(doc) ? `<base target="_blank" />` : ``) +
+        (usesGoogleFonts ? googleFontsPreconnect : ``);
+      if (inject) doc = doc.replace(/<head([^>]*)>/i, `<head$1>${inject}`);
     }
   } else {
     doc = `<!doctype html>
@@ -63,6 +82,7 @@ const RawHtmlFrame = ({ html, className, minHeight = 400 }: Props) => {
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <base target="_blank" />
+${usesGoogleFonts ? googleFontsPreconnect : ""}
 <style>
   html,body{margin:0;padding:0;background:transparent;}
   body{overflow-x:hidden;}
