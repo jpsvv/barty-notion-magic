@@ -5,6 +5,7 @@ import { ArrowLeft, Clock, Calendar } from "lucide-react";
 import DOMPurify from "dompurify";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import RawHtmlFrame from "@/components/RawHtmlFrame";
 import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { getPostBySlug, type BlogPost as Post, type BlogCategory } from "@/lib/blog";
@@ -49,7 +50,8 @@ const BlogPost = () => {
     );
   }
 
-  const safeContent = DOMPurify.sanitize(post.content ?? "");
+  const isRawHtml = post.content_type === "raw_html";
+  const safeContent = isRawHtml ? "" : DOMPurify.sanitize(post.content ?? "");
   const seoTitle = post.seo_title || post.title;
   const seoDesc = post.seo_description || post.excerpt || "";
   const ogImage = post.og_image_url || post.cover_image_url || "";
@@ -124,10 +126,14 @@ const BlogPost = () => {
             <img src={post.cover_image_url} alt={post.title} className="w-full rounded-2xl mb-10 aspect-video object-cover" />
           )}
 
-          <div
-            className="prose prose-lg max-w-none prose-headings:font-display prose-a:text-primary prose-img:rounded-xl"
-            dangerouslySetInnerHTML={{ __html: safeContent }}
-          />
+          {isRawHtml ? (
+            <RawHtmlFrame html={post.content ?? ""} />
+          ) : (
+            <div
+              className="prose prose-lg max-w-none prose-headings:font-display prose-a:text-primary prose-img:rounded-xl"
+              dangerouslySetInnerHTML={{ __html: safeContent }}
+            />
+          )}
 
           {related.length > 0 && (
             <section className="mt-16 pt-10 border-t border-border">

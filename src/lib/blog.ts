@@ -1,6 +1,7 @@
 import { supabase } from "@/integrations/supabase/client";
 
 export type PostStatus = "draft" | "scheduled" | "published";
+export type ContentType = "rich" | "raw_html";
 
 export interface BlogPost {
   id: string;
@@ -13,6 +14,7 @@ export interface BlogPost {
   author_name: string;
   author_id: string | null;
   status: PostStatus;
+  content_type: ContentType;
   published_at: string | null;
   scheduled_for: string | null;
   seo_title: string | null;
