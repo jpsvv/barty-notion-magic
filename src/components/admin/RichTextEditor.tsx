@@ -30,7 +30,7 @@ const RichTextEditor = ({ value, onChange }: Props) => {
 
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({ link: false }),
+      StarterKit,
       LinkExt.configure({ openOnClick: false, autolink: true, HTMLAttributes: { rel: "noopener noreferrer", target: "_blank" } }),
       ImageExt.configure({ inline: false, allowBase64: true }),
       Underline,
