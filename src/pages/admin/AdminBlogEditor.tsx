@@ -11,10 +11,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import RichTextEditor from "@/components/admin/RichTextEditor";
 import SeoPanel from "@/components/admin/SeoPanel";
 import PostStatusBadge from "@/components/admin/PostStatusBadge";
+import RawHtmlFrame from "@/components/RawHtmlFrame";
+import { Switch } from "@/components/ui/switch";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { uploadMedia } from "@/lib/siteContent";
-import { calcReadingTime, getPostById, listAllCategories, slugify, type BlogCategory, type BlogPost, type PostStatus } from "@/lib/blog";
+import { calcReadingTime, getPostById, listAllCategories, slugify, type BlogCategory, type BlogPost, type ContentType, type PostStatus } from "@/lib/blog";
 import { toast } from "sonner";
 
 type Form = {
@@ -27,6 +29,7 @@ type Form = {
   category_id: string | null;
   author_name: string;
   status: PostStatus;
+  content_type: ContentType;
   published_at: string | null;
   scheduled_for: string | null;
   seo_title: string | null;
@@ -46,6 +49,7 @@ const empty: Form = {
   category_id: null,
   author_name: "Equipe Barty",
   status: "draft",
+  content_type: "rich",
   published_at: null,
   scheduled_for: null,
   seo_title: "",
@@ -84,7 +88,8 @@ const AdminBlogEditor = () => {
           excerpt: p.excerpt ?? "", content: p.content ?? "",
           cover_image_url: p.cover_image_url ?? "",
           category_id: p.category_id, author_name: p.author_name,
-          status: p.status, published_at: p.published_at, scheduled_for: p.scheduled_for,
+          status: p.status, content_type: p.content_type ?? "rich",
+          published_at: p.published_at, scheduled_for: p.scheduled_for,
           seo_title: p.seo_title, seo_description: p.seo_description, seo_keywords: p.seo_keywords,
           og_image_url: p.og_image_url, canonical_url: p.canonical_url, noindex: p.noindex,
         });
@@ -134,6 +139,7 @@ const AdminBlogEditor = () => {
       author_name: form.author_name || "Equipe Barty",
       author_id: user?.id ?? null,
       status,
+      content_type: form.content_type,
       published_at: publishedAt,
       scheduled_for: scheduledFor,
       seo_title: form.seo_title || null,
@@ -236,11 +242,41 @@ const AdminBlogEditor = () => {
 
           <Card className="p-2">
             <div className="px-2 pt-2 flex items-center justify-between">
-              <Label>Conteúdo</Label>
+              <div className="flex items-center gap-3">
+                <Label>Conteúdo</Label>
+                <label className="inline-flex items-center gap-2 text-xs text-muted-foreground cursor-pointer">
+                  <Switch
+                    checked={form.content_type === "raw_html"}
+                    onCheckedChange={(v) => update({ content_type: v ? "raw_html" : "rich" })}
+                  />
+                  Modo HTML completo
+                </label>
+              </div>
               <span className="text-xs text-muted-foreground">{readingTime} min de leitura</span>
             </div>
             <div className="p-2">
-              <RichTextEditor value={form.content} onChange={(html) => update({ content: html })} />
+              {form.content_type === "raw_html" ? (
+                <div className="space-y-2">
+                  <p className="text-[11px] text-muted-foreground px-1">
+                    Cole abaixo um HTML completo (com <code>&lt;style&gt;</code>, fontes, layout próprio).
+                    Será renderizado isolado em um iframe — o CSS do site não interfere.
+                  </p>
+                  <Textarea
+                    value={form.content}
+                    onChange={(e) => update({ content: e.target.value })}
+                    className="min-h-[400px] font-mono text-xs"
+                    placeholder="<!doctype html>&#10;<html>&#10;  <head>&#10;    <style>...</style>&#10;  </head>&#10;  <body>...</body>&#10;</html>"
+                  />
+                  {form.content && (
+                    <div className="border border-border rounded-md overflow-hidden">
+                      <div className="px-3 py-1.5 text-[11px] uppercase tracking-wide bg-muted text-muted-foreground border-b border-border">Pré-visualização isolada</div>
+                      <RawHtmlFrame html={form.content} minHeight={300} />
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <RichTextEditor value={form.content} onChange={(html) => update({ content: html })} />
+              )}
             </div>
           </Card>
         </div>
