@@ -42,6 +42,7 @@ export type Database = {
           canonical_url: string | null
           category_id: string | null
           content: string | null
+          content_type: string
           cover_image_url: string | null
           created_at: string
           excerpt: string | null
@@ -66,6 +67,7 @@ export type Database = {
           canonical_url?: string | null
           category_id?: string | null
           content?: string | null
+          content_type?: string
           cover_image_url?: string | null
           created_at?: string
           excerpt?: string | null
@@ -90,6 +92,7 @@ export type Database = {
           canonical_url?: string | null
           category_id?: string | null
           content?: string | null
+          content_type?: string
           cover_image_url?: string | null
           created_at?: string
           excerpt?: string | null
