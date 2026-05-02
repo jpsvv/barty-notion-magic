@@ -16,23 +16,8 @@ const RawHtmlFrame = ({ html, className, minHeight = 400 }: Props) => {
   const ref = useRef<HTMLIFrameElement>(null);
   const [height, setHeight] = useState(minHeight);
 
-  // Wrap content so it always has a sensible base, allows links to open in new tab,
-  // and exposes a resize observer that posts the height back to the parent.
-  const doc = `<!doctype html>
-<html lang="pt-BR">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<base target="_blank" />
-<style>
-  html,body{margin:0;padding:0;background:transparent;}
-  body{overflow-x:hidden;}
-  img,video,iframe{max-width:100%;height:auto;}
-</style>
-</head>
-<body>
-${html}
-<script>
+  // Auto-resize script injected in every doc
+  const resizeScript = `<script>
 (function(){
   function send(){
     var h = Math.max(
@@ -50,9 +35,45 @@ ${html}
   }
   setTimeout(send, 100);
   setTimeout(send, 800);
+  setTimeout(send, 2000);
 })();
-<\/script>
+<\/script>`;
+
+  // Detect whether the user pasted a full HTML document (with <html>/<head>/<!doctype>)
+  // or only a fragment. If full document, use it as-is and just append the resize script
+  // before </body>. Otherwise, wrap it with a sensible default shell.
+  const trimmed = html.trim();
+  const isFullDoc = /<!doctype\s+html|<html[\s>]/i.test(trimmed);
+
+  let doc: string;
+  if (isFullDoc) {
+    if (/<\/body>/i.test(trimmed)) {
+      doc = trimmed.replace(/<\/body>/i, `${resizeScript}</body>`);
+    } else {
+      doc = trimmed + resizeScript;
+    }
+    // Ensure links open in new tab if no <base> set
+    if (!/<base\s/i.test(doc) && /<head[\s>]/i.test(doc)) {
+      doc = doc.replace(/<head([^>]*)>/i, `<head$1><base target="_blank" />`);
+    }
+  } else {
+    doc = `<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<base target="_blank" />
+<style>
+  html,body{margin:0;padding:0;background:transparent;}
+  body{overflow-x:hidden;}
+  img,video,iframe{max-width:100%;height:auto;}
+</style>
+</head>
+<body>
+${html}
+${resizeScript}
 </body></html>`;
+  }
 
   useEffect(() => {
     const onMsg = (e: MessageEvent) => {
