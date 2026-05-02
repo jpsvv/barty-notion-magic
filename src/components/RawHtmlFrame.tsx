@@ -63,6 +63,11 @@ const RawHtmlFrame = ({ html, className, minHeight = 400 }: Props) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />`;
 
+  // Reset injected into every doc to stop the iframe-resize feedback loop:
+  // <html> must not grow to fill the iframe, otherwise body.scrollHeight
+  // (or documentElement.scrollHeight) keeps increasing on each measurement.
+  const heightReset = `<style>html,body{height:auto !important;}html{overflow:hidden !important;}body{overflow-x:hidden;}</style>`;
+
   const doc = useMemo(() => {
     const trimmed = (html || "").trim();
     const isFullDoc = /<!doctype\s+html|<html[\s>]/i.test(trimmed);
@@ -77,7 +82,8 @@ const RawHtmlFrame = ({ html, className, minHeight = 400 }: Props) => {
       if (/<head[\s>]/i.test(out)) {
         const inject =
           (!/<base\s/i.test(out) ? `<base target="_blank" />` : ``) +
-          (usesGoogleFonts ? googleFontsPreconnect : ``);
+          (usesGoogleFonts ? googleFontsPreconnect : ``) +
+          heightReset;
         if (inject) out = out.replace(/<head([^>]*)>/i, `<head$1>${inject}`);
       }
     } else {
