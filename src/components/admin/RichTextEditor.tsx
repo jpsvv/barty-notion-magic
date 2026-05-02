@@ -2,6 +2,16 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import LinkExt from "@tiptap/extension-link";
 import ImageExt from "@tiptap/extension-image";
+import Table from "@tiptap/extension-table";
+import TableRow from "@tiptap/extension-table-row";
+import TableCell from "@tiptap/extension-table-cell";
+import TableHeader from "@tiptap/extension-table-header";
+import TextAlign from "@tiptap/extension-text-align";
+import Underline from "@tiptap/extension-underline";
+import TextStyle from "@tiptap/extension-text-style";
+import { Color } from "@tiptap/extension-color";
+import Highlight from "@tiptap/extension-highlight";
+import Youtube from "@tiptap/extension-youtube";
 import { Bold, Italic, List, ListOrdered, Quote, Code, Link2, Image as ImgIcon, Heading2, Heading3, Undo, Redo, Code2, FileCode } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -21,10 +31,21 @@ const RichTextEditor = ({ value, onChange }: Props) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
-      LinkExt.configure({ openOnClick: false, autolink: true }),
-      ImageExt.configure({ inline: false }),
+      LinkExt.configure({ openOnClick: false, autolink: true, HTMLAttributes: { rel: "noopener noreferrer", target: "_blank" } }),
+      ImageExt.configure({ inline: false, allowBase64: true }),
+      Underline,
+      TextStyle,
+      Color,
+      Highlight.configure({ multicolor: true }),
+      TextAlign.configure({ types: ["heading", "paragraph"] }),
+      Table.configure({ resizable: true, HTMLAttributes: { class: "tiptap-table" } }),
+      TableRow,
+      TableHeader,
+      TableCell,
+      Youtube.configure({ controls: true, nocookie: true }),
     ],
     content: value || "",
+    parseOptions: { preserveWhitespace: "full" },
     onUpdate: ({ editor }) => onChange(editor.getHTML()),
     editorProps: {
       attributes: {
