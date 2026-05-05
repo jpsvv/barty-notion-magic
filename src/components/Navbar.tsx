@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from "react";
-import { Menu, X, ChevronDown, LogIn } from "lucide-react";
+import { Menu, X, ChevronDown, LogIn, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
 import bartyLogo from "@/assets/barty-logo.png";
+import { UserLoginDialog } from "@/components/auth/UserLoginDialog";
 
 const solutionLinks = [
   { label: "Fichas", href: "/fichas" },
@@ -15,6 +16,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [solutionsOpen, setSolutionsOpen] = useState(false);
   const [mobileSolutionsOpen, setMobileSolutionsOpen] = useState(false);
+  const [userLoginOpen, setUserLoginOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
@@ -106,6 +108,14 @@ const Navbar = () => {
 
         {/* Desktop right */}
         <div className="hidden md:flex items-center gap-4">
+          <button
+            type="button"
+            onClick={() => setUserLoginOpen(true)}
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <User className="w-4 h-4" />
+            Login Usuário
+          </button>
           <Link
             to="/auth"
             className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
@@ -189,6 +199,14 @@ const Navbar = () => {
               <Link to="/planos" onClick={() => setOpen(false)} className="text-sm text-muted-foreground hover:text-foreground">
                 Planos
               </Link>
+              <button
+                type="button"
+                onClick={() => { setOpen(false); setUserLoginOpen(true); }}
+                className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground text-left"
+              >
+                <User className="w-4 h-4" />
+                Login Usuário
+              </button>
               <Link to="/auth" onClick={() => setOpen(false)} className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
                 <LogIn className="w-4 h-4" />
                 Login
@@ -205,6 +223,7 @@ const Navbar = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      <UserLoginDialog open={userLoginOpen} onOpenChange={setUserLoginOpen} />
     </nav>
   );
 };
