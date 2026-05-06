@@ -9,6 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Eye, EyeOff, ArrowLeft, Loader2, ExternalLink } from "lucide-react";
 import { GoogleIcon } from "./GoogleIcon";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 type AuthMode = "login" | "register" | "forgot";
 
@@ -39,6 +41,7 @@ export function UserLoginDialog({ open, onOpenChange }: Props) {
   const [mode, setMode] = useState<AuthMode>("login");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -57,9 +60,32 @@ export function UserLoginDialog({ open, onOpenChange }: Props) {
     window.location.href = url.toString();
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    redirectToApp("/", { email });
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("barty-app-login", {
+        body: { email, password },
+      });
+      if (error || !data?.access_token) {
+        const msg = (data as any)?.error || error?.message || "E-mail ou senha inválidos.";
+        toast({ title: "Erro no login", description: msg, variant: "destructive" });
+        setLoading(false);
+        return;
+      }
+      // Redireciona para o app com os tokens no hash — o supabase-js detecta e cria a sessão automaticamente.
+      const hash = new URLSearchParams({
+        access_token: data.access_token,
+        refresh_token: data.refresh_token,
+        expires_in: String(data.expires_in ?? 3600),
+        token_type: data.token_type ?? "bearer",
+        type: "magiclink",
+      }).toString();
+      window.location.href = `${APP_BASE}/#${hash}`;
+    } catch (err) {
+      toast({ title: "Erro no login", description: (err as Error).message, variant: "destructive" });
+      setLoading(false);
+    }
   };
 
   const handleRegister = (e: React.FormEvent) => {
