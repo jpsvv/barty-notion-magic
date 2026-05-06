@@ -13,10 +13,13 @@ const corsHeaders = {
 
 function translateAuthError(raw: string): string {
   const s = (raw || "").toLowerCase();
-  if (s.includes("invalid login credentials")) return "Senha incorreta ou e-mail não cadastrado.";
+  if (s.includes("invalid login credentials") || s.includes("invalid_grant") || s.includes("invalid_credentials")) {
+    return "Senha incorreta, e-mail não cadastrado ou conta criada apenas com Google.";
+  }
   if (s.includes("email not confirmed")) return "E-mail ainda não confirmado. Verifique sua caixa de entrada.";
   if (s.includes("user not found")) return "Conta não encontrada. Verifique o e-mail.";
   if (s.includes("too many requests") || s.includes("rate")) return "Muitas tentativas. Aguarde um instante e tente novamente.";
+  if (s.includes("api key") || s.includes("apikey")) return "Configuração de acesso ao app Barty inválida. Verifique a chave de integração.";
   return raw || "E-mail ou senha inválidos.";
 }
 
@@ -43,13 +46,14 @@ Deno.serve(async (req) => {
 
     const data = await res.json();
     if (!res.ok) {
-      const raw = data.error_description || data.msg || data.error || "";
-      // Detecta conta criada apenas via Google (sem senha definida)
-      if (raw && raw.toLowerCase().includes("invalid login credentials")) {
-        // Verifica se o e-mail existe via signInWithOtp dry-run não é confiável; mantemos mensagem clara
-      }
+      const raw = data.error_description || data.msg || data.message || data.error || data.error_code || "";
       return new Response(
-        JSON.stringify({ error: translateAuthError(raw) }),
+        JSON.stringify({
+          error: translateAuthError(raw),
+          auth_status: res.status,
+          auth_code: data.error_code || data.code || data.error || null,
+          auth_message: raw || null,
+        }),
         { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
