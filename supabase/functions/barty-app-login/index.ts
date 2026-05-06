@@ -34,10 +34,10 @@ Deno.serve(async (req) => {
 
     const data = await res.json();
     if (!res.ok) {
-      return new Response(JSON.stringify({ error: data.error_description || data.msg || "Falha no login" }), {
-        status: res.status,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ error: data.error_description || data.msg || data.error || "E-mail ou senha inválidos." }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
     }
 
     return new Response(

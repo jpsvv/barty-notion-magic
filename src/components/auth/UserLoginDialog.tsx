@@ -68,7 +68,7 @@ export function UserLoginDialog({ open, onOpenChange }: Props) {
         body: { email, password },
       });
       if (error || !data?.access_token) {
-        const msg = (data as any)?.error || error?.message || "E-mail ou senha inválidos.";
+        const msg = data?.error || error?.message || "E-mail ou senha inválidos.";
         toast({ title: "Erro no login", description: msg, variant: "destructive" });
         setLoading(false);
         return;
