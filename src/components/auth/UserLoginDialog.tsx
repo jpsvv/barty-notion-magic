@@ -78,10 +78,11 @@ export function UserLoginDialog({ open, onOpenChange }: Props) {
         access_token: data.access_token,
         refresh_token: data.refresh_token,
         expires_in: String(data.expires_in ?? 3600),
+        expires_at: String(data.expires_at ?? Math.floor(Date.now() / 1000) + Number(data.expires_in ?? 3600)),
         token_type: data.token_type ?? "bearer",
-        type: "magiclink",
+        type: "signup",
       }).toString();
-      window.location.href = `${APP_BASE}/#${hash}`;
+      window.location.href = `${APP_BASE}/user/home#${hash}`;
     } catch (err) {
       toast({ title: "Erro no login", description: (err as Error).message, variant: "destructive" });
       setLoading(false);

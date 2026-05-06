@@ -45,6 +45,7 @@ Deno.serve(async (req) => {
         access_token: data.access_token,
         refresh_token: data.refresh_token,
         expires_in: data.expires_in,
+        expires_at: data.expires_at,
         token_type: data.token_type,
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
